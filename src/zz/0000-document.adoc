@@ -1,0 +1,10 @@
+:doctype: book
+:sectnums:
+:sectnumlevels: 3
+:partnums:
+:toc:
+:toclevels: 3
+:icons: font
+:icon-set: far
+:source-highlighter: rouge
+:sourcedir: ../../../code
