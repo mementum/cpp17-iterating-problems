@@ -1,0 +1,29 @@
+= C++17 - Iterating Problems : The C++ Book Only The Author Will Read
+:thetitle: C++17\n------\nIterating\n------\nProblems
+:thesubtitle: The C++ Book\nOnly The Author Will Read
+:author: Daniel Rodriguez
+:revdate: June 2025
+:lang: en
+:appendix-caption: Appendix
+:appendix-refsig: {appendix-caption}
+:caution-caption: Caution
+:chapter-signifier:
+:chapter-refsig: {chapter-signifier}
+:example-caption: Example
+:figure-caption: Figure
+:important-caption: Important
+:last-update-label: Last updated
+ifdef::listing-caption[:listing-caption: Listing]
+ifdef::manname-title[:manname-title: Name]
+:note-caption: Note
+:part-signifier: Part
+:part-refsig: {part-signifier}
+:preface-title:
+:section-refsig: Section
+:table-caption: Table
+:tip-caption: Tip
+:toc-title: Table of Contents
+:untitled-label: Untitled
+:version-label: Version
+:warning-caption: Warning
+:backcover-title: Back Cover

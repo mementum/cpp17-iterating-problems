@@ -1,0 +1,55 @@
+site_name: Iterating C++ Problems
+site_url: https://127.0.0.1:8000
+site_description: Solving Problems with Iterators in C++17
+site_author: Daniel Rodriguez
+docs_dir: '../build/mkdocs/en'
+repo_url: https://github.com/mementum/cpp17-iterating-problems
+
+copyright: Copyright &copy; 2025 Daniel Rodriguez
+
+extra_css:
+  - stylesheets/extra.css
+
+plugins:
+  - search
+
+theme:
+  name: material
+
+  features:
+    - content.code.copy
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.expand
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - toc.follow
+    - toc.integrate
+
+markdown_extensions:
+  - attr_list
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.blocks.admonition
+  - pymdownx.blocks.html
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.escapeall:
+      hardbreak: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.snippets:
+      restrict_base_path: False
+      base_path: ["../build/mkdocs/en"]
+  - pymdownx.superfences
+  - pymdownx.tilde

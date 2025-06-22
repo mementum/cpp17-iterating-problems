@@ -1,0 +1,112 @@
+extends: default-with-fallback-font
+
+font:
+  catalog:
+    merge: true
+    DejaVu Sans Mono:
+      normal: DejaVuSansMono.ttf
+      bold: DejaVuSansMono-Bold.ttf
+      italic: DejaVuSansMono-Oblique.ttf
+      bold_italic: DejaVuSansMono-BoldOblique.ttf
+
+base:
+  font-size: 10
+
+title-page:
+  text-align: center
+  title:
+    top: 15%
+  subtitle:
+    margin-top: 0.75in
+    margin-bottom: 0.75in
+  revision:
+    display: none
+
+# defined before page and header to use its height as base for the top/bottom margins
+running-content:
+  start-at: 1
+
+footer:
+  border-color: #808080
+  height: 0.66in
+
+header:
+  border-color: $footer-border-color
+  height: $footer-height
+  border-width: $footer-border-width
+  # content-margin: [0.0in, inherit, 0.070in, inherit]
+  vertical-align: bottom
+  recto:
+    right:
+      content: '{chapter-title}'
+  verso:
+    left:
+      content: $header-recto-right-content
+
+page:
+  # Some Amazon KDP sizes for Paperback
+  # ratio: 0.666666...
+  # size: [6in, 9in]
+  size: [7in, 10in]
+  resolution: 1792x2560
+
+  margin-inner: 0.665in
+  margin-outer: 0.3325in
+  margin-half: 0.49875in
+  margin: [$footer-height + 0.25in, $page-margin-half, $footer-height + 0.25in, $page-margin-half]
+
+  # numbering:
+  #  start-at: after-toc
+
+admonition:
+  label:
+    vertical-align: top
+
+caption:
+  align: center
+  font-size: $base-font-size - 0.5
+
+code:
+  font-size: $base-font-size
+  # font-family: DejaVu Sans Mono
+  font-color: #2b2cb0
+  # border-radius: 0
+  # border-width: [0.5, 0]
+  # border-color: #888888
+  background-color: #f8f8f8
+  caption:
+    end: bottom
+
+codespan:
+  # background-color: $page-background-color
+  background-color: #f0f0f0
+  font-family: $code-font-family
+  font-size: $base-font-size
+  # font-color: $code-font-color
+  font-color: #2b2cb0
+
+footnotes:
+    font-size: $base-font-size - 1
+
+heading:
+  h2-font-size: 14
+  h3_font-size: 13
+  h4-font-size: 12
+  h5-font-size: 11
+  h6-font-size: 10
+
+quote:
+  # or the quote font will be a lot larger
+  font-size: $base-font-size
+
+thematic-break:
+  # horizontal line
+  border-width: 1.0
+  border-color: #d0d0d0
+  # padding: [0, 1in]
+
+table:
+  caption:
+    align: center
+    end: bottom
+    text-align: center

@@ -1,0 +1,143 @@
+# Parameter to be overriden in the command line
+std ?= c++17
+
+# Add it to the standard flags
+CXXFLAGS += -std=$(std)
+
+# Change this if projects use cc and/or cxx
+CPPEXT := .cpp
+
+# Find out if the compiler will output ".exe" under Windows
+ifeq ("$(findstring ;,$(PATH))",";")
+# Test if ";" is in PATH, sign of Windows
+	EXE := .exe
+else
+ifneq ("$(findstring _NT,$(shell uname 2>/dev/null))","")
+# If the PATH is Unix-like, test for uname containing _NT
+# Sign of Cygwin/MSYS/...
+	EXE := .exe
+endif
+endif
+
+# BUILD DIR
+PROBBUILD := build
+
+# Get problem name from currrent directory
+# xy-probname => probname, i.e. get name of dir remove 3 leading chars
+PROBNAME := $(shell echo $(notdir $(CURDIR)) | cut -b4-)
+# Input/Output (Expected) for problem
+PROBINPUT := $(PROBNAME).input
+PROBOUTPUT := $(PROBNAME).output
+
+# List all available solutions, executables and numbers
+PROBSOLS := $(wildcard $(PROBNAME)*$(CPPEXT))
+PROBNUMS := $(subst $(PROBNAME)-,,$(subst $(CPPEXT),,$(PROBSOLS)))
+
+# To pass to submakes
+PROBFLAGS :=
+
+# Default target
+default: help
+
+# "show" options
+ifeq (show,$(filter show,$(MAKECMDGOALS)))
+_show := 1
+PROBFLAGS := $(PROBFLAGS) show
+
+show: ;
+endif
+
+ifeq (showoutput,$(filter showoutput,$(MAKECMDGOALS)))
+_showoutput := 1
+PROBFLAGS := $(PROBFLAGS) showoutput
+
+showoutput: ;
+endif
+
+ifeq (showdiff,$(filter showdiff,$(MAKECMDGOALS)))
+_showdiff := 1
+PROBFLAGS := $(PROBFLAGS) showdiff
+
+showdiff: ;
+endif
+
+
+# Do all the problems with another make to ensure they are made
+# even if some of them (as expected) fail. "all" could simply
+# have had all the $(PROBNUMS) as dependencies if all succeeded.
+all:
+	@$(foreach var,$(PROBNUMS),$(MAKE) --no-print-directory $(PROBFLAGS) $(var);)
+
+# Recipe to create executable: cpp is the dependency
+$(PROBBUILD)/$(PROBNAME)-%$(EXE): $(PROBNAME)-%$(CPPEXT)
+	@[ -d $(PROBBUILD) ] || echo "making build dir"
+	@[ -d $(PROBBUILD) ] || mkdir -p $(PROBBUILD)
+	$(CXX) $(CXXFLAGS) -o $@ $<
+
+# Recibe to test solution. exe is the dependency
+%: $(PROBBUILD)/$(PROBNAME)-%$(EXE)
+	@## Get output from test execution and diff result
+	$(eval tmpfile := $(shell mktemp --suffix=.output))
+	@echo "./$< < $(PROBINPUT) > $(tmpfile)"
+	$(shell ./$< < $(PROBINPUT) > $(tmpfile))
+	@## result will only have something if cmp fails (files are different)
+	$(eval result := $(if $(shell cmp $(PROBOUTPUT) $(tmpfile) 2>&1),1,))
+	@## Determine if (forced) output/diff
+	$(eval forceshow := $(if $(result),1,))
+	$(eval _showoutput := $(forceshow)$(_show)$(_showoutput))
+	$(eval _showdiff := $(forceshow)$(_show)$(_showdiff))
+	@## Show Status
+	@echo "Solution $@: $(if $(result),FAILED,SUCCESS)"
+	@## Expected Output
+	@[ -z "$(_showoutput)" ] || echo "---- Expected Output Begin ----"
+	@[ -z "$(_showoutput)" ] || cat $(PROBOUTPUT) && echo
+	@[ -z "$(_showoutput)" ] || echo "---- Expected Output End ----"
+	@## Actual Output
+	@[ -z "$(_showoutput)" ] || echo "---- Output Begin ----"
+	@[ -z "$(_showoutput)" ] || cat $(tmpfile) && echo
+	@[ -z "$(_showoutput)" ] || echo "---- Output End ----"
+	@## Show Diff if Requested or error
+	@[ -z "$(_showdiff)" ] || echo "---- Diff Begin ----"
+	@[ -z "$(_showdiff)" ] || diff -u $(PROBOUTPUT) $(tmpfile) || true
+	@[ -z "$(_showdiff)" ] || echo "---- Diff End ----"
+	@## Remove temporary output
+	@rm -f $(tmpfile)
+
+# needed to avoid deletion of executable which is marked
+# as intermediate and deleted at the end of the process
+.SECONDARY:
+
+# clean all executables
+clean:
+	rm -rf $(PROBBUILD)
+
+# show the help text
+help:
+	@echo
+	@echo "Compile, test a solution and display output"
+	@echo
+	@echo "Target:"
+	@echo
+	@echo "    A 2-digit number to make and test that solution (0x, 1x, ...)"
+	@echo "    Example: 'make 03'"
+	@echo
+	@echo "If a solution with that numbering is found, it will be compiled,"
+	@echo "if needed be, executed with the problem input, and the output"
+	@echo "compared to the expected output."
+	@echo
+	@echo "    SUCCESS or FAILED will be finally shown, as in:"
+	@echo "    Example: 'Solution 03: SUCCESS'"
+	@echo
+	@echo "If the solution fails, the expected output, the actual output and"
+	@echo "the difference will be shown."
+	@echo
+	@echo "Options:"
+	@echo "  all          - make all solutions (ignore solutions with errors)"
+	@echo "  std=c++17    - c++ standard to use)"
+	@echo ""
+	@echo "  showoutput   - Force showing the output even on success "
+	@echo "  showdiff     - Force showing the expected vs output diff even on success"
+	@echo "  show         - Force showing the output and diff even on success"
+	@echo "  clean        - Remove all executables"
+	@echo "  help         - Show this help"
+	@echo
