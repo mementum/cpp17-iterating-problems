@@ -16,8 +16,10 @@ GREP_OUT_MK :=
 # For mkdocs targets: numbering that makes the cut [half-open-range)
 SRC_MK_0 := 0007
 SRC_MK_9 := 9999
-MK_TAB_MAIN := "Book"
-MK_TAB_PDF := "PDF Downloads"
+MKDOCS_TAB_MAIN := "Book"
+MKDOCS_TAB_DOWN := "Downloads"
+MKDOCS_INDEX := index.md
+MKDOCS_DOWNLOADS := downloads.md
 
 ###############################################################################
 # DO NOT EDIT BELOW THIS LINE ... Unless you really need to
@@ -150,16 +152,17 @@ BUILD_DIR_MD := $(BASE_BUILD_DIR)/md/$(TLANG)
 # output book-adoc
 BUILD_DIR_ADOC := $(BASE_BUILD_DIR)/adoc/$(TLANG)
 
-# output mkdocs files
+# mkdocs defs
 YML_EXT := .yml
 
-BUILD_DIR_MKDOCS := $(BASE_BUILD_DIR)/mkdocs/$(TLANG)
 MKDOCS_DIR := mkdocs
 MKDOCS_YML := $(MKDOCS_DIR)/mkdocs$(YML_EXT)
 MKDOCS_YML_TEMPLATE := $(MKDOCS_YML).template
 MKDOCS_DOCS_DIR := $(MKDOCS_DIR)/docs
 MKDOCS_CSS_DIR := $(MKDOCS_DOCS_DIR)/stylesheets
 MKDOCS_JS_DIR := $(MKDOCS_DOCS_DIR)/js
+
+BUILD_DIR_MKDOCS := $(BASE_BUILD_DIR)/$(MKDOCS_DIR)/$(TLANG)
 
 # output directory for pdf/epub/html books
 BUILD_DIR_BOOK := $(BASE_BUILD_DIR)/books/$(TLANG)
@@ -225,16 +228,33 @@ SRCFILES_MD := $(shell echo $(SRCFILES_MD) | tr ' ' '\n' | sort -t '/' -k3)
 SRCFILES_AD := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.adoc))
 SRCFILES_AD := $(shell echo $(SRCFILES_AD) | tr ' ' '\n' | sort -t '/' -k3)
 
+# Join adoc and markdown files
+SRCFILES := $(SRCFILES_AD) $(SRCFILES_MD)
+SRCFILES := $(shell echo $(SRCFILES) | tr ' ' '\n' | sort -t '/' -k3)
+
 # Source files mkdocs
 # Use the MD sourcefiles, restricted to the numbering. For awk we need the basename
-# SRCFILES_MK0 := $(foreach x,$(SRCFILES_MD),$(notdir $(x)))
 SRCFILES_MK0 := $(notdir $(SRCFILES_MD))
 SRCFILES_MK0 := $(shell echo $(SRCFILES_MK0) | tr ' ' '\n' |  awk -v FS=- '$$1 >= $(SRC_MK_0) && $$1 <= $(SRC_MK_9) {print}')
 SRCFILES_MK := $(foreach x,$(SRCFILES_MK0),$(filter %$(x),$(SRCFILES_MD)))
 
-# Join adoc and markdown files
-SRCFILES := $(SRCFILES_AD) $(SRCFILES_MD)
-SRCFILES := $(shell echo $(SRCFILES) | tr ' ' '\n' | sort -t '/' -k3)
+# mkdocs dependencies
+SRCFILES_MK_XTRA := $(wildcard $(MKDOCS_DOCS_DIR)/*.md)
+SRCFILES_MK_XTRA := $(SRCFILES_MK_XTRA) $(wildcard $(MKDOCS_CSS_DIR)/*.css)
+SRCFILES_MK_XTRA := $(SRCFILES_MK_XTRA) $(wildcard $(MKDOCS_JS_DIR)/*.js)
+
+# Mkdocs "book" targets
+DSTFILES_MK := $(foreach x,$(notdir $(SRCFILES_MK)),$(BUILD_DIR_MKDOCS)/$(x))
+
+# The target location of files taken from the mkdocs project are extra dependencies
+DSTFILES_MK_XTRA := $(subst $(MKDOCS_DOCS_DIR),$(BUILD_DIR_MKDOCS),$(SRCFILES_MK_XTRA))
+
+# Files specific for mkdocs navigation/tabs
+# File that will be the index: source and target
+DSTFILES_MK_INDEX_MD := $(filter %$(MKDOCS_INDEX),$(DSTFILES_MK_XTRA))
+
+# File patched with download links
+DSTFILES_MK_DOWNLOADS := $(filter %$(MKDOCS_DOWNLOADS),$(DSTFILES_MK_XTRA))
 
 # document header
 ADOC_HPREFIX := 0000
@@ -287,6 +307,14 @@ EPUB_STYLES := $(wildcard $(THEME_EPUB)/styles/*)
 # Read version
 BVERSION := $(file < version)
 
+# Get version from adoc_header
+ADVERSION = $(shell sed -nE '/^:version:/ s/^:[^:]+:[ ]+//p' $(ADOC_HEADER))
+
+# Patch adoc-header with version if needed be
+ifneq ($(ADVERSION),$(BVERSION))
+$(shell sed -i -E '/^:version:/ s/(:version:).*/\1 $(BVERSION)/' $(ADOC_HEADER))
+endif
+
 # Gather information from adoc_header
 BAUTHOR := $(shell cat $(ADOC_HEADER) | sed -nE '/^:author:/s/:author:[ \t]+//p')
 BREVDATE := $(shell cat $(ADOC_HEADER) | sed -nE '/^:revdate:/s/:revdate:[ \t]+//p')
@@ -330,24 +358,6 @@ BOOK_ADX := $(BUILD_DIR_ADX)/$(BOOK_NAME).adx
 BOOK_ADOC := $(BUILD_DIR_ADOC)/$(BOOK_NAME).adoc
 BOOK_ADOC_EPUB := $(basename $(BOOK_ADOC))-epub$(ISBN)$(suffix $(BOOK_ADOC))
 
-# mkdocs dependencies
-MKDOCS_XTRA_SRCS := $(wildcard $(MKDOCS_DOCS_DIR)/*.md)
-MKDOCS_XTRA_SRCS := $(MKDOCS_XTRA_SRCS) $(wildcard $(MKDOCS_CSS_DIR)/*.css)
-MKDOCS_XTRA_SRCS := $(MKDOCS_XTRA_SRCS) $(wildcard $(MKDOCS_JS_DIR)/*.js)
-
-MKDOCS_XTRA_DEPS := $(subst $(MKDOCS_DOCS_DIR),$(BUILD_DIR_MKDOCS),$(MKDOCS_XTRA_SRCS))
-
-# File patched with links
-PDF_DOWN_SRC := $(MKDOCS_DOCS_DIR)/pdf-downloads.md
-PDF_DOWN_DST := $(BUILD_DIR_MKDOCS)/$(notdir $(PDF_DOWN_SRC))
-
-# Mkdocs "book" targets
-BOOK_MKDOCS := $(foreach x,$(notdir $(SRCFILES_MK)),$(BUILD_DIR_MKDOCS)/$(x))
-
-# File that will be the index: source and target
-MKDOCS_INDEX_MD := $(filter %index.md,$(MKDOCS_XTRA_SRCS))
-BUILD_MKDOCS_INDEX_MD := $(BUILD_DIR_MKDOCS)/$(notdir $(MKDOCS_INDEX_MD))
-
 # Final Targets
 BOOK_NAME_FINAL := $(BUILD_DIR_BOOK)/$(BOOK_NAME)
 BOOK_NAME_FINAL_EXTRA := $(BOOK_NAME_FINAL)$(ISBN)
@@ -383,6 +393,8 @@ DOCBOOK := $(BOOK_NAME_FINAL).xml
 
 # Github repo and links
 GH_REPO := $(shell cat $(ADOC_HEADERS) | sed -nE '/^:repo_url:.*/ s/^:repo_url:[ ]+//p')
+GH_DOWNLOAD := $(GH_REPO)/releases/download/v$(BVERSION)
+
 ###############################################################################
 # TOOLING DEFINITION
 ###############################################################################
@@ -607,69 +619,69 @@ $(BOOK_MD_EPUB2): $(BOOK_MD)
 	echo "# $(BACKCOVER_TITLE) {.unnumbered}" >> $@
 	echo "![.]($(COVER_EPUB2_BACK))" >> $@
 
-# Function to generate the PDF Links (real or fake)
-define mkdocs_pdf_down =
-	cp $(PDF_DOWN_SRC) $(PDF_DOWN_DST)
-	echo "[1]: $(1)" >> $(PDF_DOWN_DST)
-	echo "[2]: $(2)" >> $(PDF_DOWN_DST)
-	echo "  - $(MK_TAB_PDF): $(notdir $(PDF_DOWN_DST))" >> $(MKDOCS_YML)
-endef
-
-# make a complete mkdocs site with optimized PDF files
-mkdocs-pdfopt: mkdocs $(PDF_SCREEN_OPT) $(PDF_PREPRESS_OPT)
-	$(call echo_stage,mkdocs-pdfopt)
-	$(eval src := $(filter-out $<,$^))
-	$(eval dst := $(notdir $(subst $(OPTIM),,$(src))))
-	$(foreach s,$(src),$(shell cp $(s) $(BUILD_DIR_MKDOCS)/$(notdir $(subst $(OPTIM),,$(s)))))
-	$(call mkdocs_navigation,$(BOOK_MKDOCS))
-	$(call mkdocs_pdf_down,$(firstword $(dst)),$(lastword $(dst)))
-
-# make a complete mkdocs site with regular pdf files
-mkdocs-pdf: mkdocs $(PDF_SCREEN) $(PDF_PREPRESS)
-	$(call echo_stage,mkdocs-pdf)
-	$(eval src := $(filter-out $<,$^))
-	$(eval dst := $(notdir $(src)))
-	cp $(src) $(BUILD_DIR_MKDOCS)
-	$(call mkdocs_navigation,$(BOOK_MKDOCS))
-	$(call mkdocs_pdf_down,$(firstword $(dst)),$(lastword $(dst)))
-
-# make a complete mkdocs site with links to but no real pdf files
-# i.e.: check the mkdocs run without waiting for PDF generation
-mkdocs-fakepdf: mkdocs
-	$(call echo_stage,mkdocs-fakepdf)
-	$(call mkdocs_navigation,$(BOOK_MKDOCS))
-	$(call mkdocs_pdf_down,$(PDF_SCREEN),$(PDF_PREPRESS))
-
 # function to regenerate the first part of the navigation
 # i.e. the book md files. Needed to later be able to cleanly
-# add the pdf-download section
+# add the download section
 define mkdocs_navigation =
-	$(eval tgts := $(notdir $(1)))
-	$(eval tgts := $(notdir $(BUILD_MKDOCS_INDEX_MD)) $(tgts))
-	$(eval tmpfile := $(shell mktemp --suffix=$(YML_EXT)))
+	$(eval tgts := $(notdir $(DSTFILES_MK_INDEX_MD) $(DSTFILES_MK)))
 	@# add the selected md files to the mkdocs yml config (skip template dependency)
 	@# From mkdocs.yml template to file with navigation
+	$(eval tmpfile := $(shell mktemp --suffix=$(YML_EXT)))
 	cp $(MKDOCS_YML_TEMPLATE) $(tmpfile)
-	@# echo "" >> $(tmpfile)
-	@# echo "exclude_docs: |" >> $(tmpfile)
-	@# echo "  $(notdir $(MKDOCS_INDEX_MD))" >> $(tmpfile)
 	echo "" >> $(tmpfile)
 	echo "nav:" >> $(tmpfile)
-	echo "  - $(MK_TAB_MAIN):" >> $(tmpfile)
+	echo "  - $(MKDOCS_TAB_MAIN):" >> $(tmpfile)
 	echo " $(tgts)" | sed 's/ /\n    - /g' | tail +2 >> $(tmpfile)
+	echo "  - $(MKDOCS_TAB_DOWN): $(notdir $(DSTFILES_MK_DOWNLOADS))" >> $(tmpfile)
+	@# Put links in place before copying tmpfile to mkdocs.yml
+	echo "[1]: $(GH_DOWNLOAD)/$(1)" >> $(DSTFILES_MK_DOWNLOADS)
+	echo >>  $(DSTFILES_MK_DOWNLOADS)
+	echo "[2]: $(GH_DOWNLOAD)/$(2)" >> $(DSTFILES_MK_DOWNLOADS)
+	sed -i -E '/\{:pdf-screen:\}/ s/\{:[^:]+:\}/$(1)/' $(DSTFILES_MK_DOWNLOADS)
+	sed -i -E '/\{:pdf-prepress:\}/ s/\{:[^:]+:\}/$(2)/' $(DSTFILES_MK_DOWNLOADS)
+	@# Put our custom mkdocs.yml in the right place
 	cp $(tmpfile) $(MKDOCS_YML)
 	-rm $(tmpfile)
 endef
 
-# Regenerate the mkdocs.yml file if any md source has changed
-# or hte index is missing or the template for it has changed
-$(MKDOCS_YML): $(MKDOCS_YML_TEMPLATE) $(BUILD_MKDOCS_INDEX_MD) $(BOOK_MKDOCS)
-	$(call echo_stage,book-mkdocs)
-	$(call mkdocs_navigation,$(BOOK_MKDOCS))
-
 # target which generates the mkdocs content
 # depands on the site definition (mkdocs.ym) and anything in the mkdocs/docs dir
-mkdocs: $(MKDOCS_YML) $(MKDOCS_XTRA_DEPS)
+mkdocs: $(MKDOCS_YML)
+
+# Regenerate the mkdocs.yml file if the template, processed content md files or
+# mkdocs_md_files (or js or css) files have changedif any md source has changed
+$(MKDOCS_YML): $(MKDOCS_YML_TEMPLATE) $(DSTFILES_MK) $(DSTFILES_MK_XTRA)
+	$(call echo_stage,mkdocs-yml)
+	$(call mkdocs_navigation,$(notdir $(PDF_SCREEN)),$(notdir $(PDF_PREPRESS)))
+
+# General rule for anything coming from mkdocs_docs_dir
+# it may need to generate directories to copy without error
+$(BUILD_DIR_MKDOCS)/%: $(MKDOCS_DOCS_DIR)/%
+	$(call echo_stage,mkdocs-docs-others-$(notdir $@))
+	$(call makedir_for_file,$@)
+	cp -r $< $@
+
+# rule if the file is %.md (index.md et al.)
+$(BUILD_DIR_MKDOCS)/%.md: $(ADOC_HEADERS) $(MKDOCS_DOCS_DIR)/%.md
+	$(call echo_stage,mkdocs-docs-$(notdir $@))
+	$(call makedir_for_file,$@)
+	$(FIX_MD2MK) -o $@ $^
+
+# To consider the "00" and "zz" directories the content of those
+# and the source md have to put together in a tmpfile, losing
+# the ability to use $^ as the input for fix-md2mk
+$(BUILD_DIR_MKDOCS)/%.md: $(ADOC_HEADERS) $(SRC_LANG)/%.md
+	$(call echo_stage,mkdocs-$(notdir $@))
+	$(call find_tool_or_exit,$(PYTHON3))
+	$(call makedir_for_file,$@)
+	$(eval tmpfile := $(shell mktemp --suffix=.md))
+	$(eval mdbase := $(notdir $@))
+	$(eval mdfiles := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/$(mdbase))))
+ifeq ($(GREP_OUT_MK),)
+	$(FIX_MD2MK) -o $@ $(ADOC_HEADERS) $(mdfiles)
+else
+	$(call grep_ev,$(FIX_MD2MK) -lo -o $@ $(ADOC_HEADERS) $(mdfiles),$(GREP_OUT_MK))
+endif
 
 # Serve a site
 mk-serve: mkdocs-serve
@@ -704,34 +716,6 @@ mk-kill: mkdocs-kill
 mkdocs-kill:
 	$(call find_tool_or_exit,$(PKILL))
 	-$(PDM_RUN) $(PKILL) $(MKDOCS)
-
-# General rule for anything coming from mkdocs_docs_dir
-# it may need to generate directories to copy without error
-$(BUILD_DIR_MKDOCS)/%: $(MKDOCS_DOCS_DIR)/%
-	$(call makedir_for_file,$@)
-	cp -r $< $@
-
-# Rule to update index.md if the source changes
-$(BUILD_MKDOCS_INDEX_MD): $(MKDOCS_INDEX_MD) $(ADOC_HEADER)
-	$(call makedir_for_file,$@)
-	$(FIX_MD2MK) -o $@ $(ADOC_HEADERS) $<
-	sed -i -E '/\{:version:\}/ s/\{:version:\}/$(BVERSION)/' $@
-
-# To consider the "00" and "zz" directories the content of those
-# and the source md have to put together in a tmpfile, losing
-# the ability to use $^ as the input for fix-md2mk
-$(BUILD_DIR_MKDOCS)/%.md: $(ADOC_HEADERS) $(SRC_LANG)/%.md
-	$(call echo_stage,mkdocs-$(notdir $@))
-	$(call find_tool_or_exit,$(PYTHON3))
-	$(call makedir_for_file,$@)
-	$(eval tmpfile := $(shell mktemp --suffix=.md))
-	$(eval mdbase := $(notdir $@))
-	$(eval mdfiles := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/$(mdbase))))
-ifeq ($(GREP_OUT_MK),)
-	$(FIX_MD2MK) -o $@ $(ADOC_HEADERS) $(mdfiles)
-else
-	$(call grep_ev,$(FIX_MD2MK) -lo -o $@ $(ADOC_HEADERS) $(mdfiles),$(GREP_OUT_MK))
-endif
 
 # target which generates the book .adoc
 book-adoc: $(BOOK_ADOC)
@@ -1001,7 +985,7 @@ $(DOCBOOK): $(BOOK_ADOC) $(IMGFILES)
 	$(call make_xhtml,docbook5)
 
 ###############################################################################
-# TOUCH to force a rebuidl
+# TOUCH to force a rebuild
 ###############################################################################
 ifeq (touch,$(filter touch,$(MAKECMDGOALS)))
 $(shell touch $(ADOC_HEADER))
