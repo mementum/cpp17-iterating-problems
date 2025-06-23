@@ -27,3 +27,4 @@ ifdef::manname-title[:manname-title: Name]
 :version-label: Version
 :warning-caption: Warning
 :backcover-title: Back Cover
+:version: 1.0.07
