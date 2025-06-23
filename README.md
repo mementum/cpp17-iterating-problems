@@ -2,7 +2,7 @@
 
 This repository contains C++ code (up to C++17) to solve basic problems creatively and the content associated to it to produce a PDF book or a mkdocs-material site. See here, where you can read the content and download the PDFs.
 
-  - https://mementum.github.io/c++17-iterating-problems
+  - https://mementum.github.io/cpp17-iterating-problems
 
 ## Using the Code
 
