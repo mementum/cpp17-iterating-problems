@@ -381,6 +381,8 @@ HTML_TEST := $(basename $(HTML))-test$(suffix $(HTML))
 # Docbook Book targets
 DOCBOOK := $(BOOK_NAME_FINAL).xml
 
+# Github repo and links
+GH_REPO := $(shell cat $(ADOC_HEADERS) | sed -nE '/^:repo_url:.*/ s/^:repo_url:[ ]+//p')
 ###############################################################################
 # TOOLING DEFINITION
 ###############################################################################
@@ -438,6 +440,9 @@ ZIP := zip
 
 # Kill process by name (procps package)
 PKILL := pkill
+
+# GitHub Management
+GHCLI := gh
 
 ###############################################################################
 # ASCIDOCTOR DEFINITIONS
@@ -1004,6 +1009,19 @@ touch: ;
 endif
 
 ###############################################################################
+# GITHUB Release
+###############################################################################
+gh-release: pdf-screen-opt pdf-prepress-opt
+	$(call find_tool_or_exit,$(GHCLI))
+	$(eval tmpdir := $(dir $(shell mktemp -u)))
+	$(eval tmp_screen := $(tmpdir)/$(notdir $(PDF_SCREEN)))
+	$(eval tmp_prepress := $(tmpdir)/$(notdir $(PDF_PREPRESS)))
+	cp $(PDF_SCREEN_OPT) $(tmp_screen)
+	cp $(PDF_PREPRESS_OPT) $(tmp_prepress)
+	$(GHCLI) release create v$(BVERSION) $(tmp_screen) $(tmp_prepress)
+	-rm -f $(tmp_screen) $(tmp_prepress)
+
+###############################################################################
 # CLEANING
 ###############################################################################
 # delete files
@@ -1105,6 +1123,8 @@ toolcheck:
 	$(call find_tool,$(MKDOCS),$(PDM_RUN))
 	@echo Checking for "$(PKILL) for killing processes (procps package)"
 	$(call find_tool,$(PKILL))
+	@echo Checking for "$(GHCLI) to manage GitHub releases"
+	$(call find_tool,$(GHCLI))
 
 ###############################################################################
 # HELP
@@ -1140,6 +1160,8 @@ help:
 	@echo "  mkdocs-build (Build the mkdocs site docs)"
 	@echo "  mkdocs-deploy (Deploy to GitHub Pages)"
 	@echo "     (also mk-xxx as shorthand for all actions)"
+	@echo "  gh-release (Make a Release on the GitHub Repo)"
+	@echo
 	@echo "Selected build of specific chapters"
 	@echo "  - xxxx yyyy do not need to be full filenames"
 	@echo "  buildchap=xxxx or buildchap='xxxx yyyy'"
