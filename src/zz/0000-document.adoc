@@ -10,3 +10,4 @@
 :source-highlighter: rouge
 :sourcedir: ../../../code
 :repo_url: https://github.com/mementum/cpp17-iterating-problems
+:version: 1.0.07
