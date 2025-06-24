@@ -699,14 +699,14 @@ mkdocs-bserve: mkdocs mkdocs-kill
 # Build an mkdocs site
 mk-build: mkdocs-build
 
-mkdocs-build: mkdocs-pdfopt
+mkdocs-build:
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) build
 
 # Deploy site
 mk-deploy: mkdocs-deploy
 
-mkdocs-deploy: mkdocs-pdfopt
+mkdocs-deploy:
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) gh-deploy --no-history
 
