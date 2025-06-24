@@ -260,6 +260,9 @@ DSTFILES_MK_DOWNLOADS := $(filter %$(MKDOCS_DOWNLOADS),$(DSTFILES_MK_XTRA))
 ADOC_HPREFIX := 0000
 ADOC_HEADERS := $(shell echo $(SRCFILES) | tr ' ' '\n' | grep $(ADOC_HPREFIX))
 ADOC_HEADER := $(firstword $(ADOC_HEADERS))
+# The last adoc header is meant to be language independent
+# There may be one and then "header" and "headerz" will be the same
+ADOC_HEADERZ := $(lastword $(ADOC_HEADERS))
 
 # build only specific chapters - filter them out and join with adoc headers
 ifneq ($(strip $(buildchap)),)
@@ -308,28 +311,24 @@ EPUB_STYLES := $(wildcard $(THEME_EPUB)/styles/*)
 BVERSION := $(file < version)
 
 # Get version from adoc_header
-ADVERSION = $(shell sed -nE '/^:version:/ s/^:[^:]+:[ ]+//p' $(ADOC_HEADER))
+ADVERSION = $(shell sed -nE '/^:version:/ s/^:[^:]+:[ ]+//p' $(ADOC_HEADERZ))
 
 # Patch adoc-header with version if needed be
 ifneq ($(ADVERSION),$(BVERSION))
-$(shell sed -i -E '/^:version:/ s/(:version:).*/\1 $(BVERSION)/' $(ADOC_HEADER))
+$(shell sed -i -E '/^:version:/ s/(:version:).*/\1 $(BVERSION)/' $(ADOC_HEADERZ))
 endif
 
 # Gather information from adoc_header
 BAUTHOR := $(shell cat $(ADOC_HEADER) | sed -nE '/^:author:/s/:author:[ \t]+//p')
 BREVDATE := $(shell cat $(ADOC_HEADER) | sed -nE '/^:revdate:/s/:revdate:[ \t]+//p')
 
-# generate basename from book title
-BHEADER := $(shell head -n 1 $(ADOC_HEADER))
-
 # Keep a reference to the title
-# extra $ to quote the EOLD $
-# strip leading "= ", "remove everything from " :" until EOLD
-BTITLE := $(shell echo "$(BHEADER)" | sed -E 's/^=[ \t]+//;s/[ \ŧ]+:.*$$//')
+Replace line with what is here "title" => =[space]title[space]:
+BTITLE := $(shell sed -nE '/^=/ s/^=[ ]+([^:]+)[ ]+:.*/\1/p' $(ADOC_HEADER))
 
 # Keep a reference to the subtitle
 # Remove everything from ^= up to to " : ", keep the rest
-BSTITLE := $(shell echo "$(BHEADER)" | sed -E 's/^=[^:]+:[ \t]+//')
+BSTITLE := $(shell sed -nE '/^=/ s/^=[^:]+:[ \t]+//p' $(ADOC_HEADER))
 
 # build a bookname that is filesystem friendly (and human friendly too)
 # Remove any " - " sequence used to separate wording
