@@ -395,6 +395,10 @@ DOCBOOK := $(BOOK_NAME_FINAL).xml
 GH_REPO := $(shell cat $(ADOC_HEADERS) | sed -nE '/^:repo_url:.*/ s/^:repo_url:[ ]+//p')
 GH_DOWNLOAD := $(GH_REPO)/releases/download/v$(BVERSION)
 
+GH_USER := $(shell echo $(GH_REPO) | sed -E 's|https?://[^/]+/([^/]+)/.*|\1|')
+GH_REPO_NAME := $(shell echo $(GH_REPO) | sed -E 's|https?://[^/]+/[^/]+/(.+)|\1|')
+GH_PAGES := https://$(GH_USER).github.io/$(GH_REPO_NAME)/
+
 ###############################################################################
 # TOOLING DEFINITION
 ###############################################################################
@@ -553,6 +557,12 @@ define echo_stage =
 	@echo "========================================"
 endef
 
+define echo_header =
+	@echo "========================================"
+	@echo "===== $(1) ====="
+	@echo "========================================"
+endef
+
 define makedir_dir =
 	[ -d $(1) ] || mkdir -p $(1)
 endef
@@ -622,7 +632,23 @@ $(BOOK_MD_EPUB2): $(BOOK_MD)
 # function to regenerate the first part of the navigation
 # i.e. the book md files. Needed to later be able to cleanly
 # add the download section
-define mkdocs_navigation =
+
+# target which generates the mkdocs content
+# depands on the site definition (mkdocs.ym) and anything in the mkdocs/docs dir
+mkdocs: $(MKDOCS_YML)
+
+# Choose base download link
+ifeq (mk-pdf,$(filter mk-pdf,$(MAKECMDGOALS)))
+MKDOCS_YML_PDF := $(PDF_SCREEN_OPT) $(PDF_PREPRESS_OPT)
+mk-pdf: ;
+endif
+
+# Regenerate the mkdocs.yml file if the template, processed content md files or
+# mkdocs_md_files (or js or css) files have changedif any md source has changed
+$(MKDOCS_YML): $(MKDOCS_YML_PDF) $(MKDOCS_YML_TEMPLATE) $(DSTFILES_MK) $(DSTFILES_MK_XTRA)
+	$(call echo_stage,mkdocs-yml)
+	$(eval link1 := $(notdir $(PDF_SCREEN)))
+	$(eval link2 := $(notdir $(PDF_PREPRESS)))
 	$(eval tgts := $(notdir $(DSTFILES_MK_INDEX_MD) $(DSTFILES_MK)))
 	@# add the selected md files to the mkdocs yml config (skip template dependency)
 	@# From mkdocs.yml template to file with navigation
@@ -633,26 +659,23 @@ define mkdocs_navigation =
 	echo "  - $(MKDOCS_TAB_MAIN):" >> $(tmpfile)
 	echo " $(tgts)" | sed 's/ /\n    - /g' | tail +2 >> $(tmpfile)
 	echo "  - $(MKDOCS_TAB_DOWN): $(notdir $(DSTFILES_MK_DOWNLOADS))" >> $(tmpfile)
-	@# Put links in place before copying tmpfile to mkdocs.yml
-	echo "[1]: $(GH_DOWNLOAD)/$(1)" >> $(DSTFILES_MK_DOWNLOADS)
+	@# Put links (and files if needed) in place before copying tmpfile to mkdocs.yml
+ifeq (mk-pdf,$(filter mk-pdf,$(MAKECMDGOALS)))
+	$(eval MK_DOWNLINK_BASE := ./)
+	cp $(PDF_SCREEN_OPT) $(BUILD_DIR_MKDOCS)/$(link1)
+	cp $(PDF_PREPRESS_OPT) $(BUILD_DIR_MKDOCS)/$(link2)
+else
+	$(eval MK_DOWNLINK_BASE := $(GH_DOWNLOAD))
+endif
+	echo "[1]: $(MK_DOWNLINK_BASE)/$(link1)" >> $(DSTFILES_MK_DOWNLOADS)
 	echo >>  $(DSTFILES_MK_DOWNLOADS)
-	echo "[2]: $(GH_DOWNLOAD)/$(2)" >> $(DSTFILES_MK_DOWNLOADS)
-	sed -i -E '/\{:pdf-screen:\}/ s/\{:[^:]+:\}/$(1)/' $(DSTFILES_MK_DOWNLOADS)
-	sed -i -E '/\{:pdf-prepress:\}/ s/\{:[^:]+:\}/$(2)/' $(DSTFILES_MK_DOWNLOADS)
+	echo "[2]: $(MK_DOWNLINK_BASE)/$(link2)" >> $(DSTFILES_MK_DOWNLOADS)
+	sed -i -E '/\{:pdf-screen:\}/ s/\{:[^:]+:\}/$(link1)/' $(DSTFILES_MK_DOWNLOADS)
+	sed -i -E '/\{:pdf-prepress:\}/ s/\{:[^:]+:\}/$(link2)/' $(DSTFILES_MK_DOWNLOADS)
+	@# copy
 	@# Put our custom mkdocs.yml in the right place
 	cp $(tmpfile) $(MKDOCS_YML)
 	-rm $(tmpfile)
-endef
-
-# target which generates the mkdocs content
-# depands on the site definition (mkdocs.ym) and anything in the mkdocs/docs dir
-mkdocs: $(MKDOCS_YML)
-
-# Regenerate the mkdocs.yml file if the template, processed content md files or
-# mkdocs_md_files (or js or css) files have changedif any md source has changed
-$(MKDOCS_YML): $(MKDOCS_YML_TEMPLATE) $(DSTFILES_MK) $(DSTFILES_MK_XTRA)
-	$(call echo_stage,mkdocs-yml)
-	$(call mkdocs_navigation,$(notdir $(PDF_SCREEN)),$(notdir $(PDF_PREPRESS)))
 
 # General rule for anything coming from mkdocs_docs_dir
 # it may need to generate directories to copy without error
@@ -688,11 +711,13 @@ mk-serve: mkdocs-serve
 
 # main serve recipe, it
 mkdocs-serve: mkdocs
+	$(call echo_header,mkdocs-serve)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) serve
 
 # serve, but first killing it if running and serving in the background
 mkdocs-bserve: mkdocs mkdocs-kill
+	$(call echo_header,mkdocs-bserve-build-and-serve)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) serve &
 
@@ -700,6 +725,7 @@ mkdocs-bserve: mkdocs mkdocs-kill
 mk-build: mkdocs-build
 
 mkdocs-build:
+	$(call echo_header,mkdocs-build)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) build
 
@@ -707,6 +733,7 @@ mkdocs-build:
 mk-deploy: mkdocs-deploy
 
 mkdocs-deploy:
+	$(call echo_header,mkdocs-deploy)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) gh-deploy --no-history
 
@@ -714,6 +741,7 @@ mkdocs-deploy:
 mk-kill: mkdocs-kill
 
 mkdocs-kill:
+	$(call echo_header,mkdocs-kill)
 	$(call find_tool_or_exit,$(PKILL))
 	-$(PDM_RUN) $(PKILL) $(MKDOCS)
 
@@ -787,7 +815,7 @@ define make_pdf =
 	$(ADOCTORPDF) $(basename $(ADOCTOR_DSTFILE))$(DEV)$(suffix $(ADOCTOR_DSTFILE)) \
 		-a pdf-theme=$(4) \
 		$(ADOCTOR_PDF_FONTS) $(ADOCTOR_PDF_EXTENDERS) $(ADOCTOR_IMGDIR) \
-		$(2) $(3) $(ADOC_PDF_EXTRA_OPTS) $<
+		$(2) $(3) $(ADOCPDF_EXTRA_OPTS) $<
 endef
 
 # target to generate pdf for screen
@@ -966,6 +994,7 @@ html-zip: $(HTML_ZIP)
 # rule which creates zip storing file with no path and images with
 # so that everything matches
 $(HTML_ZIP): $(HTML)
+	$(call echo_stage,HTML Zip)
 	-rm -f $@
 	$(ZIP) --junk-paths $@ $<
 	$(ZIP) $@ `grep -oP '(?<=<img src=")($(IMG_DIR)[^"]+)' $<`
@@ -996,6 +1025,7 @@ endif
 # GITHUB Release
 ###############################################################################
 gh-release: pdf-screen-opt pdf-prepress-opt
+	$(call echo_stage,gh-release with version $(BVERSION))
 	$(call find_tool_or_exit,$(GHCLI))
 	$(eval tmpdir := $(dir $(shell mktemp -u)))
 	$(eval tmp_screen := $(tmpdir)/$(notdir $(PDF_SCREEN)))
@@ -1036,6 +1066,7 @@ clean-mkdocs:
 ###############################################################################
 # renumber chapters
 renumber:
+	$(call echo_header,Renumbering Chapters)
 	$(call find_tool_or_exit,$(PYTHON3))
 	./bin/renumberer.py
 
@@ -1075,9 +1106,10 @@ rshow: kshow show
 
 # check if tools can be found
 toolcheck:
+	$(call echo_header,Checking Tooling)
 	@echo The following commands/tools are considered to be always available
-	@echo "  - awk, cp, cut, echo, exit, grep, head, mkdir, mktemp, mv, read"
-	@echo "  - sed, sort, tail, test ([]), tr, which"
+	@echo "  - awk, cp, cut, echo, exit, grep, head, mkdir, mktemp,"
+	@echo "  - mv, read, sed, sort, tail, test ([]), tr, wc, which"
 	@echo ----------------------------------------------------------------------
 	@echo Checking for "$(KRAMDOC) for markdown to asciidoc conversion"
 	$(call find_tool,$(KRAMDOC))
@@ -1135,20 +1167,20 @@ help:
 	@echo "  html / html-zip / html-test (in-place reading) / docbook"
 	@echo "    (no covers in html/docbook)"
 	@echo "  mkdocs (Publish for the mkdocs subdirectory configuration)"
-	@echo "  mkdocs-pdf (Publish mkdocs and add PDF Download Page)"
-	@echo "  mkdocs-pdfopt (Publish mkdocs and add PDF Download Page with optimized PDFs)"
-	@echo "  mkdocs-fakepdf (Publish mkdocs and add PDF Download Page with no PDFs)"
 	@echo "  mkdocs-serve (Publish and start serving locally)"
 	@echo "  mkdocs-bserve (Publish and start serving locally in the background)"
 	@echo "  mkdocs-kill (kill a mkdocs running instance)"
 	@echo "  mkdocs-build (Build the mkdocs site docs)"
 	@echo "  mkdocs-deploy (Deploy to GitHub Pages)"
 	@echo "     (also mk-xxx as shorthand for all actions)"
+	@echo "  mk-pdf (extra option, example: make mkdocs mk-pdf)"
+	@echo "    (Use local links for PDF download instead of repo-release links)"
+	@echo
 	@echo "  gh-release (Make a Release on the GitHub Repo)"
 	@echo
 	@echo "Selected build of specific chapters"
-	@echo "  - xxxx yyyy do not need to be full filenames"
 	@echo "  buildchap=xxxx or buildchap='xxxx yyyy'"
+	@echo "  (xxxx yyyy do not need to be full filenames, just the chapter numbers)"
 	@echo
 	@echo "Auxiliary Targets"
 	@echo "  touch (ensure rebuild even if intermediates are unchanged)"
