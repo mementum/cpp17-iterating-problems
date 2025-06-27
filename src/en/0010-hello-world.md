@@ -1,7 +1,7 @@
 # Hello World
 
 **Title**: Hello, World!\
-**Link**: $[https://www.hackerrank.com/challenges/cpp-hello-world]$ 
+**Link**: <https://www.hackerrank.com/challenges/cpp-hello-world> 
 
 Getting started with any programming language always implies a "Hello World" example and Hackerrank also has this challenge to get problem solvers started with *C++*. Solving the problem is obvious, but the goal was not to make obvious things. Rethinking the problem to make something useful out of it is the real challenge. Let us see how to rework this into something interesting.
 

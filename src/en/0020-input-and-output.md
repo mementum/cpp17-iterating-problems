@@ -1,7 +1,7 @@
 # Input and Output
 
 **Title**: Input and Output\
-**Link**: $[https://www.hackerrank.com/challenges/cpp-input-and-output]$
+**Link**: <https://www.hackerrank.com/challenges/cpp-input-and-output>
 
 After the classic, output-only *"Hello, World!"*, we are confronted with first accepting input, performing then a simple manipulation of the data and sending finally the result to standard output. I.e.: read three integers from standard input, add them up and output the result.
 

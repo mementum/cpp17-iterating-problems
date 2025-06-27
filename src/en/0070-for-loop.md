@@ -1,7 +1,7 @@
 # For Loop
 
 **Title**: For Loop\
-**Link**: $[https://www.hackerrank.com/challenges/c-tutorial-for-loop/problem]$
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-for-loop/problem>
 
 Let us go for the next "inconsequential" challenge that we want to transform into the best next iterating challenge.
 

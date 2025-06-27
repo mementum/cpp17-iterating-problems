@@ -1,7 +1,7 @@
 # Types, Types, Types
 
 **Title**: Basic Data Types\
-**Link**: $[https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem]$
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem>
 
 This title probably sounds so bad that even Ballmer's "Developers, Developers, Developers ..." gig would have sold many more vinyl records.
 

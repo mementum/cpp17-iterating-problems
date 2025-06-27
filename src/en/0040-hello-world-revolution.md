@@ -1,7 +1,7 @@
 # Hello World - Revolutions
 
 **Title**: Hello, World!\
-**Link**: $[https://www.hackerrank.com/challenges/cpp-hello-world]$ 
+**Link**: <https://www.hackerrank.com/challenges/cpp-hello-world> 
 
 After the Matrix was reloaded a revolution followed. Let us try to revolutionize the *"Hello, World!"* challenge.
 

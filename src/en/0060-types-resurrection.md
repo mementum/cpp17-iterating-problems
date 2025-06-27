@@ -1,7 +1,7 @@
 # Types - Resurrected
 
 **Title**: Basic Data Types\
-**Link**: $[https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem]$
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem>
 
 ## Iterating Iterators
 

@@ -1,7 +1,7 @@
 # Input And Output - Reloaded
 
 **Title**: Input and Output\
-**Link**: $[https://www.hackerrank.com/challenges/cpp-input-and-output]$
+**Link**: <https://www.hackerrank.com/challenges/cpp-input-and-output>
 
 If the Matrix franchise could reload itself, so can we, improving what we have so far done.
 
