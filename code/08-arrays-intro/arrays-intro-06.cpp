@@ -124,8 +124,9 @@ constexpr bool c2o_v = false;
 template<typename O, typename C>
 constexpr bool c2o_v<
     O, C,
-    std::void_t<decltype(std::declval<O>() = std::declval<typename C::value_type>())
-    >> = true;
+    std::void_t<
+        decltype(
+            std::declval<O>() = std::declval<typename C::value_type>())>> = true;
 
 // enable_if
 template <typename I, typename O, typename C = void>
@@ -147,8 +148,7 @@ reverse_function(I first, I last, O out) {
         std::copy(
             std::make_reverse_iterator(last),
             std::make_reverse_iterator(first),
-            out
-        );
+            out);
     } else {
         *oerror = "[+]: Non-Bidirectional Iterator for the Input";
         auto c = C{}; // container needed to store input and output in reverse
