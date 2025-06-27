@@ -24,7 +24,7 @@ PROBBUILD := build
 
 # Get problem name from currrent directory
 # xy-probname => probname, i.e. get name of dir remove 3 leading chars
-PROBNAME := $(shell echo $(notdir $(CURDIR)) | cut -b4-)
+PROBNAME := $(shell echo $(notdir $(CURDIR)) | sed -E 's/^[0-9]+-//')
 # Input/Output (Expected) for problem
 PROBINPUT := $(PROBNAME).input
 PROBOUTPUT := $(PROBNAME).output
@@ -39,28 +39,49 @@ PROBFLAGS :=
 # Default target
 default: help
 
+# "pedantic" option
+ifeq (pedantic,$(filter pedantic,$(MAKECMDGOALS)))
+CXXFLAGS += -pedantic-errors
+PROBFLAGS = pedantic
+
+pedantic: ;
+endif
+
+# "caseX" options
+CASETARGETS := $(filter case%,$(MAKECMDGOALS))
+ifneq ($(CASETARGETS),)
+CASEUPPER = $(shell echo $(CASETARGETS) | tr '[:lower:]' '[:upper:]')
+CXXFLAGS += $(foreach case,$(CASEUPPER),-D$(case))
+PROBFLAGS += $(CASETARGETS)
+
+case%: ;
+endif
+
 # "show" options
 ifeq (show,$(filter show,$(MAKECMDGOALS)))
 _show := 1
-PROBFLAGS := $(PROBFLAGS) show
+PROBFLAGS += show
 
 show: ;
 endif
 
 ifeq (showoutput,$(filter showoutput,$(MAKECMDGOALS)))
 _showoutput := 1
-PROBFLAGS := $(PROBFLAGS) showoutput
+PROBFLAGS += showoutput
 
 showoutput: ;
 endif
 
 ifeq (showdiff,$(filter showdiff,$(MAKECMDGOALS)))
 _showdiff := 1
-PROBFLAGS := $(PROBFLAGS) showdiff
+PROBFLAGS += showdiff
 
 showdiff: ;
 endif
 
+# redo a problem
+redo-%: clean-%
+	@$(MAKE) --no-print-directory $* $(PROBFLAGS)
 
 # Do all the problems with another make to ensure they are made
 # even if some of them (as expected) fail. "all" could simply
@@ -70,7 +91,7 @@ all:
 
 # Recipe to create executable: cpp is the dependency
 $(PROBBUILD)/$(PROBNAME)-%$(EXE): $(PROBNAME)-%$(CPPEXT)
-	@[ -d $(PROBBUILD) ] || echo "making build dir"
+	@[ -d $(PROBBUILD) ] || echo "Creating build dir"
 	@[ -d $(PROBBUILD) ] || mkdir -p $(PROBBUILD)
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
@@ -108,6 +129,10 @@ $(PROBBUILD)/$(PROBNAME)-%$(EXE): $(PROBNAME)-%$(CPPEXT)
 .SECONDARY:
 
 # clean all executables
+clean-%:
+	rm -rf $(PROBBUILD)/$(PROBNAME)-$*$(EXE)
+
+# clean all executables
 clean:
 	rm -rf $(PROBBUILD)
 
@@ -132,12 +157,21 @@ help:
 	@echo "the difference will be shown."
 	@echo
 	@echo "Options:"
-	@echo "  all          - make all solutions (ignore solutions with errors)"
-	@echo "  std=c++17    - c++ standard to use)"
-	@echo ""
-	@echo "  showoutput   - Force showing the output even on success "
-	@echo "  showdiff     - Force showing the expected vs output diff even on success"
-	@echo "  show         - Force showing the output and diff even on success"
-	@echo "  clean        - Remove all executables"
-	@echo "  help         - Show this help"
+	@echo "  all        - make all solutions (ignore solutions with errors)"
+	@echo "  redo-xy    - clean xy target, redo it and retest it"
+	@echo
+	@echo "  std=c++17  - c++ standard to use (current: $(std))"
+	@echo
+	@echo "  pedantic   - Force a compilation error if a compiler extension is used"
+	@echo
+	@echo "  caseX      - Define a variable CASEX for the compilation "
+	@echo "      -DCASEX will be added to the compiler flags"
+	@echo
+	@echo "  showoutput - Force showing the output even on success "
+	@echo "  showdiff   - Force showing the expected vs output diff even on success"
+	@echo "  show       - Force showing the output and diff even on success"
+	@echo
+	@echo "  clean      - Remove all executables"
+	@echo "  clean-xy   - Remove the 2 digit executable specified by xy"
+	@echo "  help       - Show this help"
 	@echo
