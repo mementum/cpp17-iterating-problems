@@ -67,7 +67,7 @@ We are getting closer to a general solution. `abegin` (for *"array begin"*) give
 
 ## Going Vector
 
-The obvious approach to overcome all the aforementioned limitations is to go `std::vector`. This allows us to mark `N` with the attribute `[[maybe_unused]]`, to let the compiler know that even if we have to fetch a value from `std::cin` and store it in `N`, we will be ignoring that variable.
+The obvious approach to overcome all the aforementioned limitations is to go `std::vector`. This allows us to mark `N` with the attribute `maybe_unused`, to let the compiler know that even if we have to fetch a value from `std::cin` and store it in `N`, we will be ignoring that variable.
 
 First because we are reading until the end of the input to store things in our container. And later because our solution uses the iterators provided by the container to traverse the array backwards and solve the problem. We go backwards by using reverse iterators, with `rbegin` and `rend`.
 
