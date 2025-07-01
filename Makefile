@@ -723,7 +723,7 @@ mkdocs-bserve: mkdocs mkdocs-kill
 # Build an mkdocs site
 mk-build: mkdocs-build
 
-mkdocs-build:
+mkdocs-build: mkdocs
 	$(call echo_header,mkdocs-build)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) build
@@ -731,7 +731,7 @@ mkdocs-build:
 # Deploy site
 mk-deploy: mkdocs-deploy
 
-mkdocs-deploy:
+mkdocs-deploy: mkdocs
 	$(call echo_header,mkdocs-deploy)
 	$(call find_tool_or_exit,$(MKDOCS),$(PDM_RUN))
 	$(PDM_RUN) $(MKDOCS) gh-deploy --no-history
