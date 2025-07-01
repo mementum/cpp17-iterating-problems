@@ -5,8 +5,8 @@
 
 int
 main(int, char *[]) {
-    auto in = std::istream_iterator<int>(std::cin);
-    auto out = std::ostream_iterator<int>(std::cout, " ");
+    auto in = std::istream_iterator<int>{std::cin};
+    auto out = std::ostream_iterator<int>{std::cout, " "};
 
     // gather array size and prepare it
     auto N = *in++;

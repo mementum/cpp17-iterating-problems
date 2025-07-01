@@ -10,9 +10,9 @@ T *abegin(const std::unique_ptr<T[]> &p) {
 
 int
 main(int, char *[]) {
-    auto in = std::istream_iterator<int>(std::cin);
-    auto in_last = std::istream_iterator<int>();
-    auto out = std::ostream_iterator<int>(std::cout, " ");  // delim is " "
+    auto in = std::istream_iterator<int>{std::cin};
+    auto in_last = std::istream_iterator<int>{};
+    auto out = std::ostream_iterator<int>{std::cout, " "};  // delim is " "
 
     // gather array size and prepare it
     auto N = *in++;

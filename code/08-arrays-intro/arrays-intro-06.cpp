@@ -185,8 +185,8 @@ main(int, char *[]) {
     using ptype = int;  // define problem type
 
     // prepare standard input
-    auto sin = std::istream_iterator<ptype>(std::cin);
-    auto sin_last = std::istream_iterator<ptype>();
+    auto sin = std::istream_iterator<ptype>{std::cin};
+    auto sin_last = std::istream_iterator<ptype>{};
 
     [[maybe_unused]] auto N = *sin++; // Get initial (and ignore it) input
 
@@ -205,7 +205,7 @@ main(int, char *[]) {
     using IType = std::decay_t<decltype(in)>;  // iterator type for the templates
 
     // prepare output and the output iterator type for the templates
-    auto out = std::ostream_iterator<ptype>(std::cout, " ");
+    auto out = std::ostream_iterator<ptype>{std::cout, " "};
     using OType = decltype(out);
 
 #ifdef CASE1 // push_back case

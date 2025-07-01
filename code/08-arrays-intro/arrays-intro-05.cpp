@@ -16,12 +16,12 @@ reverse_function(I first, I last, O out) {
 
 int
 main(int, char *[]) {
-    auto in = std::istream_iterator<int>(std::cin);
+    auto in = std::istream_iterator<int>{std::cin};
     [[maybe_unused]] auto N = *in++; // get number of ints, part of the input
     reverse_function(
         in,
-        std::istream_iterator<int>(),
-        std::ostream_iterator<int>(std::cout, " ") // delim is " "
+        std::istream_iterator<int>{},
+        std::ostream_iterator<int>{std::cout, " "} // delim is " "
     );
     return 0;
 }
