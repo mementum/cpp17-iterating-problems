@@ -1,7 +1,7 @@
 # Types, Types, Types
 
 **Title**: Basic Data Types\
-**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem>
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types>
 
 This title probably sounds so bad that even Ballmer's "Developers, Developers, Developers ..." gig would have sold many more vinyl records.
 
@@ -13,15 +13,15 @@ The next challenge gives us a list of basic types. We are expected to read value
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-01.cpp"
 ```
 
-We simply create some variables of the following types: `int`, `long`, `char`, `float` and `double`, read from `std::cin` and output to `std::cout`. `float` and `double` have some manipulation to with a fixed number of decimals each, namely 3 and 9.
+We simply create some variables of the following types: `int`, `long`, `char`, `float` and `double`, read from `std::cin` and output to `std::cout`. The types `float` and `double` need some manipulation to be output with a fixed number of decimals each, namely 3 and 9.
 
-A simple replacement of this approach with five `std::istream_iterator<T>` and another set of five `std::ostream_iterator<type, "\n">` is for sure not the kind of challenge we are looking for, even if one of the goals is to use iterators here, there and everywhere. Let us therefore skip putting that in written form.
+A simple replacement of this approach with five instances of `std::istream_iterator<T>` and another set of five instances of `std::ostream_iterator<type, "\n">` is for sure not the kind of challenge we are looking for. Even if one of the goals is to use iterators here, there and everywhere. Let us therefore skip putting that in written form.
 
 ## The Classic Recursive Template
 
 If this were Python, we could iterate over the type names, because those type names are also the classes that we can instantiate to obtain values. But this is not Python and we cannot iterate over the types.
 
-Unless we can. If we consider that one can pass an unlimited number of types to a template and we can then pass those types to another template function, it would seem as if we could iterate. Let us craft a `for_each` looping function. And let us do in the most classic way.
+Unless we can. If we consider that one can pass an unlimited number of types to a template and we can then pass those types to another template function, it would seem as if we could iterate. Let us craft a `for_each` looping function. And let us do it in the most classic way.
 
 ```cpp title 
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-02.cpp:41:46"

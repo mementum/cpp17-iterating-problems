@@ -3,7 +3,7 @@
 **Title**: Hello, World!\
 **Link**: <https://www.hackerrank.com/challenges/cpp-hello-world> 
 
-Getting started with any programming language always implies a "Hello World" example and Hackerrank also has this challenge to get problem solvers started with *C++*. Solving the problem is obvious, but the goal was not to make obvious things. Rethinking the problem to make something useful out of it is the real challenge. Let us see how to rework this into something interesting.
+Getting started with any programming language always implies a "Hello World" example and HackerRank also has this challenge to get problem solvers started with *C++*. Solving the problem is obvious, but the goal was not to make obvious things. Rethinking the problem to make something useful out of it is the real challenge. Let us see how to rework this into something interesting.
 
 We first draft the obvious solution, considering that the expected output is: *"Hello, World!"*.
 
@@ -27,7 +27,7 @@ Notice that we have used `std::string` with `std::ostream_iterator`. We could ha
 
 ## Adding Input Iterators
 
-Let us now simulate that there is also input, by managing *"Hello"* and *"World!"* as separate tokens and making the `, ` delimiter a part of the output operation and not part of the content itself.
+Let us now simulate that there is also input, by managing *"Hello"* and *"World!"* as separate tokens and making the *", "* delimiter a part of the output operation and not part of the content itself.
 
 ```cpp title
 --8<-- "{sourcedir}/01-hello-world/hello-world-03.cpp"
@@ -99,7 +99,7 @@ The new main function that goes with it looks like this.
 --8<-- "{sourcedir}/01-hello-world/hello-world-06.cpp:37"
 ```
 
-This delivers the expected solution output, with no trailing `, ` delimiter at the end.
+This delivers the expected solution output, with no trailing *", "* delimiter at the end.
 
 ```
 Hello, World!

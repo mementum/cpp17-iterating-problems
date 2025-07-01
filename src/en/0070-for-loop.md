@@ -1,7 +1,7 @@
 # For Loop
 
 **Title**: For Loop\
-**Link**: <https://www.hackerrank.com/challenges/c-tutorial-for-loop/problem>
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-for-loop>
 
 Let us go for the next "inconsequential" challenge that we want to transform into the best next iterating challenge.
 
@@ -11,7 +11,7 @@ This one is a `for` loop in between the integers `a` and `b`, where those intege
 --8<-- "{sourcedir}/07-for-loop/for-loop-01.cpp"
 ```
 
-To be really smart, we use the left and right sides of the `const char *numbers[]` array to have our `even` and `odd` results all stored within a single data structure.
+To be really smart, we use the left and right sides of the `const char *numbers` array to have our `even` and `odd` results all stored within a single data structure.
 
 ## Going Python
 
@@ -25,7 +25,7 @@ We obviously do not want to create an `std::vector` that holds all the integers,
 
 Ranges in Python are half-open, hence the `b + 1`, and the integers are not generated, then stored, and finally delivered one by one. The function generates and yields an integer, delivering the next when requested. We know (living in the future) that *C++20* has implemented something like this with: `std::views::iota(1, 10)`, but recall we are still on *C++17*.
 
-Let us therefore address the problem of "replicating" (what we need) the `range` function in *C++*. Because we want to pass the range to a function that transforms the integers to a string, we need a range—i.e., `first` and `last` iterators—that we will get from `begin` and `end` functions. What we are basically describing is a container, and in our case we are describing a *"virtual"* container, because we are not going to contain anything, except the description of the range: `start`, `stop`. Although we could hardcode the step-by-step increment between those limits, let us be flexible by defining also a `step`, which will default to a value of `1`.
+Let us therefore address the problem of "replicating" (what we need) the `range` function in *C++*. Because we want to pass the range to a function that transforms the integers to a string, we need a range—i.e., `first` and `last` iterators—that we will get from the `begin` and `end` functions. What we are basically describing is a container, and in our case we are describing a *"virtual"* container, because we are not going to contain anything, except the description of the range: `start`, `stop`. Although we could hardcode the step-by-step increment between those limits, let us be flexible by defining also a `step`, which will default to a value of `1`.
 
 This is how the beginning of our container looks like.
 
@@ -159,7 +159,9 @@ We put it all together with the standard checks to see if our template parameter
 
 The full code contains four alternative formulations of functions for the solutions. Only one solves the challenge but that is not the point. The point being: two of them meet the *SFINAE* requirements and two of them fail them (wrong number of parameters and wrong return type). Feel free to play with them. The default is the function that solves the problem.
 
-Here is the full code.
+Feel free to compile with `make 03 caseX`, where `X` is the digit that corresponds to the expected define value in the code, but uppercased as `CASEX`.
+
+Here is the full code. See the definitions.
 
 ```cpp title
 --8<-- "{sourcedir}/07-for-loop/for-loop-03.cpp"
@@ -169,7 +171,7 @@ Here is the full code.
 
 Our trick positioning the strings *"even"* and *"odd"* at the ends of the container (a `std::array`) seems like a hack of past times. Similar to when Spectrum/C64 programmers had to optimize the usage of every byte of RAM. So much that those legendary coders even looked for existing patterns in the code that could be re-used as explosions.
 
-But in doing that we have made our code dependent on a maximum of `9` elements and with fixed positions. It is time for a more general approach, including extra *SFINAE*.
+But in doing so we have made our code dependent on a maximum of `9` elements and with fixed positions. It is time for a more general approach, including extra *SFINAE*.
 
 We could use `std::find` and go over the range of the container, check if the `end` iterator has been reached and default to the *"even/odd"* behavior. Our solution function `n2w` would have to get either the container, to instantiate the iterators, or receive the iterators, but let me say it in advance: *"Houston, we have a problem!"*. That works for an `std::array` and an `std::vector`. However, with an `std::map` the dereferencing of the iterator gives us an `std::pair` and we therefore would need different versions of the solution function `n2w`.
 
@@ -184,12 +186,14 @@ First, and to make things even more general, we define our problem type. We will
 Our `Range` remains unscathed. However, when it comes to our previous full-blown *SFINAE* machinery, we need to check if the container that will be used has an `at` method. Let us first show how we rewrite our solution function `n2w` to be generic.
 
 ```cpp title
---8<-- "{sourcedir}/07-for-loop/for-loop-04.cpp:122:128"
+--8<-- "{sourcedir}/07-for-loop/for-loop-04.cpp:122:130"
 ```
 
 In addition to the value `i` to look for, a `container` is also a parameter. And this `container` must have an `at` method, which will be checked for, i.e., our contractual warranty. This extra parameter makes `n2w` unsuited for direct usage later with `std::transform`, hence the need for adaptation and meeting a new friend: `std::bind`, with which we can fix parameters for a function call, i.e., we do currying[^wiki-currying].
 
 [^wiki-currying]: Wikipedia - [https://en.wikipedia.org/wiki/Currying](https://en.wikipedia.org/wiki/Currying)
+
+Notice that in the case of returning parity, the strings have a suffix: the *s-suffix*, i.e., the `std::string::operator ""s` of `std::string`. We get the suffix in motion with the statement `using namespace std::string_literals;`. Our text literals end up being standard strings.
 
 Our solution does still take the function `n2w` and it now takes another parameter, a generic `container`.
 
@@ -220,7 +224,8 @@ However, we would have fixed that to be `int` and `at` could be taking something
 ```cpp
 template <typename C>
 constexpr bool has_method_at<C,
-    std::void_t<decltype(std::declval<C>().at(typename C::key_type{}))>> = true;
+    std::void_t<decltype(
+        std::declval<C>().at(std::declval<typename C::key_type>()))>> = true;
 ```
 
 But that would be plainly wrong because it would only work with `std::map` (or an `std::unordered_map`), where the existence of `key_type` is guaranteed. Should we choose to replace the container type `C` with an `std::vector` or an `std::array`, our check would fail.

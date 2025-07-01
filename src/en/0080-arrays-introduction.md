@@ -11,7 +11,7 @@ Remember we said that one of the reasons to use the problem sets available at *H
 
 In this case, the coder tells us the following:
 
-> **Note**: Unlike C, C++ allows dynamic allocation of arrays at runtime without special calls like malloc(). If `n = 10`, `int arr[n]` will create an array with space for `10` integers.
+> Unlike C, C++ allows dynamic allocation of arrays at runtime without special calls like malloc(). If `n = 10`, `int arr[n]` will create an array with space for `10` integers.
 
 Your humble author may not be the best coder in the world, but he surely knows something: *Variable Length Arrays* (aka *VLA*) are not part of the *C++* standard.
 
@@ -22,6 +22,10 @@ Furthermore, and unlike stated, the *VLA* functionality is part of the *C* stand
 ```
 
 Blistering Barnacles! It does work. Notice how we have marked the *VLA* line with the following comment: *"NON-STANDARD C++ - Variable Length Array Extension"*. Because it is a compiler extension. Originally, only *GCC* supported it, but it is also supported by *clang* today. It is now clear how the author came to the conclusion that *C++* supports *Variable Length Arrays*: he/she gave it a try and it simply worked. This may (and likely will) break with other compilers, of course.
+
+/// note
+This solution `01` can be compiled as `make 01 pedantic`. The `pedantic` target deactivates compiler extensions and that means that the build process will fail.
+///
 
 ## Real Standard Variable Length Arrays
 
@@ -37,7 +41,7 @@ We are using `new`, `delete`, and `std::cin` and `std::cout`. Replace those with
 
 ## Smart Pointers, Iterators and Algorithms
 
-One of the pleasures of *Modern C++*—anything *C++11* and newer—is that language designers understood that new facilities were needed to ease the burden on coders. Someone asked the rhetorical question about manual allocation/deallocation of memory for pointers/arrays and why that could not be managed with intelligence. And `std::unique_ptr<T>` was born (there is a `Deleter` template parameter that I am omitting here). As it happened with the `_v` variants of compile-time checks that help people, someone thought that no matter how good our `std::unique_ptr` was, a helper would be even better. *C++14* brought `std::make_unique`.
+One of the pleasures of *Modern C++*, i.e., anything *C++11* and newer, is that language designers understood that new facilities were needed to ease the burden on coders. Someone asked the rhetorical question about manual allocation/deallocation of memory for pointers/arrays and why that could not be managed with intelligence. And `std::unique_ptr<T>` was born (there is a `Deleter` template parameter that I am omitting here). As it happened with the `_v` variants of compile-time checks that help people, someone thought that no matter how good our `std::unique_ptr` was, a helper would be even better. *C++14* brought `std::make_unique`.
 
 Let us use unique pointers together with iterators and algorithms.
 
@@ -77,7 +81,7 @@ First because we are reading until the end of the input to store things in our c
 
 Notice how we use a new friend, `std::back_inserter(v)`, to insert elements at the "back" (i.e., using `push_back`) of the `std::vector`. This is our next target: generalizing the use of containers for the solution.
 
-Something important is that we use the `::value_type` of our input iterator to instantiate the proper version of `std::vector` and make sure that it can hold the input values.
+Something important is that we use the `::value_type`, using our `it_type` helper, of our input iterator to instantiate the proper version of `std::vector` and make sure that it can hold the input values.
 
 ## Let the Containers Come To Us
 
@@ -90,32 +94,6 @@ But only if needed. In the latest solution we assume a couple of things:
   - We can control the type that will be held in the container.
   
 The other assumptions are the ones we solved using *SFINAE* in the previous chapters, to check if the input (direct or transformed) can go to the output, if the template parameters are iterators and, and, and.
-
-## Going Vector
-
-The obvious approach to overcome all the aforementioned limitations is to use `std::vector`. This allows us to mark `N` with the attribute `[[maybe_unused]]`, to let the compiler know that even if we have to fetch a value from `std::cin` and store it in `N`, we will be ignoring that variable.
-
-First, because we are reading until the end of the input to store things in our container. And later, because our solution uses the iterators provided by the container to traverse the array backwards and solve the problem. We go backwards by using reverse iterators, with `rbegin` and `rend`.
-
-```cpp title
---8<-- "{sourcedir}/08-arrays-intro/arrays-intro-05.cpp"
-```
-
-Notice how we use a new friend, `std::back_inserter(v)`, to insert elements at the "back" (i.e., using `push_back`) of the `std::vector`. This is our next target: generalizing the use of containers for the solution.
-
-Something important is that we use the `::value_type` of our input iterator to instantiate the proper version of `std::vector` and make sure that it can hold the input values.
-
-## Let the Containers Come To Us
-
-But only if needed. In the latest solution, we assume a couple of things:
-
-  - The input iterator will only go forward. That means we have to store the incoming integers to be later able to output them in reverse order.
-
-  - That the ideal container to hold the integers (or whatever we may be storing) is a `std::vector`.
-
-  - We can control the type that will be held in the container.
-
-The other assumptions are the ones we solved using *SFINAE* in the previous chapters, to check if the input (direct or transformed) can go to the output, if the template parameters are iterators, and so on.
 
 Let us remove all those restrictions. For that, we are going to need the following things:
 
@@ -213,7 +191,7 @@ To support those code paths, we have to make sure that the containers support th
 --8<-- "{sourcedir}/08-arrays-intro/arrays-intro-06.cpp:112:142"
 ```
 
-All that, and other checks, applied to the solution function with `std::enable_if` of course as shown at the end of the above snippet.
+All that, and other checks, applied to the solution function with `std::enable_if` are of course shown at the end of the above snippet.
 
 There is one new check that has been put in action above but for which no implementation has been shown: `is_bidir_v<T>` to test if an iterator supports moving in both directions. It uses the same machinery as the checks that test iterators to see if they are input or output iterators. See it below in the complete listing of this final solution.
 

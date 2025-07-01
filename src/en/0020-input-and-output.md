@@ -41,7 +41,7 @@ This is a lot more like it. If you look at how this is usually solved, the probl
 
 ## Checking the Nature of the Iterators
 
-Stopping here would go against the goal of our quest, i.e.: learning, learning more, learning even mor, be better and write better code. Let us therefore carry on by adding some checking for our template parameters with *SFINAE*.
+Stopping here would go against the goal of our quest, i.e.: learning, learning more, learning even more, be better and write better code. Let us therefore carry on by adding some checking for our template parameters with *SFINAE*.
 
 When I first heard about *SFINAE* I had to make sure I was getting it right: *"Substitution Failure Is Not An Error"*. Because once I managed to wrap my head around it, I thought that *SFIAFWAD* would have been a better acronym: *"Substitution Failure Is A Feature Working As Designed"*. No matter in which industry you have worked, it is quite often that an error is deemed to be a feature and tagged with the label, "it works as designed". It is anyhow highly unlikely that my proposal would have probably made the cut for the naming.
 

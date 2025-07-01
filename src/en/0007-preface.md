@@ -10,9 +10,9 @@ Seeing *C++20* as one of the choices, skipping the *C++17* wave seemed like a go
 
 On the bright side, *HackerRank* does not lock the editor for this *C++20* label. It does in some, not all, instances of problems for previous versions. This is something I could use to my advantage to provide complete solutions, rather than solving the problem by filling out just one method.
 
-This gave me an idea, that later lead to this book/blog/static site, call-it-x if you wish. I could rethink the problems and address them as something much bigger, forcing myself along the way to work with as many features of *C++17* as possible. And as it usually happens in life, one idea led to the next: solve the challenges using iterators as much as possible.
+This gave me an idea, that later led to this book/blog/static site, call-it-x if you wish. I could rethink the problems and address them as something much bigger, forcing myself along the way to work with as many features of *C++17* as possible. And as it usually happens in life, one idea led to the next: solve the challenges using iterators as much as possible.
 
-The *STL* (Standard Template Library) was already a thing when I had my first contact with *C++*, even if *C++98* was yet to be conceived. Back then, I hit a wall when I first tried to love iterators, until one day something made *"click"* and the idea seemed simply but incredibly brilliant. Hence the thought of solving everything now with iterators, even a simple *"Hello, World!"* challenge.
+The *STL* (Standard Template Library) was already a thing when I had my first contact with *C++*, even if *C++98* was yet to be conceived. Back then, I hit a wall when I first tried to love iterators, until one day something made *"click"* and the idea seemed simple but incredibly brilliant. Hence the thought of solving everything now with iterators, even a simple *"Hello, World!"* challenge.
 
 ## The Chapters and Their Content
 
@@ -22,11 +22,11 @@ Not all the solutions are meant to succeed in solving the problem. Some of them 
 
 If a solution introduces new concepts, be it from *C++17* or previous standards, it is specifically mentioned. That is the whole point of the exercise, apply a variety of techniques and the tools of the *C++* arsenal, embedding that knowledge deep in one's brain.
 
-I have obviously read blogs and quickly scanned books and seen online *C++* online reference guides over the years. And I have used the reference guides during the writing of this text. Because I doubted how to do a correct usage of something, to see alternatives and to explore the member functions.
+I have obviously read blogs and quickly scanned books and seen *C++* online reference guides over the years. And I have used the reference guides during the writing of this text, if I doubted how to correctly use something, looking also for alternatives and to explore member functions of containers, for example.
 
-But I want to say something: if I have not understood a concept or technique, I have not used it. Copying code is something even AI can do, but that would not bring me personally any further. It is not about solving the problem with someone else's code and idea, it is about doing it myself, because I understand how to do things.
+But I want to say something: if I have not understood a concept or technique, I have not used it. Copying code is something even AI can do, but that would not bring me personally any further. It is not about solving the problem with someone else's code and ideas, it is about doing it myself, because I understand how to do those things.
 
-Savvy *C++* programmers will obviously identify several areas of improvements, obvious error and even things that work due to sheer luck. They should not hesitate to provide feedback on the repository as that will bring one step closer to better understand and use *C++*. As a hobby programmer of course, but a programmer nonetheless.
+Savvy *C++* programmers will obviously identify several areas of improvement, obvious errors and even things that work due to sheer luck. They should not hesitate to provide feedback on the repository as that will bring me one step closer to better understand and use *C++*. As a hobby programmer of course, but a programmer nonetheless.
 
 /// note
 In other cases I simply left things a bit untidy, because my other life (the real one) has a higher priority and an incredible gravitational pull. Please, be lenient with this humble coder.
@@ -36,17 +36,17 @@ Let me finish by saying that writing this in the form of a book has really helpe
 
 ## Navigating The Code
 
-The code for the chapters follow the chapter numbering and has this form: `xy-descriptive-text`, where `xy` is a series of two digits that matches the chapter in which the solutions in that folder are developed and shown.
+The code for the chapters follows the chapter numbering and has this form: `xy-descriptive-text`, where `xy` is a series of two digits that matches the chapter in which the solutions in that folder are developed and shown.
 
 Going inside the folder each solution has also this form: `descriptive-text-ab.cpp`. Once again the `ab` placeholder stands for two digits, following the order in which the solutions are presented in the chapter.
 
-One can test each solution inside the folder with: `make ab`. This will compile `descriptive-text-ab.cpp` and execute the binary `descriptive-text-ab` (with `.exe` under *Windows*), feeding it a test case and evaluating the output against the well-known result.
+One can test each solution inside the folder with: `make ab`. This will compile `descriptive-text-ab.cpp` and execute the binary `descriptive-text-ab` (with the extension `.exe` under *Windows*), feeding it a test case and evaluating the output against the well-known result.
 
-Beware: the `Makefile` uses *GNU Make* extensions, to look for files, parse names, generate the tare
+Beware: the `Makefile` uses *GNU Make* extensions, to look for files, parse names, generate the targets, build the solutions, test them and present the results.
 
 A failed test case will show the expected output, the actual output and the difference of the two. This can be forced for positive test cases with `make show ab`. If in doubt, just run `make` or `make help` to see the available options (like an obvious `make all` to compile and test all solutions)
 
-That was for each individual challenge. Executing `make xy` from the top directory, will enter the `xy-descriptive-text` directory and compile and test all solutions `make all`. At this level a `make all` is also possible to compile and test all the solutions for all the challenges.
+That was it for each individual challenge. Executing `make xy` from the top code directory, will enter the `xy-descriptive-text` directory and compile and test all solutions with `make all`. At this root level a `make all` is also possible to compile and test all the solutions for all the challenges.
 
 If you add a new solution following the aforementioned conventions, the `Makefile` will automatically be able to compile and test it. That is: `make ij` will work, where `ij` are the digits you will have assigned to your solution with this convention: `xy-descriptive-test/descriptive-test-ij.cpp`.
 

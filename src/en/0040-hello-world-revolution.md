@@ -71,7 +71,7 @@ To process the type we recover `std::void_t`. Recall that we were previously abl
 
 The helper is added as a check to `std::enable_if_t` as the second term of a logical and, in which first we check the *input/output* nature of the iterators. If we changed the input `std::array` to hold integers instead of strings, there would be no candidate matching our `hello_world` function request, because the template parameter deduction would fail. One cannot directly put `int` into a `std::string`.
 
-But wait: we are giving the output iterator a manipulated value and the outcome of the manipulation could be anything, even the instance of a custom class, after we have read some integers. Perfectly valid use cases that we would break by using our `io_i2o_v` as a check. The fact that we get have `const char *` values as the input and output a `std::string` is just a coincidence, it is a specific trait of this problem and not a general check.
+But wait: we are giving the output iterator a manipulated value and the outcome of the manipulation could be anything, even the instance of a custom class, after we have read some integers. Perfectly valid use cases that we would break by using our `io_i2o_v` as a check. The fact that we get `const char *` values as the input and output a `std::string` is just a coincidence, it is a specific trait of this problem and not a general check.
 
 We could therefore use it here for the sake of it, but not as a general rule, in we probably want to check if the types of the iterators match our expected definition.
 

@@ -1,19 +1,19 @@
 # Types - Resurrected
 
 **Title**: Basic Data Types\
-**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types/problem>
+**Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types>
 
 ## Iterating Iterators
 
-That oxymoron is simply there to remark that for the *"Basic Data Types"* challenge we actually iterated over the types and we did not see a single iterator along the ways. In spite of all the wonders we applied, `if constexpr`, `sizeof...`, *fold expressions*, and `std::variant`, we were working in compile-time mode. There was no room for iterators.
+That oxymoron is simply there to remark that for the *"Basic Data Types"* challenge we actually iterated over the types and we did not see a single iterator along the way. In spite of all the wonders we applied, `if constexpr`, `sizeof...`, *fold expressions*, and `std::variant`, we were working in compile-time mode. There was no room for iterators.
 
 But there is always room for improvement, and we are going to find room for the iterators.
 
 ## Templated Iterators
 
-Obviously, if we have been working with templates to address the problem of moving around a list of types, templated iterators seem like the ways to go.
+Obviously, if we have been working with templates to address the problem of moving around a list of types, using templated iterators seems like the way to go.
 
-We are going to use two new *C++* elements, and as it has been the case, we are going to couple another *C++17* present with *C++* veterans. The modern element is `std::any`, a class capable of holding any value, that has to be retrieved with the proper type, using `std::any_cast<T>(any_instance)`. Our veterans will be `std::vector`, to store factories of iterators for different types. Those factories will be hosted by a *C++11* family member, namely `std::function`.
+We are going to use two new *C++* elements, and as it has been the case, we are going to couple another *C++17* present with a couple of *C++* veterans. The modern element is `std::any`, a class capable of holding any value, that has to be retrieved with the proper type hint, using `std::any_cast<T>(any_instance)`. Our veteran will be `std::vector`, to store factories of iterators for different types. Those factories will be hosted by another *C++11* family member veteran, namely `std::function`.
 
 Recall that we previously had different ways of iterating over the list of types. To build something more complex we still need a first iteration over them. We will be building upon the latest solution, using `std::variant` and looping with a `size_t i` template parameter.
 
@@ -40,7 +40,7 @@ Let us see how we will use that for the input iterator, which we name `vistream_
 --8<--
 ```
 
-Just a we did previously, we recurse over the types stored in the `std::variant` we receive as a template parameter. For each type a *lambda* is created and stored in a vector. That *lambda* will later take over and create an `std::istream_iterator` of the corresponding type, returning it embedded in an `std::any` instance.
+Just as we did previously, we recurse over the types stored in the `std::variant` we receive as a template parameter. For each type a *lambda* is created and stored in a vector. That *lambda* will later take over and create an `std::istream_iterator` of the corresponding type, returning it embedded in an `std::any` instance.
 
 The key to using those *lambda* expressions is in the `*` and `++` operators.
 
@@ -48,7 +48,7 @@ The key to using those *lambda* expressions is in the `*` and `++` operators.
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-01.cpp:53:61"
 ```
 
-When someone invokes the `*` operator, the next lambda is retrieved. Literally, `std::next` is always called with an offset to the beginning of the container. That offset is incremented during `++` operations, checking if the end of the container has been reached.
+When someone invokes the `*` operator, the **next** *lambda** is retrieved. Literally, `std::next` is always called with an offset to the beginning of the container. That offset is incremented during `++` operations, checking if the end of the container has been reached.
 
 There is of course a corresponding recursion procedure for the output.
 
@@ -62,7 +62,7 @@ The code in the *lambda* does the same as we did previously. The only novelty, a
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-01.cpp:142:147"
 ```
 
-As was the case with our previous custom output iterator the real work takes place in the `=` operators. Here also, `std::next` is used to fetch the *lambda* that knows what to do with the `std::any`, given also an output stream and the values for the decimal places for `float` and `double`.
+As was the case with our previous custom output iterator the real work takes place in the `=` operator. Here also, `std::next` is used to fetch the *lambda* that knows what to do with the `std::any`, given also an output stream and the values for the decimal places for `float` and `double`.
 
 It is now possible to create an *STL*-like solution. Here is the code for the entire solution.
 
@@ -98,7 +98,7 @@ On the other hand `vostream_iterator` is no longer a template based class.
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-02.cpp:87:89"
 ```
 
-That also means there is no index to track in parallel to the index of the input iterator. We can now have a generic approach to finding the right function by retrieving it from the map with the information from the `std::any` instance.
+That also means there is no index to track in parallel to the index of the input iterator. We can now have a generic approach to finding the right function by retrieving it from the `std::map` with the information from the `std::any` instance.
 
 ```cpp title
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-02.cpp:114:130"
@@ -126,7 +126,7 @@ We started this new chapter because iterating over the list of types was not the
 
 A real success would be to remove those two dependencies and make the code even more generic. And yes, we can!
 
-Let us start by backpedaling a bit. We decided to go for `std::any` as the vehicle to pass instances of the types back and forth, because it can hold anything. However, that flexibility comes with a price: getting the value out of an `std::any` instance is hard, hence the need to have so many *lambda expressions*, why we synchronized the iterators and had to work with `std::type_info`.
+Let us start by backpedaling a bit. We decided to go for `std::any` as the vehicle to pass instances of the types back and forth, because it can hold anything. However, that flexibility comes with a price: getting the value out of an `std::any` instance is hard, hence the need to have so many *lambda expressions*, why we synchronized the iterators first and had to work with `std::type_info` later.
 
 Let us look at three ideas to streamline our solution
 
@@ -150,7 +150,7 @@ The input iterator works with a `typename I`, that must be an iterator.
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-03.cpp:31:62"
 ```
 
-It is used during construction to get the beginning, with `first`, and the end, with `last`, of the range that holds procedures to fetch the types. Our input iterator no longer needs to know things about the container. Because the range is not directly controlled by our iterator, the second constructor , defining the end of iteration, also needs to know where the end of the real range is. And that it is why it takes also a `last` parameter.
+It is used during construction to get the beginning, with `first`, and the end, with `last`, of the range that holds procedures to fetch the types. Our input iterator no longer needs to know things about the container. Because the range is not directly controlled by our iterator, the second constructor that defines the end of iteration also needs to know where the end of the real range is. And that it is why it takes also a `last` parameter.
 
 Granted, with some *SFINAE* we could restrict and check that the iterator `I` is of type *InputIterator* and delivers the expected result when dereferenced.
 
@@ -181,7 +181,7 @@ What we could do is add a bit of *SFINAE* to make sure that `V` is an `std::vari
 Let us see the complete code of this final solution.
 
 ```cpp title
---8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-03.cpp:100:120"
+--8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-03.cpp"
 ```
 
 Done and dust. We have really generic code for both `vistream_iterator` and `vostream_iterator`, both freed from having to have knowledge of the `std::variant`.
