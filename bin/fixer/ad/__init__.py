@@ -15,6 +15,8 @@ LINE_PROCESSORS = [
     (lineprocs.DoubleQuotes_Backtick, True),
     (lineprocs.DoubleQuotes_Backtick_Begin, True),
     (lineprocs.DoubleQuotes_Backtick_End, True),
-    (lineprocs.FixOperatorPP, True),
     (lineprocs.FixSizeofDotDotDot, True),
+    (lineprocs.LiteralPass, True),
+    (lineprocs.LiteralPassEscapeFix, True),
+    (lineprocs.LiteralPassPlusFix, True),
 ]

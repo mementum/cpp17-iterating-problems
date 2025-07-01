@@ -1,6 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
+# Kramdoc does already put some of the inline literals inside a pass:c
+# macro, but it ignores many, especially when it comes to footnotes.
+# This looks for both, thosed marked and those unmarked. All of them are
+# marked with pass:c. Special care is needed for constructs like `[a, b]`. The
+# square brackets can only be matched if `pass:` has been seen
+class LiteralPass:
+    lsub_re: str = r"`(?P<pass>(?:pass:)(?:[a-z],?)*(?:\[))?((?(pass)[^]`]+|[^`]+))(?(pass)\])?`"
+    lreplace: str = r"`pass:c[\2]`"
+
+# Kramdoc does sometimes escape the interior ] of a pass:c with \] making it
+# useless. This removes the escaping. This has to be run after "LiteralPass
+# to make sure the links have already been passed through
+class LiteralPassEscapeFix:
+    lsub_re: str   = r"(\[`pass:c\[[^]\\]+)\\\](`\])"
+    lreplace: str = r"\1]\2"
+
+# Kramdoc does sometimes escape the interior of a pass:c with + escape signs,
+# which are already escaped by pass and show up in the final rendering. This
+# removes them.
+class LiteralPassPlusFix:
+    lsub_re: str = r"(`pass:c\[)\+([^+]+)\+(\]`)"
+    lreplace: str = r"\1\2\3"
+
 # Four dots in a reference link for a footnote are interpreted as a command and
 # breaks processing. sizeof... is a problem therefore as the link to it contains
 # the 3 dots + the extension separating dot. Let 3 dots be passed through
@@ -8,13 +31,7 @@ class FixSizeofDotDotDot:
     lsub: str = r"....html"
     lreplace: str = r"++...++.html"
 
-# String "operator ++()" is passed-through by kramdoc, but because it is inside
-# a reference link, the closing square bracket of the passthrough is escaped
-# as in \]. Do simply remove the escaping sequence
-class FixOperatorPP:
-    lsub: str = r"pass:c[operator ++()\]"
-    lreplace: str = r"pass:c[operator ++()]"
-
+# Kramdoc does sometimes escape the interior ], rendering the pass throug marco
 # Typographic Quotes
 class DoubleQuotes_Backtick:
     lsub_re: dict[str] = {
