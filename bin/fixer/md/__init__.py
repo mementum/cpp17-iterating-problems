@@ -17,10 +17,7 @@ PROCESSORS = [
 ]
 
 LINE_PROCESSORS = [
-    (lineprocs.DoubleQuotesTypo_Begin, True),
-    (lineprocs.DoubleQuotesTypo_End, True),
-    (lineprocs.AutoLink_mk, True),
-    (lineprocs.AutoLink, True),
+    (lineprocs.DoubleQuotesTypo, True),
     (lineprocs.VarSub, True),
     (stdref.stdref, True),
     (stdref.cppref, True),

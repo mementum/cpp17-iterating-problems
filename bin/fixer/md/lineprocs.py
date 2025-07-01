@@ -5,37 +5,15 @@ import re
 
 from .. import TARGET
 
-# Typographic Quotes
-class DoubleQuotesTypo_Begin:
-    lsub_re: str = r'([^\w])"'
+# Change standard double quotes to be typographic quotes using the proper set
+# for the target language
+class DoubleQuotesTypo:
+    lsub_re: str = r'"([^"]+)"'
     lreplace: dict[str] = {
-        "de": r"\1„",
-        "en": r"\1“",
-        "es": r"\1«",
+        "de": r"„\1“",
+        "en": r"“\1”",
+        "es": r"«\1»",
     }
-
-# Typographic Quotes
-class DoubleQuotesTypo_End:
-    lsub_re: str = r'"([^\w])'
-    lreplace: dict[str] = {
-        "de": r"“\1",
-        "en": r"”\1",
-        "es": r"»\1",
-    }
-
-# A link marked as: $[link]$
-# will be substituted to: [link](link){target=_blank}
-class AutoLink_mk:
-    targets = [TARGET.MD2MK]
-    lsub_re: str = r'(\s+)\$\[([^]]+)\]\$'
-    lreplace: str = r'\1[\2](\2){target=_blank}'
-
-# A link marked as: $[link]$
-# will be substituted to: [link](link)
-class AutoLink:
-    targets = -TARGET.MD2MK
-    lsub_re: str = r'(\s+)\$\[([^]]+)\]\$'
-    lreplace: str = r'\1[\2](\2)'
 
 # Substitute vars using the format {:varname:} using the values
 # defined in the adoc header

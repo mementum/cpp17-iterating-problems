@@ -31,32 +31,17 @@ class FixSizeofDotDotDot:
     lsub: str = r"....html"
     lreplace: str = r"++...++.html"
 
-# Kramdoc does sometimes escape the interior ], rendering the pass throug marco
-# Typographic Quotes
-class DoubleQuotes_Backtick:
-    lsub_re: dict[str] = {
-        "de": r"([„“])`",
-        "en": r"([”“])`",
-        "es": r"([«»])`",
-    }
-    lreplace: str = r'\1'
-
-# Typographic Quotes - Italic Fix
-class DoubleQuotes_Backtick_Begin:
-    lsub_re: str = r'"`'
+# Kramdoc changes the typographic quotes to standard quotes and uses backticks to enclose
+# the content in between the pair of double quotes.
+# Although we have already changed the double quotes to typographic quotes for the mdx
+# intermediate target, we need to again do the change and remove the backticks for each
+# target language
+class DoubleQ_Backtick:
+    lsub_re: str = r'"`([^"`]+)`"'
     lreplace: dict[str] = {
-        "de": r"„",
-        "en": r"“",
-        "es": r"«",
-    }
-
-# Typographic Quotes - Italic Fix
-class DoubleQuotes_Backtick_End:
-    lsub_re: str = r'`"'
-    lreplace: dict[str] = {
-        "de": r"“",
-        "en": r"”",
-        "es": r"»",
+        "de": r"„\1“",
+        "en": r"“\1”",
+        "es": r"«\1»",
     }
 
 # Unescape an escape {blank}
@@ -78,9 +63,3 @@ class AdmonUnquoter:
 class SuperScript:
     lsub: str = "{caret}"
     lreplace: str = "^"
-
-# Variable substitution ... broken by kramdoc
-# {\{varname}} => {varname}
-class VarSub:
-    lsub_re: str = r"{\\{([^}]+)}}"
-    lreplace: str = r"{\1}"
