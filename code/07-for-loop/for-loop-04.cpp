@@ -119,11 +119,13 @@ main(int, char *[]) {
     auto a = *in++, b = *in++; // gather parameters
     auto range = Range{a, b + 1};  // our range is half-open, need extra +1
 
+    using namespace std::string_literals;
+
     auto n2w = [](auto i, const auto &container) {
         try {
             return container.at(i);
         } catch(const std::out_of_range & /* e */) {
-            return std::string((i % 2) ? "odd" : "even");
+            return (i % 2) ? "odd"s : "even"s;
         }
     };
 
