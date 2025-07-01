@@ -193,7 +193,7 @@ In addition to the value `i` to look for, a `container` is also a parameter. And
 
 [^wiki-currying]: Wikipedia - [https://en.wikipedia.org/wiki/Currying](https://en.wikipedia.org/wiki/Currying)
 
-Notice that in the case of returning parity, the strings have a suffix: the *s-suffix*, i.e., the `std::string::operator ""s` of `std::string`. We get the suffix in motion with the statement `using namespace std::string_literals;`. Our text literals end up being standard strings.
+Notice that in the case of returning parity, the strings have a suffix: the *s-suffix*, i.e., the `std::string::operator""s` of `std::string`. We get the suffix in motion with the statement `using namespace std::string_literals;`. Our text literals end up being standard strings.
 
 Our solution does still take the function `n2w` and it now takes another parameter, a generic `container`.
 

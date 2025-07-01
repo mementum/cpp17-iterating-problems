@@ -42,7 +42,6 @@ CPPREFS = {
     "main": "language/main_function",
     "nullptr": "language/nullptr",
     "operator": "language/operators",
-    'operator ""s': "string/basic_string/operator%2522%2522s.html",
     "rvalue": "language/value_category",
     "SFINAE": "language/sfinae",
     "size_t": "c/types/size_t",
@@ -111,6 +110,7 @@ STDREFS = {
     "map": "container/map",
     "next": "iterator/next",
     "numeric_limits": "types/numeric_limits",
+    'string::operator""s': "string/basic_string/operator%2522%2522s.html",
     "ostream": "io/basic_ostream",
     "ostream_iterator": "iterator/ostream_iterator",
     "pair": "utility/pair",
@@ -151,7 +151,7 @@ class baseref:
         parent: fixer.Fixer,
     ) -> str:
 
-        lresults =  re.findall(self.lsearch_re, line)
+        lresults = re.findall(self.lsearch_re, line)
         for fmatch, op, noop, sref in set(lresults):
             lsref = sref.lower()
             # try lower case can direct capture
@@ -172,6 +172,7 @@ class baseref:
                 replace("*", "O").\
                 replace("::", "-"). \
                 replace("{}", "cbraces"). \
+                replace('"', "dq"). \
                 replace("+", "plus")
 
             if lsref not in self.seen[filenum]:
@@ -190,7 +191,7 @@ class baseref:
 
                 extralink = f"{footname}"
 
-            else:  # if target == TARGET.MD2MK:
+            else:
                 extralink = f"{TARGET_BLANK}"
 
             if lsref not in self.seen[filenum]:
@@ -205,7 +206,7 @@ class baseref:
 
     def __init_subclass__(cls, /, **kwargs):
         super().__init_subclass__(**kwargs)
-        if True and cls.casein:
+        if cls.casein:
             cls.lsearch_re = f"(?i){cls.lsearch_re}"
 
 
