@@ -432,8 +432,6 @@ PYTHON3 := python3
 
 # convert md to asciidoc
 KRAMDOC := kramdoc
-# Done by fix-md.py now to control parts
-# KRAMDOC_OPTS := --heading-offset=1
 KRAMDOC_OPTS :=
 
 # for epub2 generation with pandoc
