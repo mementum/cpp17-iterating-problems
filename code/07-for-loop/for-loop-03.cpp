@@ -108,13 +108,13 @@ main(int, char *[]) {
     auto a = *in++, b = *in++; // gather parameters
     auto range = Range{a, b + 1};  // our range is half-open, need extra +1
 
-#if 0
+#ifdef CASE1
     // SFINAE => NOK - 1 parameters but returns int
     auto n2w = [](auto i) { return i; };
-#elif 0
-    // SFINAE => OK - 1 parameter and returns string
+#elif defined CASE2
+    // SFINAE => OK - 1 parameter and returns string - solution FAILS
     auto n2w = [](auto i) { return std::string{}; };
-#elif 0
+#elif defined CASE3
     // SFINAE => NOK - 2 parameters instead of 1
     auto n2w = [](auto i, auto x) { return std::string{}; };
 #else // Default - The problem solution
