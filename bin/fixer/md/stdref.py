@@ -177,14 +177,7 @@ class baseref:
                 postlink = f"[{reference}]: {fulllink}"
                 parent.add_postline(postlink)
 
-            # FIX asciidoctor taking = for a macro instruction inside literal
-            # https://github.com/asciidoctor/asciidoctor-pdf/issues/2573
-            # Prefix and append a + sign to turn it into a passthrough
             linkfmatch = fmatch
-            if target == TARGET.MD2AD:
-                if " = " in fmatch:
-                    linkfmatch = fmatch.replace(" = ", " +=+ ")
-
             reflink = f"[{linkfmatch}][{reference}]"
             extralink = ""
 
