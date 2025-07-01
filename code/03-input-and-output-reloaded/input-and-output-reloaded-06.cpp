@@ -27,7 +27,7 @@ struct is_output : std::false_type {};
 
 template <typename O>
 struct is_output<O, std::void_t<std::is_base_of<
-        std::input_iterator_tag,
+        std::output_iterator_tag,
         typename std::iterator_traits<O>::iterator_category>>>
     : std::true_type {};
 
