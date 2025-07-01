@@ -51,7 +51,7 @@ Let us use unique pointers together with iterators and algorithms.
 
 A unique pointer manages the allocation and deallocation of memory for us. We request an array of `N` (input parameter) integers and we get it. But the *STL* algorithms do not know how to work with smart pointers. Although it "contains" a pointer, it does not have the classic `begin` and `end` methods to give us iterators. And for good reasons: it is holding a pointer to a memory location. The interpretation of that is really down to the programmer. Nothing prevents us from trying to access the `N + 1` memory location, and we will probably crash the program if we do so.
 
-But as we show in that example, we can still use the `n`-limited versions of the copying algorithm, `std::copy_n`, and use the actual pointer that we retrieve with `std::unique_ptr<T>::get()`.
+But as we show in that example, we can still use the `n`-limited version of the copying algorithm, `std::copy_n`, and use the actual pointer that we retrieve with `std::unique_ptr<T>::get()`.
 
 Even better: we can use that pointer to get a *reversed* iterator with `std::make_reverse_iterator` to traverse the array backwards as requested by the problem description. When iterators launched, they were touted as glorified pointers—and seeing that construction, we probably want to agree.
 
@@ -71,7 +71,7 @@ We are getting closer to a general solution. `abegin` (for *"array begin"*) give
 
 ## Going Vector
 
-The obvious approach to overcome all the aforementioned limitations is to go `std::vector`. This allows us to mark `N` with the attribute `maybe_unused`, to let the compiler know that even if we have to fetch a value from `std::cin` and store it in `N`, we will be ignoring that variable.
+The obvious approach to overcome all the aforementioned limitations is to go `std::vector`. This allows us to mark `N` with the attribute `[[maybe_unused]]`, to let the compiler know that even if we have to fetch a value from `std::cin` and store it in `N`, we will be ignoring that variable.
 
 First because we are reading until the end of the input to store things in our container. And later because our solution uses the iterators provided by the container to traverse the array backwards and solve the problem. We go backwards by using reverse iterators, with `rbegin` and `rend`.
 
