@@ -42,6 +42,7 @@ CPPREFS = {
     "main": "language/main_function",
     "nullptr": "language/nullptr",
     "operator": "language/operators",
+    'operator ""s': "string/basic_string/operator%2522%2522s.html",
     "rvalue": "language/value_category",
     "SFINAE": "language/sfinae",
     "size_t": "c/types/size_t",
