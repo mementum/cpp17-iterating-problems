@@ -742,6 +742,30 @@ mkdocs-kill:
 	$(call find_tool_or_exit,$(PKILL))
 	-$(PDM_RUN) $(PKILL) $(MKDOCS)
 
+# target that generates the first md postprocessed content to adoc: .mdx
+book-mdx: $(BOOK_MDX)
+
+# rule that generates the book .mdx
+$(BOOK_MDX): $(SRCFILES)
+	$(call echo_stage,book-mdx)
+	$(call find_tool_or_exit,$(PYTHON3))
+	$(call makedir_for_file,$@)
+ifeq ($(GREP_OUT_MD),)
+	$(FIX_MD2AD) -o $@ $^
+else
+	$(call grep_ev,$(FIX_MD2AD) -lo -o $@ $^,$(GREP_OUT_MD))
+endif
+
+# target that generates the second md postprocessed content to adoc: .adx
+book-adx: $(BOOK_ADX)
+
+# rule that generates the book .adx
+$(BOOK_ADX): $(BOOK_MDX)
+	$(call echo_stage,book-adx)
+	$(call find_tool_or_exit,$(KRAMDOC))
+	$(call makedir_for_file,$@)
+	$(KRAMDOC) $(KRAMDOC_OPTS) --output=$@ $<
+
 # target which generates the book .adoc
 book-adoc: $(BOOK_ADOC)
 
@@ -749,23 +773,14 @@ book-adoc: $(BOOK_ADOC)
 # $(BOOK_ADOC): export VARNAME = varvalue
 
 # rule which generates the book .adoc
-$(BOOK_ADOC): $(SRCFILES)
+$(BOOK_ADOC): $(BOOK_ADX)
 	$(call echo_stage,book-adoc)
 	$(call find_tool_or_exit,$(PYTHON3))
-	$(call find_tool_or_exit,$(KRAMDOC))
 	$(call makedir_for_file,$@)
-	$(call makedir_for_file,$(BOOK_MDX))
-	$(call makedir_for_file,$(BOOK_ADX))
-ifeq ($(GREP_OUT_MD),)
-	$(FIX_MD2AD) -o $(BOOK_MDX) $^
-else
-	$(call grep_ev,$(FIX_MD2AD) -lo -o $(BOOK_MDX) $^,$(GREP_OUT_MD))
-endif
-	$(KRAMDOC) $(KRAMDOC_OPTS) --output=$(BOOK_ADX) $(BOOK_MDX)
 ifeq ($(GREP_OUT_AD),)
-	$(FIX_AD2AD) -o $@ $(ADOC_HEADERS) $(BOOK_ADX)
+	$(FIX_AD2AD) -o $@ $(ADOC_HEADERS) $<
 else
-	$(call grep_ev,$(FIX_AD2AD) -lo -o $@ $(ADOC_HEADERS) $(BOOK_ADX),$(GREP_OUT_AD))
+	$(call grep_ev,$(FIX_AD2AD) -lo -o $@ $(ADOC_HEADERS) $<,$(GREP_OUT_AD))
 endif
 
 # target which generates the book .adoc with a 1600 back-cover
@@ -1185,6 +1200,7 @@ help:
 	@echo "  isbn (Add isbn to final target name and use back cover with isbn)"
 	@echo
 	@echo "Intermediate Targets"
+	@echo "  book-mdx / book-adx (asciidoc precursors before adoc is generated)"
 	@echo "  book-adoc / book-adoc-epub (asciidoc book)"
 	@echo "  book-md / book-md-epub2 (markdown book)"
 	@echo
