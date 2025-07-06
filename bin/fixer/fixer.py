@@ -19,6 +19,8 @@ from typing import Any
 
 from . import TARGET
 
+NORMALIZE = True
+
 # -----------------------------------------------------------------------------
 PARGS = str | Sequence[str] | None
 
@@ -37,6 +39,7 @@ SPACE = " "
 ADOC_HARD_LINE_BREAK = "+"
 ADOC_HEADER_START = "="
 ADOC_TITLESUB_SEP = ":"
+ADOC_IFDEF = "ifdef::"
 
 RETURN = "return"
 
@@ -232,6 +235,8 @@ class Fixer:
 
     def add_line(self, line: str, lineproc: bool = True) -> None:
         lines = [line] if isinstance(line, str) else line
+
+
         if lineproc:
             for lproc in (x for x, enabled in self.line_proc if enabled):
                 if (proclang := getattr(lproc, "blang", "")):
@@ -428,6 +433,7 @@ class Fixer:
         contentdent: bool = False,  # to dedent content als
         debug: bool = False,  # debug block actions
         targets: list[int] = [],
+        normalize: bool = True,
     ) -> list[str] | None:
 
         line = self.current_line  # get current line (block_begin)
@@ -506,6 +512,7 @@ class Fixer:
         # an exception would be raised on EOF. With the sentinel set to true in this
         # case, a None will be returned on EOF. A block with begin/end marks has to raise
         # an exception if EOF is reached before seeing the block_end mark
+        normline = ""
         while (line := self.get_line(sentinel=not blend_mark)) is not None:
             if debug:
                 linfo(f"block loop {line = }")
@@ -514,6 +521,10 @@ class Fixer:
 
             if isblank := (not line.lstrip()):
                 # store intervening blanks, or initial blanks unless skipping blanks
+                if normline:
+                    olines += [normline]
+                    normline = ""
+
                 if len(olines) > boc or not strip_blanks:
                     lblanks += [line]
 
@@ -535,6 +546,8 @@ class Fixer:
                     self.match_end = self.current_match
                     if not strip_blanks and lblanks:
                         olines += lblanks
+                    if normline:
+                        olines += [normline]
                     if keep_end:
                         olines += [line]
 
@@ -547,6 +560,9 @@ class Fixer:
 
                 if (lleft := line[: wspaces + 1]) and not lleft.isspace():
                     # a non-whitespace character is present after a blank ... end
+                    if normline:
+                        olines += [normline]
+
                     if not strip_blanks:
                         olines += lblanks[:-1]  # last blank was for detection
 
@@ -563,13 +579,27 @@ class Fixer:
 
                     break  # finish looping
 
+            if normline:
+                normline += " " + lright  # part after indentation if any
+                if normline.endswith("\\"):  # hard-break -- must store
+                    olines += [normline]
+                    normline = ""
+
+                continue
+
             # line not blank, not block_end and no end detected. Store it
             if lblanks:  # first ... any intervening blank lines
                 olines += lblanks
                 lblanks = []
 
-            # store line in output buffer
-            olines += [line]
+            if self.target != TARGET.AD2AD or not normalize:
+                olines += [line]  # store line in output buffer
+            else:
+                # normline is empty
+                normline = line  # keep left indentation for dedent
+                if normline.endswith("\\"):  # hard-break -- must store
+                    olines += [line]  # keep indentation of first line
+                    normline = ""
 
         # dedent everything to return a block which can be processed by the caller
         # without worrying about whitespace
@@ -629,7 +659,7 @@ class Fixer:
             self.set_adocvar(vmatch.group("varname"), vmatch.group("varval") or "")
             return True
 
-        if line.startswith("ifdef::"):
+        if line.startswith(ADOC_IFDEF):
             return True
 
         # line contains something and it is not a match for us. Let it be processed
@@ -640,6 +670,8 @@ class Fixer:
         self.filenum = filenum
         self.lineit = lineit  # get_line will use this iterator
         blank_line = True  # before the document, everything is "blank"
+
+        normlines = []  # for lines to be normalized
 
         while (line := self.get_line_safe()) is not None:
             self.current_line = line
@@ -659,7 +691,27 @@ class Fixer:
             block_start = prev_blank_line and not blank_line
 
             if not block_start:  # paragraph or not processed block
-                self.add_line(line)
+                if NORMALIZE and self.target != TARGET.AD2AD:
+                    # a blank line will be added, so check if anything has been buffered
+                    # to be normalized, normalize and and the blank line
+                    if blank_line:
+                        if normlines:
+                            self.add_line(SPACE.join(normlines))
+                            normlines = []
+
+                        self.add_line(line)
+                    else:
+                        # no block-start and non-blank, would get added.
+                        # Buffer it for normalization
+                        normlines += [line]
+                        if line.endswith("\\"):
+                            self.add_line(SPACE.join(normlines))
+                            normlines = []
+
+                else:
+                    # for non-ad2ad targets, use regular logic ... add_line
+                    self.add_line(line)
+
                 continue
 
             for proc in (x for x, enabled in self.processors if enabled):
@@ -673,7 +725,22 @@ class Fixer:
                     self.add_lines(retindented.splitlines(), lineproc=lineproc)
                     break  # line taken, break skips else
             else:
-                self.add_line(line)  # no processor took it ... store the line
+                if NORMALIZE and self.target != TARGET.AD2AD:
+                    # if non-ad2ad target non-empty lines may follow this non-taken line.
+                    # store it in the normalization buffer
+                    normlines += [line]
+                    if line.endswith("\\"):
+                        self.add_line(SPACE.join(normlines))
+                        normlines = []
+                else:
+                    # regular logic, add it
+                    self.add_line(line)  # no processor took it ... store the line
+
+        # if anything is left to normalize do it. No need to check target. Because it
+        # will only contain something if the target was right above.
+        if normlines:
+            self.add_line(SPACE.join(normlines))
+            normlines = []  # superflous
 
         # Add any extra lines
         if self.postlines:

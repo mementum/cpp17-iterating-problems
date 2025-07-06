@@ -4,6 +4,7 @@
 from . import admonition
 from . import blockcpp
 from . import heading
+from . import literal
 
 from . import lineprocs
 from . import stdref
@@ -14,6 +15,7 @@ PROCESSORS = [
     (admonition.BlockAdmonition, True),
     (blockcpp.BlockCPPInclude, True),
     (blockcpp.BlockCPP, True),
+    (literal.GenericLiteral, True),
 ]
 
 LINE_PROCESSORS = [

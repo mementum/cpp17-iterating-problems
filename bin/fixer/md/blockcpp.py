@@ -45,6 +45,7 @@ class BlockCPP:
     # anything inside the cpp block
     block_begin_re: str = CODEBLOCK_BEGIN + r'(\s+title="(?P<title>[^"]+)")?'
     block_end: str = CODEBLOCK_END
+    normalize: bool = False
 
     def __call__(self, lines: list[str], match_begin: Any, target: int) -> list[str]:
         if target != TARGET.MD2AD:  # keep original content in other modes
@@ -103,6 +104,7 @@ class BlockCPPInclude:
     )
     keep_confirm = True
     block_end: str = CODEBLOCK_END
+    normalize: bool = False
 
     @staticmethod
     def file_linenums(filename: str) -> tuple[str, str]:
