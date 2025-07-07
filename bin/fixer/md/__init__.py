@@ -16,6 +16,7 @@ PROCESSORS = [
     (blockcpp.BlockCPPInclude, True),
     (blockcpp.BlockCPP, True),
     (literal.GenericLiteral, True),
+    (literal.GenericRefFootNote, True),
 ]
 
 LINE_PROCESSORS = [
