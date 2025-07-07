@@ -36,10 +36,16 @@ EMPTY_LINE = ""
 EMPTY_STR = EMPTY_STRING = ""
 NEWLINE = "\n"
 SPACE = " "
+MD_HARD_LINE_BREAK = "\\"
 ADOC_HARD_LINE_BREAK = "+"
 ADOC_HEADER_START = "="
 ADOC_TITLESUB_SEP = ":"
 ADOC_IFDEF = "ifdef::"
+ADOC_TITLE = "title"
+ADOC_SUBTITLE = "subtitle"
+ADOC_VARNAME_GRP = "varname"
+ADOC_VARVAL_GRP = "varval"
+ADOC_VAR_RE = rF":(?P<{ADOC_VARNAME_GRP}>[^:]+):\s*(?P<{ADOC_VARVAL_GRP}>.+)?\Z"
 
 RETURN = "return"
 
@@ -58,6 +64,11 @@ LSUB_RE = "lsub_re"
 LATTRS = [LMATCH, LMATCH_RE, LREPLACE, LSUB, LSUB_RE]
 
 CALLATTR = "__call__"
+TARGETS_ATTR = "targets"
+DEBUG_ATTR = "debug"
+BOOKLANG_ATTR = "blang"
+
+TARGET_LANG_ENV = "TLANG"
 
 
 # -----------------------------------------------------------------------------
@@ -101,12 +112,10 @@ class Fixer:
     filenum: int = field(init=False, default=0)
 
     def __post_init__(self) -> None:
-        self.blang = os.getenv("TLANG", None)
+        self.blang = os.getenv(TARGET_LANG_ENV, None)
 
     def set_adocvar(self, name: str, val: str) -> None:
         self.adocvars[name] = val
-
-    MISSING = "!!"
 
     def get_adocvar(self, name: str, default: str | None = None) -> str:
         if default is not None:
@@ -125,7 +134,7 @@ class Fixer:
 
         self.lmatch = None
 
-        if (targets := getattr(proc, "targets", None)):
+        if (targets := getattr(proc, TARGETS_ATTR, None)):
             if not self.check_target(targets):
                 return line
 
@@ -140,7 +149,7 @@ class Fixer:
         lsearch_re = lmatch_re = lsub_re = lproc_re = EMPTY_STR
 
         # it must be a class
-        if debug := getattr(proc, "debug", False):
+        if debug := getattr(proc, DEBUG_ATTR, False):
             linfo("=" * 30)
             linfo(f"{str(proc)}")
 
@@ -239,7 +248,7 @@ class Fixer:
 
         if lineproc:
             for lproc in (x for x, enabled in self.line_proc if enabled):
-                if (proclang := getattr(lproc, "blang", "")):
+                if (proclang := getattr(lproc, BOOKLANG_ATTR, EMPTY_STR)):
                     # only valid for a language
                     if proclang != self.blang:  # check if current language
                         continue
@@ -324,7 +333,7 @@ class Fixer:
 
         # check if this processor is meant for the current target.
         # if no target has been specified, all targets are valid
-        if (targets := kw.get("targets", None)):
+        if (targets := kw.get(TARGETS_ATTR, None)):
             if not self.check_target(targets):
                 return None
 
@@ -523,7 +532,7 @@ class Fixer:
                 # store intervening blanks, or initial blanks unless skipping blanks
                 if normline:
                     olines += [normline]
-                    normline = ""
+                    normline = EMPTY_STR
 
                 if len(olines) > boc or not strip_blanks:
                     lblanks += [line]
@@ -580,10 +589,10 @@ class Fixer:
                     break  # finish looping
 
             if normline:
-                normline += " " + lright  # part after indentation if any
-                if normline.endswith("\\"):  # hard-break -- must store
+                normline += SPACE + lright  # part after indentation if any
+                if normline.endswith(MD_HARD_LINE_BREAK):  # hard-break -- must store
                     olines += [normline]
-                    normline = ""
+                    normline = EMPTY_STR
 
                 continue
 
@@ -597,9 +606,9 @@ class Fixer:
             else:
                 # normline is empty
                 normline = line  # keep left indentation for dedent
-                if normline.endswith("\\"):  # hard-break -- must store
+                if normline.endswith(MD_HARD_LINE_BREAK):  # hard-break -- must store
                     olines += [line]  # keep indentation of first line
-                    normline = ""
+                    normline = EMPTY_STR
 
         # dedent everything to return a block which can be processed by the caller
         # without worrying about whitespace
@@ -650,13 +659,16 @@ class Fixer:
         if line[0] == ADOC_HEADER_START:
             _, title_sub = line.split(ADOC_HEADER_START, maxsplit=1)
             title, subtitle = title_sub.split(ADOC_TITLESUB_SEP, maxsplit=1)
-            self.set_adocvar("title", title.strip())
-            self.set_adocvar("subtitle", subtitle.strip())
+            self.set_adocvar(ADOC_TITLE, title.strip())
+            self.set_adocvar(ADOC_SUBTITLE, subtitle.strip())
             return True
 
         # match for a variable ... store it
-        if (vmatch := re.match(r":(?P<varname>[^:]+):\s*(?P<varval>.+)?\Z", line)):
-            self.set_adocvar(vmatch.group("varname"), vmatch.group("varval") or "")
+        if (vmatch := re.match(ADOC_VAR_RE, line)):
+            self.set_adocvar(
+                vmatch.group(ADOC_VARNAME_GRP),
+                vmatch.group(ADOC_VARVAL_GRP) or EMPTY_STR
+            )
             return True
 
         if line.startswith(ADOC_IFDEF):
@@ -703,8 +715,8 @@ class Fixer:
                     else:
                         # no block-start and non-blank, would get added.
                         # Buffer it for normalization
-                        normlines += [line]
-                        if line.endswith("\\"):
+                        normlines += [lstripped] if not normlines else [line]
+                        if line.endswith(MD_HARD_LINE_BREAK):
                             self.add_line(SPACE.join(normlines))
                             normlines = []
 
@@ -729,7 +741,7 @@ class Fixer:
                     # if non-ad2ad target non-empty lines may follow this non-taken line.
                     # store it in the normalization buffer
                     normlines += [line]
-                    if line.endswith("\\"):
+                    if line.endswith(MD_HARD_LINE_BREAK):
                         self.add_line(SPACE.join(normlines))
                         normlines = []
                 else:
@@ -811,8 +823,8 @@ class Fixer:
         kw = self.get_kwargs(func)
 
         # if lproc_re is there, self.lmatch was None and we've got lsub_re
-        if  lproc_re and "lmatch" in kw:
-            kw["lmatch"] = self.lmatch = re.search(lproc_re, lorig)
+        if  lproc_re and LMATCH in kw:
+            kw[LMATCH] = self.lmatch = re.search(lproc_re, lorig)
             if self.lmatch is None:  # no match, nothing to do here
                 return line
 
