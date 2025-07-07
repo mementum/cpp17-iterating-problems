@@ -245,7 +245,6 @@ class Fixer:
     def add_line(self, line: str, lineproc: bool = True) -> None:
         lines = [line] if isinstance(line, str) else line
 
-
         if lineproc:
             for lproc in (x for x, enabled in self.line_proc if enabled):
                 if (proclang := getattr(lproc, BOOKLANG_ATTR, EMPTY_STR)):
@@ -325,20 +324,25 @@ class Fixer:
 
         return True  # it is a target
 
-    def _get_block(self, getcfg: Callable) -> list[str] | None:
-        kw = {name: getcfg(name, default) for name, default in zip(
-            list(self.get_block.__annotations__)[:-1],  # skip return annot
-            self.get_block.__defaults__)
+    def _get_block(self, proc: Any) -> tuple[None | list[str], bool]:
+        # use the arguments defined in get_block as key for the possible
+        # values the processor proc could define. If not defined, used the defaults
+        # defined in get_block. This makes it handy to define default behavior without
+        # modifiying existing processors.
+        kw = {
+            name: getattr(proc, name, default) for name, default in zip(
+                list(self.get_block.__annotations__)[:-1],  # skip return annot
+                self.get_block.__defaults__
+            )
         }
 
         # check if this processor is meant for the current target.
         # if no target has been specified, all targets are valid
         if (targets := kw.get(TARGETS_ATTR, None)):
             if not self.check_target(targets):
-                return None
+                return None, True
 
-        # target is valid and we have the arguments for a call
-        return self.get_block(**kw)
+        return self.get_block(**kw)  # valid, target, get lines and line proc status
 
     def _clean_oneline(
         self,
@@ -435,6 +439,7 @@ class Fixer:
         confirm_content: bool = False,
         block_end: str | Iterable[str] | Callable = EMPTY_STR,
         block_end_re: str | Iterable[str] = EMPTY_STR,
+        block_end_rex: str = EMPTY_STR,
         keep_end: bool = True,
         block_oneline: bool = False,
         skip: int = 0,
@@ -443,7 +448,8 @@ class Fixer:
         debug: bool = False,  # debug block actions
         targets: list[int] = [],
         normalize: bool = True,
-    ) -> list[str] | None:
+        lineproc: bool = True,
+    ) -> tuple[list[str] | None, bool]:
 
         line = self.current_line  # get current line (block_begin)
         wspaces = self.current_wspaces  # get its leading indentation
@@ -464,9 +470,12 @@ class Fixer:
         if block_begin is None:
             pass  # flag for custom block proc callable: it already has the 1st line
         elif not self._check_line(lstripped, block_begin, block_begin_re):
-            return None
+            return None, lineproc
 
         self.match_begin = self.current_match
+
+        if block_end_rex:
+            block_end_re = self.match_begin.expand(block_end_rex)
 
         # Shortcut if the block may be a one-liner
         # there is no need to confirm and no need to keep end
@@ -483,7 +492,7 @@ class Fixer:
                 )
 
                 self.one_line = True
-                return [lstripped]
+                return [lstripped], lineproc
 
         line_confirm = None
         # Check block_confirm line accounting for indentation
@@ -491,7 +500,7 @@ class Fixer:
             conf_indent = wspaces * (not confirm_content)
             plstripped = self.peek_line()[conf_indent:]
             if not self._check_line(plstripped, block_confirm, block_confirm_re):
-                return None
+                return None, lineproc
 
             self.match_confirm = self.current_match
             line_confirm = self.get_line()  # remove from queue and store it
@@ -515,7 +524,7 @@ class Fixer:
 
         _ = self.get_lines(skip)  # skip as many lines as needed
 
-        blend_mark = bool(block_end or block_end_re)  # look for block_end(_re) mark
+        blend_mark = bool(block_end_re or block_end)  # look for block_end(_re) mark
 
         # if no block_end is defined, there could be a block at the end of the file and
         # an exception would be raised on EOF. With the sentinel set to true in this
@@ -629,7 +638,7 @@ class Fixer:
                 + olines[eoc:]
             )
 
-        return olines
+        return olines, lineproc
 
     def finalize(self) -> None:
         # add empty line to allow chaining and closing the adoc_header
@@ -715,7 +724,7 @@ class Fixer:
                     else:
                         # no block-start and non-blank, would get added.
                         # Buffer it for normalization
-                        normlines += [lstripped] if not normlines else [line]
+                        normlines += [lstripped] if normlines else [line]
                         if line.endswith(MD_HARD_LINE_BREAK):
                             self.add_line(SPACE.join(normlines))
                             normlines = []
@@ -727,11 +736,14 @@ class Fixer:
                 continue
 
             for proc in (x for x, enabled in self.processors if enabled):
-                if (retlines := self.proc_block(proc)) is not None:
-                    lineproc = True
-                    if isinstance(retlines, tuple):
-                        retlines, lineproc = retlines
-
+                retlines, lineproc = self.proc_block(proc)
+                if False:
+                    print("-" * 50)
+                    print(f"{proc = }")
+                    print(f"{retlines = }")
+                    print(f"{lineproc = }")
+                    print("-" * 50)
+                if retlines is not None:
                     rettxt = NEWLINE.join(retlines)
                     retindented = textwrap.indent(rettxt, SPACE * wspaces)
                     self.add_lines(retindented.splitlines(), lineproc=lineproc)
@@ -789,28 +801,22 @@ class Fixer:
 
         return kwargs_to_pass
 
-    def proc_block(self, proc: Any) -> None | list[str] | tuple[None | list[str], bool]:
-        if isclass := inspect.isclass(proc) or (blbegin := hasattr(BLOCK_BEGIN)):
-            getcfg = lambda *args: getattr(proc, *args)  # noqa: E731
-            if (proc_config := getcfg(PROC_CONFIG, None)) is not None:
-                getcfg = lambda *args: getattr(proc_config, *args)  # noqa: E731
-        elif isinstance(proc, dict):
-            getcfg = lambda *args: proc.get(*args)  # noqa: E731
-        else:
-            return self.call_block(proc, self.current_lstripped)
+    def proc_block(self, proc: Any) -> tuple[None | list[str], bool]:
+        # auto-get lines and further line processsin
+        lines, lineproc = self._get_block(proc)
+        if lines is not None:  # on positive answer
+            block_proc = None  # check if a __call__ is possible to postprocesslines
+            if inspect.isclass(proc):  # use dir to see if an instance has __call__
+                if CALLATTR in dir(proc):
+                    block_proc = proc()
+            elif hasattr(proc, BLOCK_BEGIN):  # not class but defines it: instance
+                if hasattr(proc, CALLATTR):
+                    block_proc = proc
 
-        if (lines := self._get_block(getcfg)) is not None:
-            if isclass:
-                block_proc = proc()
-            elif blbegin:  # not class but defines it ... instance
-                block_proc = proc
-            else:  # only dict is possible
-                block_proc = getcfg(PROC)  # class or dict
+            if block_proc is not None:  # use the calculated block_proc
+                lines = self.call_block(block_proc, lines)
 
-            # use the calculated block_proc
-            lines = self.call_block(block_proc, lines)
-
-        return lines
+        return lines, lineproc  # return (post)-processed lines + line processing status
 
     def call_line_block(
         self,

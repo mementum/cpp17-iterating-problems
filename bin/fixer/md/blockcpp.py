@@ -46,6 +46,7 @@ class BlockCPP:
     block_begin_re: str = CODEBLOCK_BEGIN + r'(\s+title="(?P<title>[^"]+)")?'
     block_end: str = CODEBLOCK_END
     normalize: bool = False
+    lineproc: bool = False
 
     def __call__(self, lines: list[str], match_begin: Any, target: int) -> list[str]:
         if target != TARGET.MD2AD:  # keep original content in other modes
@@ -53,7 +54,7 @@ class BlockCPP:
 
         # MD2AD place the title before the block and replace with untitled block
         olines = [f".{title}"] if (title := match_begin.group("title")) else []
-        return (olines + [CODEBLOCK_BEGIN] + lines[1:]), False
+        return (olines + [CODEBLOCK_BEGIN] + lines[1:])
 
 
 # expects a block (title and linsnum are optional)
@@ -105,6 +106,7 @@ class BlockCPPInclude:
     keep_confirm = True
     block_end: str = CODEBLOCK_END
     normalize: bool = False
+    lineproc: bool = False
 
     @staticmethod
     def file_linenums(filename: str) -> tuple[str, str]:
@@ -232,4 +234,4 @@ class BlockCPPInclude:
 
                 olines += EMPTY_LINE
 
-        return olines, False  # prevent line processing of codeblock
+        return olines  # prevent line processing of codeblock
