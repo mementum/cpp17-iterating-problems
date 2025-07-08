@@ -13,4 +13,5 @@ class GenericLiteral:
 # intact. That means that each line is not "normalized" because it is seen as a block.
 class GenericRefFootNote:
     block_begin_re: str = r"\[\^?[^]]+\]:\s+.*"
+    block_end_re: str = r"$"
     block_oneline: bool = True

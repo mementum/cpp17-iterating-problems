@@ -691,6 +691,7 @@ class Fixer:
         self.filenum = filenum
         self.lineit = lineit  # get_line will use this iterator
         blank_line = True  # before the document, everything is "blank"
+        block_ended = False  # new block can start right after previous ended
 
         normlines = []  # for lines to be normalized
 
@@ -709,7 +710,8 @@ class Fixer:
             if not (blank_line := not lstripped) and self.target == TARGET.AD2AD:
                 blank_line = line == ADOC_HARD_LINE_BREAK
 
-            block_start = prev_blank_line and not blank_line
+            block_start = (prev_blank_line or block_ended) and not blank_line
+            block_ended = False
 
             if not block_start:  # paragraph or not processed block
                 if NORMALIZE and self.target != TARGET.AD2AD:
@@ -737,18 +739,14 @@ class Fixer:
 
             for proc in (x for x, enabled in self.processors if enabled):
                 retlines, lineproc = self.proc_block(proc)
-                if False:
-                    print("-" * 50)
-                    print(f"{proc = }")
-                    print(f"{retlines = }")
-                    print(f"{lineproc = }")
-                    print("-" * 50)
                 if retlines is not None:
+                    block_ended = True  # indicate a block has been taken
                     rettxt = NEWLINE.join(retlines)
                     retindented = textwrap.indent(rettxt, SPACE * wspaces)
                     self.add_lines(retindented.splitlines(), lineproc=lineproc)
                     break  # line taken, break skips else
             else:
+                # no processor took the line to define a block
                 if NORMALIZE and self.target != TARGET.AD2AD:
                     # if non-ad2ad target non-empty lines may follow this non-taken line.
                     # store it in the normalization buffer
