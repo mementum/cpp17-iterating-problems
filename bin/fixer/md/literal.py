@@ -4,8 +4,8 @@
 # Catches generic literal blocks and delivers them as they are to avoid normalization
 # and line processing
 class GenericLiteral:
-    block_begin_re: str = r"(?P<bticks>````?)"  # matches lines starting with this
-    block_end_rex: str = r"\g<bticks>"
+    block_begin_re: str = r"(?P<bticks>````?)"  # matches lines starting with backticks
+    block_end_rex: str = r"\g<bticks>$"  # uses the number of matched backticks
     normalize: bool = False
     lineproc: bool = False
 
@@ -13,5 +13,4 @@ class GenericLiteral:
 # intact. That means that each line is not "normalized" because it is seen as a block.
 class GenericRefFootNote:
     block_begin_re: str = r"\[\^?[^]]+\]:\s+.*"
-    normalize: bool = False
     block_oneline: bool = True
