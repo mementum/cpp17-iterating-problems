@@ -1,4 +1,4 @@
-# For Loop
+# For Loop {#0070-for-loop}
 
 **Title**: For Loop\
 **Link**: <https://www.hackerrank.com/challenges/c-tutorial-for-loop>
