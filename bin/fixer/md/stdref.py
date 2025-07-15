@@ -73,6 +73,7 @@ STDREFS = {
     "conjunction_v": "types/conjunction",
     "copy": "algorithm/copy",
     "copy_if": "algorithm/copy",
+    "count": "algorithm/count",
     "cout": "io/cout",
     "decay_t": "types/decay",
     "declval": "utility/declval",
@@ -84,6 +85,7 @@ STDREFS = {
     "find": "algorithm/find",
     "find_if": "algorithm/find_if",
     "function": "utility/functional/function",
+    "get": "utility/tuple/get",
     # iterator tags - begin
     "input_iterator_tag": "iterator/iterator_tags",
     "output_iterator_tag": "iterator/iterator_tags",
@@ -128,6 +130,7 @@ STDREFS = {
     "views::iota": "ranges/iota_view",
     "void_t": "types/void_t",
     "true_type": "types/integral_constant",
+    "tuple": "utility/tuple",
     "type_index": "types/type_index",
     "type_info": "types/type_info",
     "visit": "utility/variant/visit2",
