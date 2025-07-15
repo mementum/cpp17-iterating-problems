@@ -39,6 +39,17 @@ PROBFLAGS :=
 # Default target
 default: help
 
+# "testX" options
+TESTTARGET := $(filter test%,$(MAKECMDGOALS))
+ifneq ($(TESTTARGET),)
+TTARGET = $(subst test,,$(TESTTARGET))
+# Input/Output (Expected) for problem - Updated
+PROBINPUT := $(PROBINPUT)$(TTARGET)
+PROBOUTPUT := $(PROBOUTPUT)$(TTARGET)
+
+test%: ;
+endif
+
 # "pedantic" option
 ifeq (pedantic,$(filter pedantic,$(MAKECMDGOALS)))
 CXXFLAGS += -pedantic-errors
@@ -164,10 +175,13 @@ help:
 	@echo
 	@echo "  pedantic   - Force a compilation error if a compiler extension is used"
 	@echo
-	@echo "  caseX      - Define a variable CASEX for the compilation "
+	@echo "  caseX      - Define a variable CASEX for the compilation"
 	@echo "      -DCASEX will be added to the compiler flags"
 	@echo
-	@echo "  showoutput - Force showing the output even on success "
+	@echo "  testX      - Run testcase with inputX/outputX  "
+	@echo "      For cases where more than one test is available"
+	@echo
+	@echo "  showoutput - Force showing the output even on success"
 	@echo "  showdiff   - Force showing the expected vs output diff even on success"
 	@echo "  show       - Force showing the output and diff even on success"
 	@echo
