@@ -38,7 +38,7 @@ RANGE_END = "-1"
 #
 # The rest is left untouched
 # For other targets nothing is done, except preventing line processors from touching
-# the block (returning a tuple with False in the second term)
+# the block
 
 class BlockCPP:
     # all targets are valid. this is to avoid line processors manipulating
@@ -50,7 +50,7 @@ class BlockCPP:
 
     def __call__(self, lines: list[str], match_begin: Any, target: int) -> list[str]:
         if target != TARGET.MD2AD:  # keep original content in other modes
-            return lines[:], False  # False to skip block processors
+            return lines
 
         # MD2AD place the title before the block and replace with untitled block
         olines = [f".{title}"] if (title := match_begin.group("title")) else []
