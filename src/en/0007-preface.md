@@ -16,7 +16,7 @@ The *STL* (Standard Template Library) was already a thing when I had my first co
 
 ## The Chapters and Their Content
 
-Each chapter presents several solutions to a given challenge. Even more, a challenge can be revisited in a second chapter to go above and beyond. Usually, the simplistic, obvious and boring solution is presented first as the starting point. After that, several solutions are presented, showing different approaches and/or the evolution to a generic iterator based solution. 
+Each chapter presents several solutions to a given challenge. Even more, a challenge can be revisited in a second chapter to go above and beyond. Usually, the simplistic, obvious and boring solution is presented first as the starting point. After that, several solutions are presented, showing different approaches and/or the evolution to a generic iterator based solution.
 
 Not all the solutions are meant to succeed in solving the problem. Some of them are meant to show where a human being, the author, fails at quickly identifying what one must do.
 
@@ -32,7 +32,7 @@ Savvy *C++* programmers will obviously identify several areas of improvement, ob
 In other cases I simply left things a bit untidy, because my other life (the real one) has a higher priority and an incredible gravitational pull. Please, be lenient with this humble coder.
 ///
 
-Let me finish by saying that writing this in the form of a book has really helped me. Telling a story and wanting to improve the solutions to be generic and iterator based, has improved my focus and made me a better *C++* hobby programmer++. Or so do I believe, because as a kid I thought I was so good I could play professional soccer and that never ever crystallized. 
+Let me finish by saying that writing this in the form of a book has really helped me. Telling a story and wanting to improve the solutions to be generic and iterator based, has improved my focus and made me a better *C++* hobby programmer++. Or so do I believe, because as a kid I thought I was so good I could play professional soccer and that never ever crystallized.
 
 ## Navigating The Code
 

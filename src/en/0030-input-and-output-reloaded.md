@@ -73,7 +73,7 @@ input_and_output<
     std::istream_iterator<int, ...>, // I
     std::ostream_iterator<int, ...>, // O
     nullptr> // std::enable_if result
-( 
+(
     std::istream_iterator<int, ...> first,
     std::istream_iterator<int, ...> last,
     std::ostream_iterator<int, ...> out,
@@ -92,9 +92,9 @@ We are indeed checking the nature of our iterators, but whether anyone is willin
 To profit from `std::void_t` we will use the following technique:
 
   - Use a `struct` that can resolve to `true` if `std::void_t` succeeds in converting all types to `void`
-  
+
   - Have the same `struct` as a fallback, with default template parameters, that will resolve to `false`. This will be a match if the checks above failed.
-  
+
 To have something that resolves to `true` and `false`, we may use `std::true_type` and `std::false_type`, the perfect *Yin* and *Yang* for the work. Both are specializations of `template<class T, T v> struct integral_constant`, where `T = bool` and each specialization receives the `v = true` and `v = false` values respectively.
 
 For the sake of an example, let us imagine that we want to check if something is simply an iterator with `std::iterator_traits`, disregarding if it is an input, output, forward, or any other type of iterator. Using all the ingredients gathered above, this is how we would do it.

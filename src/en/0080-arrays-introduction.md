@@ -88,19 +88,19 @@ Something important is that we use the `::value_type`, using our `it_type` helpe
 But only if needed. In the latest solution we assume a couple of things:
 
   - The input iterator will only go forward. That means we have to store the incoming integers to be later able to output them in reverse order.
-  
+
   - That the ideal container to hold the integers (or whatever we may be storing) is an `std::vector`.
-  
+
   - We can control the type that will be held in the container.
-  
+
 The other assumptions are the ones we solved using *SFINAE* in the previous chapters, to check if the input (direct or transformed) can go to the output, if the template parameters are iterators and, and, and.
 
 Let us remove all those restrictions. For that, we are going to need the following things:
 
   - Lots of *SFINAE* checks.
-  
+
   - Compile-time branch selection by checking the properties of the iterators and choosing the appropriate way to work with a container to hold the input values, if needed.
-  
+
 Because we are going to model our solution to even be able to work without storing the values.
 
 Let us skip the well-known iterator checks we have from previous chapters and focus on a check we will repeat several times: `has_method_name`. We are going to see what API a given container has to select how to work with it. There are several `method_names` to check: `begin`, `end`, `rbegin`, `rend`, `push_back`, `push_front`, and `insert`. We will do it like this:
@@ -125,10 +125,10 @@ The `bool` value is directly provided by an old friend from previous chapters: `
 
 With all this in mind, let us see what is the logic to select different code branches.
 
-  - If the input iterators are *Bidirectional Iterators* (or the superior *Random Access Iterators*), nothing will be stored. 
-  
+  - If the input iterators are *Bidirectional Iterators* (or the superior *Random Access Iterators*), nothing will be stored.
+
     Our solution function is only concerned with iterators and not where these iterators come from and how they have come to point to the realm of a container holding the values. Only the properties of the iterators are important.
-    
+
     If they are bidirectional, we can reverse them with our `std::make_reverse_iterator` friend and skip storing any values ourselves. Let us see how easy it seems.
 
 ```cpp title
@@ -195,7 +195,7 @@ All that, and other checks, applied to the solution function with `std::enable_i
 
 There is one new check that has been put in action above but for which no implementation has been shown: `is_bidir_v<T>` to test if an iterator supports moving in both directions. It uses the same machinery as the checks that test iterators to see if they are input or output iterators. See it below in the complete listing of this final solution.
 
-If you cannot see the `insert` path being chosen you are right. There is no use case, in the code, to use it. But the solution is generic enough, so that it can be used with an `std::map`. The input values could be `std::pair` instances. A map has neither `push_front` nor `push_back` but does support `insert`, `rbegin` and `rend`. 
+If you cannot see the `insert` path being chosen you are right. There is no use case, in the code, to use it. But the solution is generic enough, so that it can be used with an `std::map`. The input values could be `std::pair` instances. A map has neither `push_front` nor `push_back` but does support `insert`, `rbegin` and `rend`.
 
 ## Summary
 

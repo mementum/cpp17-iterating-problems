@@ -17,7 +17,7 @@ Not really the challenge we were looking for. Let us immediately go for a first 
 --8<-- "{sourcedir}/02-input-and-output/input-and-output-02.cpp"
 ```
 
-Unlike in the *"Hello, World!"* case, we have real input and that is why we introduce an iterator to gather the input: `std::istream_iterator`. Just like its counterpart the `std::ostream_iterator`, it takes a stream (an input one, obviously) and reads characters that will be converted to the type used in the template. Whitespace, including newlines, and End-of-file are used as the separators to discriminate the input values. 
+Unlike in the *"Hello, World!"* case, we have real input and that is why we introduce an iterator to gather the input: `std::istream_iterator`. Just like its counterpart the `std::ostream_iterator`, it takes a stream (an input one, obviously) and reads characters that will be converted to the type used in the template. Whitespace, including newlines, and End-of-file are used as the separators to discriminate the input values.
 
 The solution is not really satisfying, even if we can use iterators and apply `auto` to all variable declarations. It is still hardcoded to take three `int` values. Notice that we do not need to even store the values, thanks to the use of the input iterator.
 
@@ -69,9 +69,9 @@ Yes, *C++20* introduces `concepts` but we are still using *C++17*, so we have to
 To use the `enabler` as a type, we have two options:
 
   - `std::enable_if<condition, enabler>::type` (*C++11*)
-  
+
   - `std::enable_if_t<condition, enabler>` (*C++14*)
-  
+
 We will go for the latter because it seems cleaner, `_t` for `::type`, and because *C++17* introduced more of these helpers as we will see below, i.e.: others did also see the benefit in using the `_x` suffix as opposed to `::whatever_we_want`.
 
 The most obvious idea is checking if the parameters bear the proper iterator tags for their intended functionality. Let us add some vertical spacing here or the sake of clarity. We are going directly for the helper with `_v` for `::value` when using `std::is_same`.
@@ -100,13 +100,13 @@ solution_function(I first, I last, O out) {
 This unfortunately has some problems.
 
   - We are checking with `std::is_same_v<T>` (aka `std::is_same<T>::value`) and our iterator could be not only an input iterator, but actually a lot more. A *RandomAccessIterator* is also an *InputIterator* that can do a lot more things.
-  
+
   - We check directly `I::iterator_category` and `I` (or `O`) could be a simple type like a `const char **`, that the *STL* can manage as an iterator. Compilation failure knocking on the door in 3, 2, 1.
-  
+
 Luckily for us, both issues have a solution.
 
   - Run the check with `std::is_base_of`. The function will check inside `std::input_iterator_tag` to see if it is the base class of whatever tag the iterator has declared in its implementation. This will then be a positive check not only for an *InputIterator* but for others too, such as the aforementioned *RandomAccessIterator*.
-  
+
   - Use `std::iterator_traits<T>` to look for the tag. This *STL* functionality understands what is and what can be an iterator and offers a unified interface to retrieve the actual declared `iterator_category` tag or the implied one in case of thingies such as `const char **`.
 
 Let us apply all this to our `input_and_output` challenge. Using the `_v` variant of `std::is_base_of`, of course.
@@ -149,7 +149,7 @@ But this feels so unnatural. Right before this last piece of code we were free t
 The problems should be obvious even for the untrained eye (i.e.: the author's)
 
   - First, we are forced now to always provide an argument that we have conceived as having a default value.
-  
+
   - Second, we could pass something else instead of `0` with an incompatible type. So much for our idea to make `init` as generic and default as possible. Or maybe not.
 
 ## Summary

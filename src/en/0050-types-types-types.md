@@ -23,7 +23,7 @@ If this were Python, we could iterate over the type names, because those type na
 
 Unless we can. If we consider that one can pass an unlimited number of types to a template and we can then pass those types to another template function, it would seem as if we could iterate. Let us craft a `for_each` looping function. And let us do it in the most classic way.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-02.cpp:41:46"
 ```
 
@@ -50,20 +50,20 @@ template<typename BasicType> //
 That is how the two recursive calls to `for_each` can succeed. The rest will be easy, given that we only need the following.
 
   - A generic `for_each` that instantiates an `std::istream_iterator<BasicType>` and an `std::ostream_iterator<BasicType, "\n">` and copies one element from the former to the latter.
-  
+
   - Because `float` and `double` need some special handling, specializations for those types are needed.
-  
+
   - A call in `main` to start the iteration.
 
 All those ideas expressed in code are shown here.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-02.cpp"
 ```
 
 Even if it solves the problem, there are some ugly things. We need to carry around the number of decimal places, `3` and `9`, for `float` and `double`, and to avoid warnings we need to suppress the parameter name. It is not nice.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-02.cpp:9:9,17:17,30:30"
 ```
 
@@ -71,7 +71,7 @@ A lot of code is also repeated in the management of the precision for `float` an
 
 ## The Classic Template Reworked
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-03.cpp"
 ```
 
@@ -85,7 +85,7 @@ But that is all. The recursive template nature and the specializations are still
 
 But not being able to implement the logic directly with `if ...` was taking the power out of our hands, and *C++17* changes the landscape. Here is the solution after our new white elephant comes into the picture.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-04.cpp"
 ```
 
@@ -101,7 +101,7 @@ The introduction of `if constexpr` has allowed a quick removal of specialization
 
 Given the powers granted to, and by, `if constexpr`, it is easy to wonder if the recursion can also be managed by this wonder of wonders. Let us answer that question by directly looking at the following code.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-05.cpp"
 ```
 
@@ -133,7 +133,7 @@ my_function() {
 
 Our parameter pack is being folded over the `,` operator, i.e.: each of the members of the pack is being passed one by one to `do_something<ParameterPack>()`. We can for sure work with that. Let us see how.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-06.cpp"
 ```
 
@@ -147,7 +147,7 @@ But some reworking will be needed, because a *lambda expression* cannot use temp
 
 Because a template parameter is not possible for the *lambda*, we have crafted an automatic parameter.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-07.cpp:11:11"
 ```
 
@@ -157,13 +157,13 @@ Notice how we also have `fprec` and `dprec` in the *lambda expression*. They are
 
 To make our *Fold Expression* cooperate with the lambda, we need to make a small change. In the previous example, we were invoking `in_out<BasicTypes>()`, because we had a templated function. Not being able to use templated *lambda expressions*, the best we can do is to pass a value of the type, by instantiating the type.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-07.cpp:28:28"
 ```
 
 A value that can be later turned back, for our purposes, into a type with `decltype`.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-07.cpp:15:15"
 ```
 
@@ -171,13 +171,13 @@ And here is the complete single method approach with a *Fold Expression*.
 
 Here is the single method, thanks to the cooperation of all those heroes.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-07.cpp"
 ```
 
 There is something worth mentioning before we carry on. Because the *Fold Expression* is managing the iteration of the parameter pack, this parameter pack is the only parameter to the template. No tricks with a first parameter or even two parameters to differentiate the candidates to be matched. A real improvement.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-07.cpp:8:8"
 ```
 
@@ -190,24 +190,24 @@ It would seem as if someone was thinking about our little problem here when they
 Somehow we need to pass a `size_t` to our template function and check if we have come to the last type or else recurse. The pieces of the puzzle are all there:
 
   - templates do not only take types, they also take values.
-  
+
   - `if constexpr` has already helped us with the logic to control the recursion.
-  
+
 With all the accumulated experience from the previous attempts, we can do this in one go.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-08.cpp"
 ```
 
-Our looping `for_each` now takes only one template parameter for the types, the `std::variant` that carries those types. It takes a second parameter `size_t i = 0`, to let us know the current type to be retrieved. 
+Our looping `for_each` now takes only one template parameter for the types, the `std::variant` that carries those types. It takes a second parameter `size_t i = 0`, to let us know the current type to be retrieved.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-08.cpp:15:15"
 ```
 
 And retrieved it is. That is the key to having things working. Notice how we have to use a strange notation with `i`.
 
-```cpp title 
+```cpp title
 --8<-- "{sourcedir}/05-basic-data-types/basic-data-types-08.cpp:28:28"
 ```
 

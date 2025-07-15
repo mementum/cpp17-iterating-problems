@@ -1,11 +1,11 @@
 # The Tortoise And The Hare
 
 **Title**: Bit Array\
-**Link**: https://www.hackerrank.com/challenges/bitset-1/problem
+**Link**: <https://www.hackerrank.com/challenges/bitset-1/problem>
 
 The problem description would seem to indicate that one will have to scan an array of `N`
-elements and length `10^8^`. But considering that the operation that fills the array
-restricts the integers to be *modulo 2^31^*, there will be a sequence repeating itself.  
+elements and length *10^8^*. But considering that the operation that fills the array
+restricts the integers to be *modulo 2^31^*, there will be a sequence repeating itself.
 But if the length of the array is restricted, one may hit the end before the sequence
 starts repeating.
 
@@ -13,17 +13,17 @@ Therefore, finding the number of different integers boils down to detecting a cy
 [*"Floyd's Tortoise and Hare"*][wiki-cycle][^wiki-cycle] algorithm is certainly a good
 choice.
 
-[wiki-cycle]: https://en.wikipedia.org/wiki/Cycle_detection  
+[wiki-cycle]: https://en.wikipedia.org/wiki/Cycle_detection
 [^wiki-cycle]: Wikipedia: https://en.wikipedia.org/wiki/Cycle_detection
 
 ```cpp title
 --8<-- "{sourcedir}/09-tortoise-and-hare/tortoise-and-hare-01.cpp"
 ```
 
-A single movement for the *Tortoise* is calculated with the *lambda* assigned to `fmove`.  
+A single movement for the *Tortoise* is calculated with the *lambda* assigned to `fmove`.
 The *Hare* uses `fmove` twice in each round.
 
-Notice that we have to check if the array has been traversed before moving our heroes.  
+Notice that we have to check if the array has been traversed before moving our heroes.
 Consider the simple case where `N = 1`. The solution will obviously be `1`, and there is
 no cycle to detect, although philosophically, one could say we are facing an eternal
 cycle.
@@ -39,7 +39,7 @@ each of those sets can lead to the solution.
   2. Moving the *Tortoise* and the *Hare* and checking if they occupy the same array
      position before `N` is reached. In this case the distance traveled between `1` and
      `N` is the solution.
-    
+
 To address the first set of movements we will be using our `Range` virtual container, the
 one emulating Python's `range` that we developed for the ["For Loop"](#0070-for-loop)
 problem.
@@ -144,7 +144,7 @@ Then our regular constructor that takes the function that moves the *tortoise* a
 notice:
 
   - The `start` position is taken with a `-1`
-  
+
   - The prefix increment `++` is called during initialization. This will effectively
   restore `start` (adding `1`) and will calculate the initial first-jump positions of our
   competitors. If the first comparison happens to detect the cycle, the result will be
@@ -166,7 +166,7 @@ Unfortunately, we cannot let `pred` be a parameter, because it needs internal kn
 of the structure holding the cycle detection and the range position.
 
 The `main` function has now been cleaned of all *lambda expressions* but `fmove`, that
-goes into the `CycleIterator` to push the range of the *tortoise* and the *hare*. 
+goes into the `CycleIterator` to push the range of the *tortoise* and the *hare*.
 
 See the entire code, including the `main` function below.
 
