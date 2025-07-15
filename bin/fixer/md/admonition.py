@@ -27,6 +27,15 @@ ADTRANS = dict(hint="tip")
 EXAMPLE = "example"
 ADBLOCK = "+====+"
 
+class GenericAdmonition:
+    targets: int = -TARGET.MD2AD
+    block_begin_re: str = rf'!!!\s+(?P<adtype>\w+)(\s+"(?P<title>[^"]*)")?'
+
+class GenericBlockAdmonition:
+    targets: int = -TARGET.MD2AD
+    block_begin_re: str = rf"///\s+(?P<adtype>\w+)((\s+\|\s+)(?P<title>.+))?$"
+    block_end: str = "///"
+
 class Admonition:
     targets: list[int] = [TARGET.MD2AD]
     block_begin_re: str = rf'!!!\s+(?P<adtype>\w+)(\s+"(?P<title>[^"]*)")?'

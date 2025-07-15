@@ -13,6 +13,8 @@ PROCESSORS = [
     (heading.Heading, True),
     (admonition.Admonition, True),
     (admonition.BlockAdmonition, True),
+    (admonition.GenericAdmonition, True),
+    (admonition.GenericBlockAdmonition, True),
     (blockcpp.BlockCPPInclude, True),
     (blockcpp.BlockCPP, True),
     (literal.GenericLiteral, True),
