@@ -7,7 +7,7 @@ main(int, char *[]) {
     int N, S, P, Q;  // variables for input
     std::cin >> N >> S >> P >> Q;
     // lambda to calculate next position
-    auto fmove = [&P, &Q](const auto &x) { return (x * P + Q) % mod; };
+    auto fmove = [P, Q](const auto &x) { return (x * P + Q) % mod; };
     auto tort = S % mod, hare = tort; // initial positions
     // solve problem
     auto n = 0;
