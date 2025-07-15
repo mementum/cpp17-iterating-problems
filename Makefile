@@ -773,14 +773,14 @@ book-adoc: $(BOOK_ADOC)
 # $(BOOK_ADOC): export VARNAME = varvalue
 
 # rule which generates the book .adoc
-$(BOOK_ADOC): $(BOOK_ADX)
+$(BOOK_ADOC): $(ADOC_HEADERS) $(BOOK_ADX)
 	$(call echo_stage,book-adoc)
 	$(call find_tool_or_exit,$(PYTHON3))
 	$(call makedir_for_file,$@)
 ifeq ($(GREP_OUT_AD),)
-	$(FIX_AD2AD) -o $@ $(ADOC_HEADERS) $<
+	$(FIX_AD2AD) -o $@ $^
 else
-	$(call grep_ev,$(FIX_AD2AD) -lo -o $@ $(ADOC_HEADERS) $<,$(GREP_OUT_AD))
+	$(call grep_ev,$(FIX_AD2AD) -lo -o $@ $^,$(GREP_OUT_AD))
 endif
 
 # target which generates the book .adoc with a 1600 back-cover
