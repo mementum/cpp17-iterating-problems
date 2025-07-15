@@ -15,7 +15,7 @@ struct CycleIterator {
     using reference         = value_type &;
     using pointer           = value_type *;
 
-    T m_pos, m_posmax; // start/curren pos / end of range
+    T m_pos, m_posmax; // start/current pos / end of range
 
     using FuncMove = std::function<int(const int &)>;
     const FuncMove m_fmove;
