@@ -313,14 +313,20 @@ class Fixer:
 
         return line.rstrip()
 
-    def check_target(self, targets: Iterable | int) -> bool:
+    def check_target(self, targets: None | Iterable | int) -> bool:
         # check if this processor is meant for the current target.
         # if no target has been specified, all targets are valid
+        if targets is None:
+            return True  # no target specified, valid for all
+
         if isinstance(targets, Iterable):
-            if self.target not in targets:
-                return False
+            return self.target in targets
+
         elif -self.target == targets:
             return False
+
+        elif self.target == targets:
+            return True
 
         return True  # it is a target
 
