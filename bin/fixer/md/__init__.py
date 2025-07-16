@@ -22,6 +22,7 @@ PROCESSORS = [
 ]
 
 LINE_PROCESSORS = [
+    (lineprocs.AutoLinkMk, True),
     (lineprocs.DoubleQuotesTypo, True),
     (lineprocs.VarSub, True),
     (stdref.stdref, True),

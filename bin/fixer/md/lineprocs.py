@@ -5,6 +5,12 @@ import re
 
 from .. import TARGET
 
+# Change autolinks, <http.....> to [url](url){target=blank} for mkdocs
+class AutoLinkMk:
+    targets: int = TARGET.MD2MK
+    lsub_re: str = r"<(https?:[^>]+)>"
+    lreplace: str = r"[\1](\1){target=_blank}"
+
 # Change standard double quotes to be typographic quotes using the proper set
 # for the target language
 class DoubleQuotesTypo:
@@ -18,7 +24,6 @@ class DoubleQuotesTypo:
 # Substitute vars using the format {:varname:} using the values
 # defined in the adoc header
 class VarSub:
-    targets = -TARGET.AD2AD
     lsearch_re: str = r'{:(?P<varname>[^:]+):}'
 
     def __call__(self, line:str, lmatch: re.Match[str], adocvars: dict[str]) -> str:
