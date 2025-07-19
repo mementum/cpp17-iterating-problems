@@ -9,7 +9,7 @@ from .. import TARGET
 class AutoLinkMk:
     targets: int = TARGET.MD2MK
     lsub_re: str = r"<(https?:[^>]+)>"
-    lreplace: str = r"[\1](\1){target=_blank}"
+    lreplace: str = r"[\1](\1){target=_blank} :octicons-link-external-16:"
 
 # Change standard double quotes to be typographic quotes using the proper set
 # for the target language
