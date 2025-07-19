@@ -24,8 +24,8 @@ class FixFootnoteLinkMk:
 # A format [:^ref] is translated to a footnote [^ref] for pdf over asciidoc
 class AutoFootnoteLinkAd:
     targets: int = TARGET.MD2AD
-    lsub_re: str = r"\]\[:\^([^]]+)\]"
-    lreplace: str = r"][^\1]"
+    lsub_re: str = r"\[([^]]+)\]\[:\^([^]]+)\]"
+    lreplace: str = r"\1[^\2]"
 
 # Fix the real footnote/ref link
 # A format [:^ref]: footnote is translated to a footnote [^ref]: footnote"
@@ -40,6 +40,15 @@ class AutoLinkMk:
     targets: int = TARGET.MD2MK
     lsub_re: str = r"<(https?:[^>]+)>"
     lreplace: str = r"[\1](\1){target=_blank} :octicons-link-external-16:"
+
+# Mkdocs cannot reference links in other files, because each file will be rendered in a
+# given page. But adding the file name breaks asciidoc, that sees all as one file and
+# does not know about the .md filenames. Remove the filename and leave only the id when
+# processing for md2ad
+class FixInternalLinkIds:
+    targets: int = TARGET.MD2AD
+    lsub_re: str = r"\[([^]]+)\]\([\w-]+\.md(#[\w-]+)\)"
+    lreplace: str = r"[\1](\2)"
 
 # Change standard double quotes to be typographic quotes using the proper set
 # for the target language
