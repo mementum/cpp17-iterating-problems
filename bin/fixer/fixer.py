@@ -134,9 +134,10 @@ class Fixer:
 
         self.lmatch = None
 
-        if (targets := getattr(proc, TARGETS_ATTR, None)):
-            if not self.check_target(targets):
-                return line
+        # check if this processor is meant for the current target. if no target has been
+        # specified, all targets are valid. TARGETS_ATTR is for sure in the dict
+        if not self.check_target(getattr(proc, TARGETS_ATTR, [])):
+            return line
 
         if not (isclass := inspect.isclass(proc)):  # no class ... assume callable
             for lattr in LATTRS:
@@ -319,8 +320,8 @@ class Fixer:
         if targets is None:
             return True  # no target specified, valid for all
 
-        if isinstance(targets, Iterable):
-            return self.target in targets
+        if isinstance(targets, Iterable):  # empty means all
+            return self.target in targets or not targets
 
         elif -self.target == targets:
             return False
@@ -342,11 +343,10 @@ class Fixer:
             )
         }
 
-        # check if this processor is meant for the current target.
-        # if no target has been specified, all targets are valid
-        if (targets := kw.get(TARGETS_ATTR, None)):
-            if not self.check_target(targets):
-                return None, True
+        # check if this processor is meant for the current target. if no target has been
+        # specified, all targets are valid. TARGETS_ATTR is for sure in the dict
+        if not self.check_target(kw[TARGETS_ATTR]):
+            return None, True
 
         return self.get_block(**kw)  # valid, target, get lines and line proc status
 
@@ -452,7 +452,7 @@ class Fixer:
         strip_blanks: bool = True,
         contentdent: bool = False,  # to dedent content als
         debug: bool = False,  # debug block actions
-        targets: list[int] = [],
+        targets: list[int] | int = [],
         normalize: bool = True,
         lineproc: bool = True,
     ) -> tuple[list[str] | None, bool]:
