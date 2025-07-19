@@ -314,22 +314,16 @@ class Fixer:
 
         return line.rstrip()
 
-    def check_target(self, targets: None | Iterable | int) -> bool:
+    def check_target(self, targets: Iterable | int) -> bool:
         # check if this processor is meant for the current target.
         # if no target has been specified, all targets are valid
-        if targets is None:
-            return True  # no target specified, valid for all
-
         if isinstance(targets, Iterable):  # empty means all
-            return self.target in targets or not targets
+            return not targets or self.target in targets
 
-        elif -self.target == targets:
-            return False
+        if targets < 0:
+            return not (-self.target == targets)
 
-        elif self.target == targets:
-            return True
-
-        return True  # it is a target
+        return self.target == targets  # see if proc want this target
 
     def _get_block(self, proc: Any) -> tuple[None | list[str], bool]:
         # use the arguments defined in get_block as key for the possible
