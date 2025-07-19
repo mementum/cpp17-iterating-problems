@@ -22,6 +22,10 @@ PROCESSORS = [
 ]
 
 LINE_PROCESSORS = [
+    (lineprocs.AutoFootnoteLinkMk, True),
+    (lineprocs.FixFootnoteLinkMk, True),
+    (lineprocs.AutoFootnoteLinkAd, True),
+    (lineprocs.FixFootnoteLinkAd, True),
     (lineprocs.AutoLinkMk, True),
     (lineprocs.DoubleQuotesTypo, True),
     (lineprocs.VarSub, True),

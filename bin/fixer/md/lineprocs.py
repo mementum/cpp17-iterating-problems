@@ -5,6 +5,36 @@ import re
 
 from .. import TARGET
 
+# Automate reference link and footnote
+# A format [:^ref] is translated to [ref] for mkdocs
+class AutoFootnoteLinkMk:
+    targets: int = TARGET.MD2MK
+    lsub_re: str = r"\]\[:\^([^]]+)\]"
+    lreplace: str = r"][\1]{target=_blank}^:octicons-link-external-16:^"
+
+# Fix the real footnote/ref link
+# A format ""[:^ref]: footnote link" is translated to a footnote [ref]: link"
+# for mkdocs
+class FixFootnoteLinkMk:
+    targets: int = TARGET.MD2MK
+    lsub_re: str = r"^\[:\^([^]]+)\]:\s+(.+)(https?://.+)$"
+    lreplace: str = r"[\1]: \3"
+
+# Automate reference link and footnote
+# A format [:^ref] is translated to a footnote [^ref] for pdf over asciidoc
+class AutoFootnoteLinkAd:
+    targets: int = TARGET.MD2AD
+    lsub_re: str = r"\]\[:\^([^]]+)\]"
+    lreplace: str = r"][^\1]"
+
+# Fix the real footnote/ref link
+# A format [:^ref]: footnote is translated to a footnote [^ref]: footnote"
+# for pdf over asciidoc
+class FixFootnoteLinkAd:
+    targets: int = TARGET.MD2AD
+    lsub_re: str = r"^\[:\^([^]]+)\]:\s+(.+)$"
+    lreplace: str = r"[^\1]: \2"
+
 # Change autolinks, <http.....> to [url](url){target=blank} for mkdocs
 class AutoLinkMk:
     targets: int = TARGET.MD2MK

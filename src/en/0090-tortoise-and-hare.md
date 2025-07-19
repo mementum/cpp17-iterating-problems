@@ -10,11 +10,10 @@ But if the length of the array is restricted, one may hit the end before the seq
 starts repeating.
 
 Therefore, finding the number of different integers boils down to detecting a cycle. The
-[*"Floyd's Tortoise and Hare"*][wiki-cycle][^wiki-cycle] algorithm is certainly a good
+[*"Floyd's Tortoise and Hare"*][:^wiki-cycle] algorithm is certainly a good
 choice.
 
-[wiki-cycle]: https://en.wikipedia.org/wiki/Cycle_detection
-[^wiki-cycle]: Wikipedia: https://en.wikipedia.org/wiki/Cycle_detection
+[:^wiki-cycle]: Wikipedia: https://en.wikipedia.org/wiki/Cycle_detection
 
 ```cpp title
 --8<-- "{sourcedir}/09-tortoise-and-hare/tortoise-and-hare-01.cpp"
