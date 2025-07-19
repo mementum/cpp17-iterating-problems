@@ -40,7 +40,7 @@ each of those sets can lead to the solution.
      `N` is the solution.
 
 To address the first set of movements we will be using our `Range` virtual container, the
-one emulating Python's `range` that we developed for the ["For Loop"](#0070-for-loop)
+one emulating Python's `range` that we developed for the ["For Loop"](0070-for-loop.md#0070-for-loop)
 problem.
 
 The second one has been addressed with our *lambda*. However, the check in the `if`

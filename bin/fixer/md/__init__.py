@@ -26,6 +26,7 @@ LINE_PROCESSORS = [
     (lineprocs.FixFootnoteLinkMk, True),
     (lineprocs.AutoFootnoteLinkAd, True),
     (lineprocs.FixFootnoteLinkAd, True),
+    (lineprocs.FixInternalLinkIds, True),
     (lineprocs.AutoLinkMk, True),
     (lineprocs.DoubleQuotesTypo, True),
     (lineprocs.VarSub, True),
