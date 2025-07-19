@@ -2,16 +2,15 @@
 
 The entire content can be downloaded in the form a PDF book.
 
-  - Screen Format - [{:pdf-screen:}][1]{target=__blank}
-  
+  - **Screen Format** - [{:pdf-screen:}][1]{target=__blank} :fontawesome-regular-file-pdf:
+
     This is meant for PDF readers and online display. The left and right margins are the
     same and there are no interleaved blank pages.
-    
-  - Prepress Format - [{:pdf-prepress:}][2]{target=_blank}
-  
+
+  - **Prepress Format** - [{:pdf-prepress:}][2]{target=_blank} :fontawesome-regular-file-pdf:
+
     This is intended for generating a printout. The left and right margins alternate to
     leave room for bookbinding and blank pages may be inserted so that chapters always
     start on a right-hand page.
-    
-[//]: # (The links will be added dynamically below)
 
+[//]: # (The links will be added dynamically below)
