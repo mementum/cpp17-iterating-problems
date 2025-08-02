@@ -144,17 +144,17 @@ reverse_function(I first, I last, O out) {
 
     if constexpr (is_bidir_v<I>) {
         // can directly traverse the input backwards, no storage needed
-        *oerror = "[+]: Bidirectional Iterator for the Input";
+        *oerror++ = "[+]: Bidirectional Iterator for the Input";
         std::copy(
             std::make_reverse_iterator(last),
             std::make_reverse_iterator(first),
             out);
     } else {
-        *oerror = "[+]: Non-Bidirectional Iterator for the Input";
+        *oerror++ = "[+]: Non-Bidirectional Iterator for the Input";
         auto c = C{}; // container needed to store input and output in reverse
 
         if constexpr (is_stack_v<C>) {
-            *oerror = "[+]: Using Stack as container";
+            *oerror++ = "[+]: Using Stack as container";
             std::for_each(first, last, [&c](const auto &x) { c.push(x); });
             while(not c.empty()) {
                 *out = c.top();
@@ -162,17 +162,17 @@ reverse_function(I first, I last, O out) {
             }
 
         } else if constexpr (has_push_front_v<C>) {
-            *oerror = "[+]: Using push_front from container";
+            *oerror++ = "[+]: Using push_front from container";
             std::copy(first, last, std::front_inserter(c));
             std::copy(c.begin(), c.end(), out);
 
         } else if constexpr (has_push_back_v<C>) {
-            *oerror = "[+]: Using push_back from container";
+            *oerror++ = "[+]: Using push_back from container";
             std::copy(first, last, std::back_inserter(c));
             std::copy(c.rbegin(), c.rend(), out);
 
         } else if constexpr (has_insert_v<C>) {
-            *oerror = "[+]: Using insert from container";
+            *oerror++ = "[+]: Using insert from container";
             std::copy(first, last, std::inserter(c, c.begin()));
             std::copy(c.rbegin(), c.rend(), out);
         }
