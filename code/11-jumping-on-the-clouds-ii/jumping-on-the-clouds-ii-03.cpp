@@ -18,12 +18,18 @@ template <typename It, typename T>
 using enable_if_iter_int =
     std::enable_if_t<is_input_v<It> and std::is_integral_v<T>>;
 
+using FunctionMove = std::function<int(int)>;
+
 template<typename, typename = void>
 constexpr bool is_fmove_v = false;
 
 template<typename F>
 constexpr bool is_fmove_v<F,
-    std::void_t<std::is_integral<std::invoke_result_t<F, int>>>> = true;
+    std::void_t<
+        decltype(
+            std::declval<FunctionMove>()(0) ==
+            std::declval<std::invoke_result_t<F, int>>()
+        )>> = true;
 
 template<typename F>
 using enable_if_fmove = std::enable_if_t<is_fmove_v<F>>;
@@ -40,7 +46,6 @@ struct JumpingIterator {
 
     const It m_itfirst;
     It m_itcur;
-    using FunctionMove = std::function<int(int)>;
     FunctionMove m_fmove;
 
     bool m_end = false;
@@ -74,12 +79,18 @@ struct JumpingIterator {
 };
 
 // SFINAE for the solution function
+using FunctionEnergy = std::function<int(int, int)>;
+
 template<typename, typename = void>
 constexpr bool is_fenergy_v = false;
 
 template<typename F>
-constexpr bool is_fenergy_v<
-    F, std::void_t<std::is_integral<std::invoke_result_t<F, int, int>>>> = true;
+constexpr bool is_fenergy_v<F,
+    std::void_t<
+        decltype(
+            std::declval<FunctionEnergy>()(0, 0) ==
+            std::declval<std::invoke_result_t<F, int, int>>()
+        )>> = true;
 
 template <typename I, typename FMove, typename FEnergy>
 using enable_if_iter_fmove_fenergy = std::enable_if_t<
@@ -109,7 +120,7 @@ main(int, char *[]) {
     for(; in != in_last; in++) { // resync "in" after copy_n operation
         auto n = *in++, k = *in++; // input parameters
         auto fenergy = [](auto acc, auto x) { return acc - (1 + (x * 2)); };
-        auto fmove = [&n, &k](auto x) -> int { return (x + k) % n; };
+        auto fmove = [&n, &k](auto x) { return (x + k) % n; };
         auto c = std::vector<bool>{}; // storage
         std::copy_n(in, n, std::back_inserter(c)); // copy input
         *out++ = e + minus_energy(c.begin(), fmove, fenergy); // solve
