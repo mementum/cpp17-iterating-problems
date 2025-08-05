@@ -29,6 +29,7 @@ CPPREFS = {
     "concepts": "concepts",
     "constexpr": "language/constexpr",
     "decltype": "language/decltype",
+    "do-while": "language/do",
     "double": "keyword/double",
     "false": "language/bool_literal",
     "float": "keyword/float",
@@ -58,6 +59,7 @@ CPPREFS = {
     "using": "keyword/using",
     "typeid": "language/typeid",
     "void": "language/types.html#void",
+    "while": "language/while",
 }
 
 STDREFS = {
