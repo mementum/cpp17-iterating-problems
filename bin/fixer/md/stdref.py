@@ -79,6 +79,7 @@ STDREFS = {
     "copy": "algorithm/copy",
     "copy_if": "algorithm/copy",
     "count": "algorithm/count",
+    "count_if": "algorithm/count",
     "cout": "io/cout",
     "decay_t": "types/decay",
     "deque::push_front": "container/deque/push_front",
@@ -103,6 +104,7 @@ STDREFS = {
     "contiguous_iterator_tag": "iterator/iterator_tags",
     # iterator tags - end
     "invoke_result": "result_of",
+    "invoke_result_t": "result_of",
     "is_base_of": "types/is_base_of",
     "is_base_of_v": "types/is_base_of",
     "is_integral": "types/is_integral",
