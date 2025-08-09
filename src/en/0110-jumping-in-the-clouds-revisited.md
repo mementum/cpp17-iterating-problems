@@ -17,7 +17,6 @@ For each jump the initial `e` (*energy value*) of `100` will be decremented by `
 an extra decrement of `2` if the position we landed on contains a `true`, non zero,
 value. The jump trip is over when the new position is the initial position.
 
-
 ```cpp title
 --8<-- "{sourcedir}/11-jumping-on-the-clouds-ii/jumping-on-the-clouds-ii-01.cpp"
 ```
