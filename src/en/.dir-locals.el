@@ -1,2 +1,2 @@
 ((nil . ((ispell-local-dictionary . "en")
-         (fill-column . 9999))))
+         (fill-column . 89))))
