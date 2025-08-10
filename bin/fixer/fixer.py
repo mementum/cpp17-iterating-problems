@@ -19,8 +19,6 @@ from typing import Any
 
 from . import TARGET
 
-NORMALIZE = True
-
 # -----------------------------------------------------------------------------
 PARGS = str | Sequence[str] | None
 
@@ -80,6 +78,7 @@ class Fixer:
     target: int
     processors: list[tuple[Callable, bool]] = tuple()
     line_proc: list[tuple[Callable, bool]] = tuple()
+    normalize: bool = True
 
     # Non-init definitions
     linenum: int = field(init=False, default=-1)
@@ -451,6 +450,8 @@ class Fixer:
         lineproc: bool = True,
     ) -> tuple[list[str] | None, bool]:
 
+        normalize = normalize and self.normalize
+
         line = self.current_line  # get current line (block_begin)
         wspaces = self.current_wspaces  # get its leading indentation
         lstripped = self.current_lstripped  # get line without leading indentation
@@ -610,7 +611,7 @@ class Fixer:
                 olines += lblanks
                 lblanks = []
 
-            if self.target != TARGET.AD2AD or not normalize:
+            if not normalize:
                 olines += [line]  # store line in output buffer
             else:
                 # normline is empty
@@ -714,7 +715,7 @@ class Fixer:
             block_ended = False
 
             if not block_start:  # paragraph or not processed block
-                if NORMALIZE and self.target != TARGET.AD2AD:
+                if self.normalize:
                     # a blank line will be added, so check if anything has been buffered
                     # to be normalized, normalize and and the blank line
                     if blank_line:
@@ -747,7 +748,7 @@ class Fixer:
                     break  # line taken, break skips else
             else:
                 # no processor took the line to define a block
-                if NORMALIZE and self.target != TARGET.AD2AD:
+                if self.normalize:
                     # if non-ad2ad target non-empty lines may follow this non-taken line.
                     # store it in the normalization buffer
                     normlines += [line]
@@ -865,6 +866,7 @@ def run(
     target: int,
     processors: list[None | tuple[Callable, bool]] = None,
     line_proc: list[None | tuple[Callable, bool]] = None,
+    normalize: bool = True,
     args: PARGS = None,
 ) -> None:
 
@@ -874,7 +876,10 @@ def run(
     pargs = parse_args(args)
 
     # create a fixer indicating which translation
-    fixer = Fixer(pargs=pargs, processors=processors, line_proc=line_proc, target=target)
+    fixer = Fixer(
+        pargs=pargs, processors=processors, line_proc=line_proc,
+        normalize=normalize, target=target,
+    )
 
     # initialize control token to "finalize"
     last_base_name = os.path.splitext(os.path.basename(pargs.infiles[0]))[0]

@@ -10,4 +10,5 @@ if __name__ == "__main__":
         target=fixer.fixer.TARGET.AD2AD,
         processors=fixer.ad.PROCESSORS,
         line_proc=fixer.ad.LINE_PROCESSORS,
+        normalize=False,
     )
