@@ -1,5 +1,5 @@
 site_name: C++17 - Iterating Problems
-site_url: https://127.0.0.1:8000
+site_url: https://mementum.github.io/cpp17-iterating-problems/
 site_description: Solving Problems with Iterators in C++17
 site_author: Daniel Rodriguez
 docs_dir: '../build/mkdocs/en'
@@ -23,9 +23,7 @@ theme:
     - navigation.instant
     - navigation.instant.progress
     - navigation.tracking
-    - navigation.expand
     - navigation.sections
-    - navigation.indexes
     - navigation.top
     - toc.follow
     - toc.integrate
