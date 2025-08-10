@@ -157,3 +157,5 @@ The problems should be obvious even for the untrained eye (i.e.: the author's)
 Let us cut our losses short, because we have achieved a lot. Having real input in the hand, we have removed the fixed constraints of the challenge and can read any number of values, not just three. Moreover, our *STL*-like solution has gained type checking for the parameter templates.
 
 But, but, but ... "Houston, we have a problem", because our extra parameter is causing problems and the reader has for sure noticed that we have lost our `auto`-magic return type in the solution. The type is now manually determined, when we use `std::enable_if`. Luckily, nothing lasts forever as we will see.
+
+/// pagebreak ///

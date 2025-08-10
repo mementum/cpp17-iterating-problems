@@ -218,3 +218,5 @@ Being `size_t i` a template parameter, it is "read-only" for the function and we
 We have not iterated over types in a Python-like style. But we did it, not only with a classic recursive template approach. We have added as much as possible from the weaponry provided by *C++17* to let us have single method approaches that control the recursion internally and reduced the template parameters to manage all types with a single one.
 
 It is time to bury this topic, although there may be more to come.
+
+/// pagebreak ///

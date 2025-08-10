@@ -209,3 +209,5 @@ Recall that type was a hindrance at the beginning, because it would prevent us f
 ## Summary
 
 We started with our first ugly and bloated version of *SFINAE* and although we used nice constructs and incredible facilities from the language and the library, this only led to replacing bloat with bloat. We then progressed to make a leaner and meaner version that shall serve us as a model for the future.
+
+/// pagebreak ///

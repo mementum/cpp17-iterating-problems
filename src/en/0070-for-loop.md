@@ -237,3 +237,5 @@ Here is the complete code of the final approach to this challenge.
 ```cpp title
 --8<-- "{sourcedir}/07-for-loop/for-loop-04.cpp"
 ```
+
+/// pagebreak ///

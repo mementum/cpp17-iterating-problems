@@ -150,8 +150,6 @@ to check the algorithm under both `if constexpr` results.
 
 (And yet, the code is at `70` lines, well below the *HackerRank* proposal).
 
-Enjoy it!
-
 ```cpp title
 --8<-- "{sourcedir}/12-angry-professor/angry-professor-04.cpp"
 ```

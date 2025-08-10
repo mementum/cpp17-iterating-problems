@@ -191,15 +191,13 @@ To support those code paths, we have to make sure that the containers support th
 --8<-- "{sourcedir}/08-arrays-intro/arrays-intro-06.cpp:112:142"
 ```
 
-All that, and other checks, applied to the solution function with `std::enable_if` are of course shown at the end of the above snippet.
-
 There is one new check that has been put in action above but for which no implementation has been shown: `is_bidir_v<T>` to test if an iterator supports moving in both directions. It uses the same machinery as the checks that test iterators to see if they are input or output iterators. See it below in the complete listing of this final solution.
 
 If you cannot see the `insert` path being chosen you are right. There is no use case, in the code, to use it. But the solution is generic enough, so that it can be used with an `std::map`. The input values could be `std::pair` instances. A map has neither `push_front` nor `push_back` but does support `insert`, `rbegin` and `rend`.
 
 ## Summary
 
-We have gone from non-standard compiler extensions to create arrays and be bound by the size of the input, `N`, to using smart pointers to manage pseudo-iterators. Finally, we have come to show a solution that can even reverse the input without using intermediate storage and that can work with many different temporary containers.
+We have gone from non-standard compiler extensions to create arrays and be bound by the size of the input, `N`, to using smart pointers and manage pseudo-iterators. Finally, we have come to show a solution that can even reverse the input without using intermediate storage and that can work with many different temporary containers.
 
 ---
 

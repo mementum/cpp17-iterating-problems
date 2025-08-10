@@ -225,3 +225,5 @@ It is now that we have a really complete solution. Game over and here is the cod
 ```cpp title
 --8<-- "{sourcedir}/06-basic-data-types-resurrections/basic-data-types-resurrections-04.cpp"
 ```
+
+/// pagebreak ///

@@ -53,3 +53,5 @@ If you add a new solution following the aforementioned conventions, the `Makefil
 ## Final Words
 
 Hopefully someone finds something interesting here and not only the author enjoys the content and the process of having crafted it.
+
+/// pagebreak ///

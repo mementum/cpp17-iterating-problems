@@ -122,3 +122,5 @@ Our newly defined `hello_world` has the final form we will be trying to use for 
 A simple 1-statement solution has been turned into a basic model for future solutions. By converting the non-input (constant value) into an iterable input range, wrapping the output iterator into our own custom iterator, we are able to control the presentation and model the final solution function after the *STL* algorithms.
 
 Mission accomplished! Well, one of many missions to come.
+
+/// pagebreak ///
