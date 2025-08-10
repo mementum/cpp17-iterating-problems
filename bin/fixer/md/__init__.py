@@ -5,11 +5,13 @@ from . import admonition
 from . import blockcpp
 from . import heading
 from . import literal
+from . import pagebreak
 
 from . import lineprocs
 from . import stdref
 
 PROCESSORS = [
+    (pagebreak.PageBreak, True),
     (heading.Heading, True),
     (admonition.Admonition, True),
     (admonition.BlockAdmonition, True),
