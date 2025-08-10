@@ -17,9 +17,12 @@ GREP_OUT_MK :=
 SRC_MK_0 := 0007
 SRC_MK_9 := 9999
 MKDOCS_TAB_MAIN := "Book"
+MKDOCS_TAB_SPAGE := "Single Page"
 MKDOCS_TAB_DOWN := "Downloads"
 MKDOCS_INDEX := index.md
+MKDOCS_SPAGE := singlepage.md
 MKDOCS_DOWNLOADS := downloads.md
+MKDOCS_DO_SPAGE :=
 
 ###############################################################################
 # DO NOT EDIT BELOW THIS LINE ... Unless you really need to
@@ -255,6 +258,9 @@ DSTFILES_MK_INDEX_MD := $(filter %$(MKDOCS_INDEX),$(DSTFILES_MK_XTRA))
 
 # File patched with download links
 DSTFILES_MK_DOWNLOADS := $(filter %$(MKDOCS_DOWNLOADS),$(DSTFILES_MK_XTRA))
+
+# File for single page content
+DSTFILES_MK_SPAGE := $(BUILD_DIR_MKDOCS)/$(MKDOCS_SPAGE)
 
 # document header
 ADOC_HPREFIX := 0000
@@ -653,8 +659,18 @@ $(MKDOCS_YML): $(MKDOCS_YML_PDF) $(MKDOCS_YML_TEMPLATE) $(DSTFILES_MK) $(DSTFILE
 	cp $(MKDOCS_YML_TEMPLATE) $(tmpfile)
 	echo "" >> $(tmpfile)
 	echo "nav:" >> $(tmpfile)
+	@# Main Tab
 	echo "  - $(MKDOCS_TAB_MAIN):" >> $(tmpfile)
 	echo " $(tgts)" | sed 's/ /\n    - /g' | tail +2 >> $(tmpfile)
+ifneq ($(MKDOCS_DO_SPAGE),)
+	@# Single Page Tab
+	echo "  - $(MKDOCS_TAB_SPAGE):" >> $(tmpfile)
+	sed -s -e $$'$$a\\\n' $(DSTFILES_MK) > $(DSTFILES_MK_SPAGE)
+	sed -i -E '1N;N;s/^(\n)(#+ .*)(\n)$$/\1#\2\3/;P;D' $(DSTFILES_MK_SPAGE)
+	sed -i -e '1r $(DSTFILES_MK_INDEX_MD)' -e '1a\' $(DSTFILES_MK_SPAGE)
+	echo " $(notdir $(DSTFILES_MK_SPAGE))" | sed 's/ /\n    - /g' | tail +2 >> $(tmpfile)
+endif
+	@# PDF Downloads Tab
 	echo "  - $(MKDOCS_TAB_DOWN): $(notdir $(DSTFILES_MK_DOWNLOADS))" >> $(tmpfile)
 	@# Put links (and files if needed) in place before copying tmpfile to mkdocs.yml
 ifeq (mk-pdf,$(filter mk-pdf,$(MAKECMDGOALS)))
