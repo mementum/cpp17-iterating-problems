@@ -3,6 +3,7 @@
 #include <iostream> // std::cout/cin
 #include <iterator> // std::istream/ostream_iterator, std::back_inserter
 #include <vector> // std::vector
+#include <type_traits> // std::void_t, std::enable_if ...
 
 // get iterator type
 template <typename I>
