@@ -130,7 +130,7 @@ is needed.
 And here is were *C++17* comes to the rescue again with `if constexpr`.
 
 ```cpp title
---8<-- "{sourcedir}/12-angry-professor/angry-professor-04.cpp:36:47"
+--8<-- "{sourcedir}/12-angry-professor/angry-professor-04.cpp:37:48"
 ```
 
 You probably noticed that we were not taking an iterator pair, `first` and `last` and
