@@ -646,6 +646,13 @@ MKDOCS_YML_PDF := $(PDF_SCREEN_OPT) $(PDF_PREPRESS_OPT)
 mk-pdf: ;
 endif
 
+# Force adding single page
+ifeq (mk-spage,$(filter mk-spage,$(MAKECMDGOALS)))
+MKDOCS_DO_SPAGE := 1
+
+mk-spage: ;
+endif
+
 # Regenerate the mkdocs.yml file if the template, processed content md files or
 # mkdocs_md_files (or js or css) files have changedif any md source has changed
 $(MKDOCS_YML): $(MKDOCS_YML_PDF) $(MKDOCS_YML_TEMPLATE) $(DSTFILES_MK) $(DSTFILES_MK_XTRA)
