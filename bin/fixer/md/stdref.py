@@ -64,8 +64,10 @@ CPPREFS = {
 
 STDREFS = {
     "accumulate": "algorithm/accumulate",
+    "all_of": "algorithm/all_any_none_of",
     "any": "utility/any",
     "any_cast": "utility/any/any_cast",
+    "any_of": "algorithm/all_any_none_of",
     "array": "container/array",
     "back_inserter": "iterator/back_inserter",
     "front_inserter": "iterator/front_inserter",
@@ -121,6 +123,7 @@ STDREFS = {
     "make_unique": "memory/unique_ptr/make_unique",
     "map": "container/map",
     "next": "iterator/next",
+    "none_of": "algorithm/all_any_none_of",
     "numeric_limits": "types/numeric_limits",
     'string::operator""s': "string/basic_string/operator%2522%2522s.html",
     "ostream": "io/basic_ostream",
