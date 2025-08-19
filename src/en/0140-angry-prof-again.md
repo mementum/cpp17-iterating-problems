@@ -10,7 +10,8 @@ consider if we do not need our custom iterator at all. We have counted, partitio
 iterated, but we have missed the entire point. Our goal is to count we have *"at least k
 students of n"*, with `n` being the entire range, of course.
 
-And the standard library has three algorithms with the `_of_`, namely: `std::all_of`, `std::any_of` and `std::none_of`. It is obvious that as we needed, these algorithms can
+And the standard library has three algorithms with the `_of_`, namely: `std::all_of`,
+`std::any_of` and `std::none_of`. It is obvious that as we needed, these algorithms can
 break out early if the condition that is being tested fails. Unfortunately they do not
 test for `n` elements or *"at least"* `n`.
 
