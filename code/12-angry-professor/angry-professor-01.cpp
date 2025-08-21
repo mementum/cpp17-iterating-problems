@@ -15,4 +15,5 @@ main(int, char *[]) {
         const auto students = std::count_if(c.begin(), c.end(), fearly);
         *out++ = students < k ? "YES" : "NO"; // canceled if less than k
     }
+    return 0;
 }

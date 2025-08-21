@@ -19,4 +19,5 @@ main(int, char *[]) {
             outval = (outval + *(++itleft)) / 2;
         *out++ = outval;
     }
+    return 0;
 }

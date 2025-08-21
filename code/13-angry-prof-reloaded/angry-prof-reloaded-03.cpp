@@ -115,4 +115,5 @@ main(int, char *[]) {
         std::copy_n(in, n, filter_inserter(c, fearly)); // copy input
         *out++ = canceled[c.size() < static_cast<unsigned int>(k)];
     }
+    return 0;
 }

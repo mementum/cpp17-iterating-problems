@@ -80,4 +80,5 @@ main(int, char *[]) {
         const auto early_students = n_of(c.begin(), c.end(), k, fearly, true);
         *out++ = canceled[not early_students];
     }
+    return 0;
 }

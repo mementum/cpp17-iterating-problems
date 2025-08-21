@@ -68,4 +68,5 @@ main(int, char *[]) {
         const auto students = count_n_until_k_if(first, n, k, fearly);
         *out++ = canceled[students < k];
     }
+    return 0;
 }

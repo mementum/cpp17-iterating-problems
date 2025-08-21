@@ -29,4 +29,5 @@ main(int, char *[]) {
             outval = (outval + static_cast<double>(*std::next(rmed))) / 2;
         *out++ = outval;
     }
+    return 0;
 }

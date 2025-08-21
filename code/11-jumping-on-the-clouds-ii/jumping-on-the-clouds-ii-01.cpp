@@ -30,4 +30,5 @@ main(int, char *[]) {
         std::copy_n(in, n, std::back_inserter(c)); // copy input
         final_energy(c.begin(), out, n, k, e);
     }
+    return 0;
 }

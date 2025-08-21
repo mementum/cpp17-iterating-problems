@@ -18,4 +18,5 @@ main(int, char *[]) {
             val = (val + *std::next(s.begin(), left + 1)) / 2;
         *out++ = val;
     }
+    return 0;
 }

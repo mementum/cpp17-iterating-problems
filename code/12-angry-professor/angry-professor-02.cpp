@@ -68,4 +68,5 @@ main(int, char *[]) {
         );
         *out++ = canceled[students < k];
     }
+    return 0;
 }

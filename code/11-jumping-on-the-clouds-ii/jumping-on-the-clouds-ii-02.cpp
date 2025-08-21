@@ -74,4 +74,5 @@ main(int, char *[]) {
         std::copy_n(in, n, std::back_inserter(c)); // copy input
         *out++ = e + minus_energy(c.begin(), fmove, fenergy); // solve
     }
+    return 0;
 }

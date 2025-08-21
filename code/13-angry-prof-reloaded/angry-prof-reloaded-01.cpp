@@ -28,4 +28,5 @@ main(int, char *[]) {
         const auto students = count_early_students(c, fearly);
         *out++ = canceled[students < k];
     }
+    return 0;
 }
