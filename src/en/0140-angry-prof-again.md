@@ -1,4 +1,4 @@
-# The Angry Professor - Reloaded
+# The Angry Professor - Again
 
 **Title**: Angry Professor\
 **Link**: <https://www.hackerrank.com/challenges/angry-professor>
