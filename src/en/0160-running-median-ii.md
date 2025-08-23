@@ -103,7 +103,7 @@ and we use *Type Erasure* to present them as such.
 The only difference with regards to usual implementations is that the base class takes a
 template parameter `T`. That is to avoid having to specify the type taken by `push` and
 returned by `top`. Luckily we can directly calculate `T` in the `MyHeap` implementation,
-by looking at `PrioQ::value_type`. Both our heaps use the same `T`, and `int, and will
+by looking at `PrioQ::value_type`. Both our heaps use the same `T`, and `int`, and will
 therefore be subclasses of our `Heap<T>` abstract base class. Notice that we have there a
 `get_basepointer` method, so that any subclass can get a pointer to `Heap<T>` to work to
 easily work with polymorphism.
