@@ -85,32 +85,44 @@ ideally use polymorphism to avoid having to know on which heap we operate. Howev
 `std::priority_queue<int, std::vector<int>, std::greater<int>>` are different types. And
 we are not in the business of using `void *` to duck types.
 
-## Type Erasure for Heaps
+## Type Erasure Polymorphism
 
 What we need is to create our own inheritance chain to make the types polymorphic, i.e.,
 create a wrapper with templates that mimic the needed interface and then create our
-templated *"subclasses"*.
+templated *"subclasses"*. This is called *Type Erasure*, although nobody is erasing
+actually anything. The type is being hidden behind another type. This new type does
+usually present the same interface, but it can actually adapt interfaces effectively
+mixing real different types. Our types are only different because of the comparison
+function, `std::less` vs `std::greater`. For all intent and purposes they are polymorphic
+and we use *Type Erasure* to present them as such.
 
 ```cpp title
---8<-- "{sourcedir}/16-running-median-ii/running-median-ii-03.cpp:9:25"
+--8<-- "{sourcedir}/16-running-median-ii/running-median-ii-03.cpp:8:32"
 ```
 
 The only difference with regards to usual implementations is that the base class takes a
-template parameter too. That is to avoid having to specify the type taken by `push` and
+template parameter `T`. That is to avoid having to specify the type taken by `push` and
 returned by `top`. Luckily we can directly calculate `T` in the `MyHeap` implementation,
-by looking at `PrioQ::value_type`. Both our heaps use the same `value_type` and will
-therefore be subclasses of our `Heap<T>` abstract base class.
+by looking at `PrioQ::value_type`. Both our heaps use the same `T`, and `int, and will
+therefore be subclasses of our `Heap<T>` abstract base class. Notice that we have there a
+`get_basepointer` method, so that any subclass can get a pointer to `Heap<T>` to work to
+easily work with polymorphism.
 
 ```cpp title
---8<-- "{sourcedir}/16-running-median-ii/running-median-ii-03.cpp:33:42"
+--8<-- "{sourcedir}/16-running-median-ii/running-median-ii-03.cpp:38:50"
 ```
 
-And the polymorphic implementation can happen. We store two pointers in an `std::array`
-and during each iteration we select the heap that gets the new value pushed and than
-balances itself to the other heap.
+We create the heaps and get the pointers to them. The same `auto` allows us to get the
+pointer for both because we are getting a pointer to `Heap<int>`, i.e.: the same type.
+This is where polymorphism starts to show up. As it does in the `for` loop where we use
+`std::swap(qlp, qrp)`, to swap the pointers in the variables. Were they not compatible,
+we could not do that.
 
-The one-liners have become real. However, the calculation of the running media does still
-reference the left and right heaps.
+The algorithm operates now without knowing if we are in an `odd` or `even` case and
+simply pushes to one heap, sorting the values, and the balances whatever is at the top to
+the other side. Instead of keeping tabs with the parity of the count, we simply compare
+the size of the polymorphic queues to know if we need just one value for the running
+median or the average of two.
 
 This solution, as it previous non-polymorphic implementation, passes all the tests.
 Mission accomplished.
@@ -118,3 +130,39 @@ Mission accomplished.
 ```cpp title
 --8<-- "{sourcedir}/16-running-median-ii/running-median-ii-03.cpp"
 ```
+
+## Variant (Pseudo-)Polymorphism
+
+The question is whether we really need polymorphism with *C++17* or we can use modern
+facilities to achieve the same effect without resorting to *tricks* like creating our
+own hierarchy to achieve *Type Erasure*.
+
+We are only really interested in reaching the `push`, `top` and `top` methods of our
+heaps, the methods of the based `std::priority_queue` instances we use as heaps. Recall
+that when were addressing the [*"Types, Types, Types
+"*](0050-types-types-types.md#060-types) challenge, we resorted to using `std::variant`,
+a newcomer in *C++17* described as a type-safe union that can therefore hold different
+types, always one at time.
+
+That is going to be our key cornerstone to implement the *variant-polymorphism*: we will
+have an `std::variant` holding the types of both heaps, the left one (max-at-the-top) and
+the right one (min-at-the-top). We will then have two variants, each holding an instance
+of the heaps and we will use them to push, balance, calculate the running media and then
+swap them as we did before. Without having to define a chain hierarchy to implement *Type
+Erasure*.
+
+```cpp title
+--8<-- "{sourcedir}/16-running-median-ii/running-median-ii-04.cpp"
+```
+
+The only drawback in the code above, if we could say so, is that the
+push-balance-calculate has to be placed in a *lambda expression*. This goes into
+`std::visit`, the functionality that will feed our heaps to the algorithm. Using
+`std::visit` is the key, because it passes the type being held in the `std::variant`
+without forcing us to know it beforehand or using the index.
+
+Given that a *lambda expression* can declare its parameters to be of type `auto`, the
+combination is ideal.
+
+The algorithm is exactly the same as in the previous solution but no pointers are
+involved.

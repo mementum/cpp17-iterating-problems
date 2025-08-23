@@ -1,27 +1,33 @@
-#include <array> // std::array
 #include <functional> // std::greater
 #include <iostream> // std::cout/cin
 #include <iomanip> // std::setprecision, ...
-#include <iterator> // std::istream/ostream_iterator, std::back_inserter
+#include <iterator> // std::istream/ostream_iterator
 #include <queue> // std::priority_queue
 #include <vector> // std::vector
 
 // Type Erasure Idiom for the Heap
 template<typename T>
 struct Heap {
+    virtual ~Heap() = default;
+
+    auto *get_basepointer() { return this; }
+
+    // abstract interface
     virtual void push(const T &) = 0;
     virtual T top() const = 0;
     virtual void pop() = 0;
-    virtual ~Heap() = default;
+    virtual size_t size() const = 0;
 };
 
-template<typename PrioQ, typename T = typename PrioQ::value_type>
+template<typename T, template <typename> typename Comp = std::less>
 struct MyHeap : Heap<T> {
-    using value_type = T;
-    PrioQ prioq;
-    void push(const T &x) override { prioq.push(x); }
-    T top() const override { return prioq.top(); }
-    void pop() override { prioq.pop(); }
+    using PrioQ = std::priority_queue<T, std::vector<T>, Comp<T>>;
+    PrioQ m_prioq;
+
+    void push(const T &x) override { m_prioq.push(x); }
+    T top() const override { return m_prioq.top(); }
+    void pop() override { m_prioq.pop(); }
+    size_t size() const override { return m_prioq.size(); }
 };
 
 // Main
@@ -30,19 +36,16 @@ main(int, char *[]) {
     auto in = std::istream_iterator<int>{std::cin}; // input iterator
     auto out = std::ostream_iterator<double>{std::cout, "\n"}; // out iter
     std::cout << std::fixed << std::setprecision(1); // fixed 1 decimal
-    auto ql = MyHeap<std::priority_queue<int>>{}; // left heap / right heap
-    auto qr =
-        MyHeap<std::priority_queue<int, std::vector<int>, std::greater<int>>>{};
-    using HeapBase = Heap<decltype(ql)::value_type>;
-    auto qa = std::array<HeapBase *, 2>{&qr, &ql};
-    for(auto t = *in++, odd = 0; t--; odd = not odd) {
-        auto &qlv = *qa[odd], &qrv = *qa[not odd];
-        qlv.push(*in++);
-        qrv.push(qlv.top());
-        qlv.pop();
-        auto rmed = static_cast<double>(ql.top());
-        if (odd) // was odd, we made it even
-            rmed = (rmed + static_cast<double>(qr.top())) / 2;
+    auto ql = MyHeap<int>{}; // left heap (max at top)
+    auto qr = MyHeap<int, std::greater>{}; // right heap (min at top)
+    auto *qlp = ql.get_basepointer(), *qrp = qr.get_basepointer();
+    for(auto t = *in++; t--; std::swap(qlp, qrp)) {
+        qlp->push(*in++); // push to get it sorted
+        qrp->push(qlp->top()); // balance to other side moving top
+        qlp->pop(); // complete move by removing the moved value
+        auto rmed = static_cast<double>(qrp->top()); // side we really pushed to
+        if (qlp->size() == qrp->size()) // same size -- use other side too
+            rmed = (rmed + static_cast<double>(qlp->top())) / 2;
         *out++ = rmed;
     }
     return 0;
