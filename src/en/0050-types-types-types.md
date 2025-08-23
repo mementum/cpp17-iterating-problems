@@ -1,4 +1,4 @@
-# Types, Types, Types
+# Types, Types, Types {#050-types}
 
 **Title**: Basic Data Types\
 **Link**: <https://www.hackerrank.com/challenges/c-tutorial-basic-data-types>
