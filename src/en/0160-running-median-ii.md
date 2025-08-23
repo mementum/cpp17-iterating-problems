@@ -3,7 +3,7 @@
 **Title**: Find the Running Median\
 **Link**: <https://www.hackerrank.com/challenges/find-the-running-median/>
 
-# The Complexity Conundrum
+## The Complexity Conundrum
 
 As we saw with the previous examples, *"Complexity Killed The Cat"*, because as soon as
 we did not have an efficient insertion method to keep the container sorted, even our
