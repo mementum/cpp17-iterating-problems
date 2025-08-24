@@ -172,3 +172,5 @@ evil. An `std::list` with its *Bidirectional Iterator* and linear nature (it is 
 **list**) cannot achieve the complexity target.
 
 Let us see what the next chapter will bring to us.
+
+/// pagebreak ///

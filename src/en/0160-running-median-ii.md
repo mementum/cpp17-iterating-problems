@@ -166,3 +166,5 @@ combination is ideal.
 
 The algorithm is exactly the same as in the previous solution but no pointers are
 involved.
+
+/// pagebreak ///
