@@ -1,0 +1,1318 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Solving Problems with Iterators in C++17">
+      
+      
+        <meta name="author" content="Daniel Rodriguez">
+      
+      
+        <link rel="canonical" href="https://mementum.github.io/cpp17-iterating-problems/0190-tree-traversal-iii/">
+      
+      
+        <link rel="prev" href="../0180-tree-traversal-ii/">
+      
+      
+        <link rel="next" href="../9995-colophon/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Tree Traversal III - C++17 - Iterating Problems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tree-traversal-iii" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++17 - Iterating Problems" class="md-header__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++17 - Iterating Problems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tree Traversal III
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Book
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../downloads/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Downloads
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++17 - Iterating Problems" class="md-nav__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++17 - Iterating Problems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Book
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Book
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C++17 - Iterating Problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-preface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0010-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0020-input-and-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input and Output
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0030-input-and-output-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input And Output - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0040-hello-world-revolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World - Revolutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0050-types-types-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types, Types, Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0060-types-resurrection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types - Resurrected
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0070-for-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    For Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0080-arrays-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0090-tortoise-and-hare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Tortoise And The Hare
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0100-variable-sized-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variable Sized Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0110-jumping-in-the-clouds-revisited/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jumping On The Clouds - Revisited
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0120-angry-professor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0130-angry-professor-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0140-angry-prof-again/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Again
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0150-running-median/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0160-running-median-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0170-tree-traversal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0180-tree-traversal-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal III
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal III
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#listings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Listings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-based-map-tree-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional-Based Map Tree - 01
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uniqueptr-t-templatedcontsexpress-traversals-91" class="md-nav__link">
+    <span class="md-ellipsis">
+      UniquePtr T-Templated/Contsexpress Traversals - 91
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9995-colophon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Colophon
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../downloads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Downloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tree-traversal-iii">Tree Traversal III<a class="headerlink" href="#tree-traversal-iii" title="Permanent link">&para;</a></h1>
+<p><strong>Title</strong>: Tree: Inorder Traversal<br />
+<strong>Link</strong>: <a href="https://www.hackerrank.com/challenges/tree-inorder-traversal" target="_blank">https://www.hackerrank.com/challenges/tree-inorder-traversal</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+<p>Let us use the third of the traversal methods, <em>inorder</em>, to fix our design, given that we cannot really fix the performance.</p>
+<p>Yes, we need to fix a basic design flaw. When we first addressed the tree traversal problem we used <a href="https://en.cppreference.com/w/cpp/keyword/int" target="_blank"><code>int{}</code></a> (i.e., <code>0</code>) to indicate that a node is a <strong>null</strong> node. This was not a problem for our solution because we know that problem values will be <code>&gt; 0</code>.</p>
+<p>The next design used <a href="https://en.cppreference.com/w/cpp/keyword/typename" target="_blank"><code>typename T</code></a> as the type and <code>T{}</code> as the <strong>null</strong> value. And this is simply the error repeating itself.</p>
+<p>Let us therefore use a feature of <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++17</em></a> that we have yet not explored: <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a>. It is a class that manages a value of type <code>T</code> but may actually not contain any value. And that is what will use to have a real <strong>null</strong> value: an <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional</code></a> that contains no value.</p>
+<p>That is, in fact, the value <a href="https://en.cppreference.com/w/cpp/utility/optional/nullopt" target="_blank"><code>std::nullopt</code></a> a <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr</code></a> value of type <a href="https://en.cppreference.com/w/cpp/utility/optional/nullopt_t" target="_blank"><code>std::nullopt_t</code></a>, a value that we will obtain by simply creating an empty <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a>.</p>
+<p>This is how we now define the data structure of our tree.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_T_ops</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">StdTree</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// out real type is now the optional&lt;T&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">NullTreeVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TNode</span><span class="p">{};</span><span class="w"> </span><span class="c1">// holds std::nullopt</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="nc">Node</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">Children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="n">TNode</span><span class="p">,</span><span class="w"> </span><span class="n">Node</span><span class="o">::</span><span class="n">Total</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">NullChildren</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Children</span><span class="p">{{}};</span><span class="w"> </span><span class="c1">// two std::nullopt</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="c1">// init tree with virtual root with empty children</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TNode</span><span class="p">,</span><span class="w"> </span><span class="n">Children</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_tree</span><span class="p">{{</span><span class="n">NullTreeVal</span><span class="p">,</span><span class="w"> </span><span class="n">NullChildren</span><span class="p">}};</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_tree</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">NullTreeVal</span><span class="p">)[</span><span class="n">Node</span><span class="o">::</span><span class="n">Right</span><span class="p">];</span><span class="w"> </span><span class="c1">// real root ref</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/19-tree-traversal-iii/tree-traversal-iii-01.cpp#L49" target="_blank">19-tree-traversal-iii/tree-traversal-iii-01.cpp:49:60</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>The tree does still take <code>T</code> as the type, but we use and store <code>TNode</code> which is defined as <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a>. A simple substitution and we suddenly have a real <strong>null</strong> value, because our <code>NullTreeVal</code> is now holding a <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr</code></a> empty <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a>, i.e. an <a href="https://en.cppreference.com/w/cpp/utility/optional/nullopt" target="_blank"><code>std::nullopt</code></a> as explained above.</p>
+<p>The only small drawback is that we need an extra step to get the value out of our <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a> and that is: using the operator <code>*</code> as is we were dereferencing a pointer or an iterator. However, we only need that when calling the visiting function <code>fvisit</code>.</p>
+<p>Notice that the only change is the use of <code>*node</code> in <code>fvisit(*node)</code>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">visit</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">node</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// if empty ... will do nothing</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_tree</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// get children</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Pre</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// pre</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit left</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">In</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// inorder</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit right</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Post</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// post</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/19-tree-traversal-iii/tree-traversal-iii-01.cpp#L64" target="_blank">19-tree-traversal-iii/tree-traversal-iii-01.cpp:64:75</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>On the other hand, we no longer need to compare against a <code>NullTreeVal</code> as we did before, because our <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional&lt;T&gt;</code></a> will evaluate to <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a> if no value is contained, i.e., an <a href="https://en.cppreference.com/w/cpp/utility/optional/nullopt" target="_blank"><code>std::nullopt</code></a> is contained instead of an instance of type <code>T</code>. But we still use it as a key for the virtual root.</p>
+<p>Given that we have added another layer of indirection, let us check the timing of this solution to see if we have gone yet another order of magnitude away from the optimal solution.</p>
+<p>The timing of our <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional</code></a> solution</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$ make 01 rep10000 test05 o2
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>g++ -std=c++17 -DREPS=10000 -O2 -o build/tree-traversal-iii-01 tree-traversal-iii-01.cpp
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>0.497966
+</span></code></pre></div>
+<p>And the one of the <code>&lt;std::unique_ptr&gt;</code>-based tree</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$ make 01 rep10000 test05 o2
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>g++ -std=c++17 -DREPS=10000 -O2 -o build/tree-traversal-iii-01 tree-traversal-iii-01.cpp
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>0.0948075
+</span></code></pre></div>
+<p>We are slightly above <code>5x</code>, the multiplier we had when we first measured performance against a pointer-based tree. Still in that ballpark, which means that using <a href="https://en.cppreference.com/w/cpp/utility/optional" target="_blank"><code>std::optional</code></a> is not really a headache and has improved our code by letting us use the full spectrum of values of the type <code>T</code>. Recall that we were before blocking <a href="https://en.cppreference.com/w/cpp/keyword/int" target="_blank"><code>int{}</code></a> or <code>T{}</code> as the values to indicate a null node, voiding the presence of those values as valid data in a node.</p>
+<h2 id="listings">Listings<a class="headerlink" href="#listings" title="Permanent link">&para;</a></h2>
+<h3 id="optional-based-map-tree-01">Optional-Based Map Tree - 01<a class="headerlink" href="#optional-based-map-tree-01" title="Permanent link">&para;</a></h3>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy_n</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span><span class="c1"> // std::array</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="c1"> // std::chrono::xx</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout/cin</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream/ostream_iterator</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;optional&gt;</span><span class="c1"> // std::optional</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unordered_map&gt;</span><span class="c1"> // std::unordered_map</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="c1"> // std::vector</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::enable_if, std::invoke_result, std::void_t</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">// SFINAE for the Tree Type (operator support)</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">op_lt_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="n">op_lt_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">op_ne_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="n">op_ne_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">op_eq_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="n">op_eq_v</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_T_ops</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">op_lt_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">op_ne_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">op_eq_v</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="c1">// SFINAE: Visiting Function</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">f_visit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="n">f_visit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">invoke_result_t</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">f_visit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a><span class="c1">// Tree Class</span>
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_T_ops</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a><span class="k">class</span><span class="w"> </span><span class="nc">StdTree</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">optional</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="c1">// out real type is now the optional&lt;T&gt;</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">NullTreeVal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TNode</span><span class="p">{};</span><span class="w"> </span><span class="c1">// holds std::nullopt</span>
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a>
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="nc">Node</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">Children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="n">TNode</span><span class="p">,</span><span class="w"> </span><span class="n">Node</span><span class="o">::</span><span class="n">Total</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a><span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">NullChildren</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Children</span><span class="p">{{}};</span><span class="w"> </span><span class="c1">// two std::nullopt</span>
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="w">    </span><span class="c1">// init tree with virtual root with empty children</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">TNode</span><span class="p">,</span><span class="w"> </span><span class="n">Children</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_tree</span><span class="p">{{</span><span class="n">NullTreeVal</span><span class="p">,</span><span class="w"> </span><span class="n">NullChildren</span><span class="p">}};</span>
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_tree</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">NullTreeVal</span><span class="p">)[</span><span class="n">Node</span><span class="o">::</span><span class="n">Right</span><span class="p">];</span><span class="w"> </span><span class="c1">// real root ref</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Pre</span><span class="p">,</span><span class="w"> </span><span class="n">Post</span><span class="p">,</span><span class="w"> </span><span class="n">In</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">visit</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">node</span><span class="p">)</span>
+</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// if empty ... will do nothing</span>
+</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a>
+</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a><span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="p">[</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_tree</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// get children</span>
+</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Pre</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// pre</span>
+</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit left</span>
+</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">In</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// inorder</span>
+</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit right</span>
+</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Post</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="o">*</span><span class="n">node</span><span class="p">);</span><span class="w"> </span><span class="c1">// post</span>
+</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>
+</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">TNode</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_tree</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">node</span><span class="p">)[</span><span class="k">not</span><span class="w"> </span><span class="p">(</span><span class="n">data</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">node</span><span class="p">)];</span>
+</span><span id="__span-4-79"><a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+</span><span id="__span-4-80"><a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">child</span><span class="p">);</span><span class="w"> </span><span class="c1">// already in tree, go deeper</span>
+</span><span id="__span-4-81"><a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a><span class="w">        </span><span class="c1">// not in tree, add it with default empty children</span>
+</span><span id="__span-4-82"><a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a><span class="w">        </span><span class="n">m_tree</span><span class="p">[</span><span class="n">child</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NullChildren</span><span class="p">;</span><span class="w"> </span><span class="c1">// set target (left or right ref)</span>
+</span><span id="__span-4-83"><a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-84"><a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a>
+</span><span id="__span-4-85"><a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a><span class="k">public</span><span class="o">:</span>
+</span><span id="__span-4-86"><a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a><span class="w">    </span><span class="c1">// start always with the virtual root value</span>
+</span><span id="__span-4-87"><a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">NullTreeVal</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-88"><a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a><span class="w">    </span><span class="c1">// start with the reference to the real root</span>
+</span><span id="__span-4-89"><a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-4-90"><a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">preorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">Pre</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-91"><a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-4-92"><a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">inorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">In</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-93"><a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_fvisit</span><span class="o">&lt;</span><span class="n">F</span><span class="p">,</span><span class="w"> </span><span class="n">T</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-4-94"><a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">postorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">Post</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-95"><a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a><span class="p">};</span>
+</span><span id="__span-4-96"><a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a>
+</span><span id="__span-4-97"><a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a><span class="c1">// Solution Function</span>
+</span><span id="__span-4-98"><a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-4-99"><a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a><span class="k">auto</span>
+</span><span id="__span-4-100"><a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a><span class="n">solution</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">fout</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-101"><a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StdTree</span><span class="p">{};</span>
+</span><span id="__span-4-102"><a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">size</span><span class="o">--</span><span class="p">)</span>
+</span><span id="__span-4-103"><a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a><span class="w">        </span><span class="n">tree</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">);</span>
+</span><span id="__span-4-104"><a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a>
+</span><span id="__span-4-105"><a id="__codelineno-4-105" name="__codelineno-4-105" href="#__codelineno-4-105"></a><span class="w">    </span><span class="n">tree</span><span class="p">.</span><span class="n">inorder</span><span class="p">(</span><span class="n">fout</span><span class="p">);</span>
+</span><span id="__span-4-106"><a id="__codelineno-4-106" name="__codelineno-4-106" href="#__codelineno-4-106"></a><span class="p">}</span>
+</span><span id="__span-4-107"><a id="__codelineno-4-107" name="__codelineno-4-107" href="#__codelineno-4-107"></a>
+</span><span id="__span-4-108"><a id="__codelineno-4-108" name="__codelineno-4-108" href="#__codelineno-4-108"></a><span class="c1">// Main</span>
+</span><span id="__span-4-109"><a id="__codelineno-4-109" name="__codelineno-4-109" href="#__codelineno-4-109"></a><span class="kt">int</span>
+</span><span id="__span-4-110"><a id="__codelineno-4-110" name="__codelineno-4-110" href="#__codelineno-4-110"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-111"><a id="__codelineno-4-111" name="__codelineno-4-111" href="#__codelineno-4-111"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span><span class="w"> </span><span class="c1">// input iterator</span>
+</span><span id="__span-4-112"><a id="__codelineno-4-112" name="__codelineno-4-112" href="#__codelineno-4-112"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// out iter</span>
+</span><span id="__span-4-113"><a id="__codelineno-4-113" name="__codelineno-4-113" href="#__codelineno-4-113"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">oerr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-4-114"><a id="__codelineno-4-114" name="__codelineno-4-114" href="#__codelineno-4-114"></a>
+</span><span id="__span-4-115"><a id="__codelineno-4-115" name="__codelineno-4-115" href="#__codelineno-4-115"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">reps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-4-116"><a id="__codelineno-4-116" name="__codelineno-4-116" href="#__codelineno-4-116"></a><span class="cp">#ifdef REPS</span>
+</span><span id="__span-4-117"><a id="__codelineno-4-117" name="__codelineno-4-117" href="#__codelineno-4-117"></a><span class="w">    </span><span class="n">reps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REPS</span><span class="p">;</span>
+</span><span id="__span-4-118"><a id="__codelineno-4-118" name="__codelineno-4-118" href="#__codelineno-4-118"></a><span class="cp">#endif</span>
+</span><span id="__span-4-119"><a id="__codelineno-4-119" name="__codelineno-4-119" href="#__codelineno-4-119"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-4-120"><a id="__codelineno-4-120" name="__codelineno-4-120" href="#__codelineno-4-120"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span id="__span-4-121"><a id="__codelineno-4-121" name="__codelineno-4-121" href="#__codelineno-4-121"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">vin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span><span id="__span-4-122"><a id="__codelineno-4-122" name="__codelineno-4-122" href="#__codelineno-4-122"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy_n</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">vin</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span>
+</span><span id="__span-4-123"><a id="__codelineno-4-123" name="__codelineno-4-123" href="#__codelineno-4-123"></a>
+</span><span id="__span-4-124"><a id="__codelineno-4-124" name="__codelineno-4-124" href="#__codelineno-4-124"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="n">out</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">){</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-4-125"><a id="__codelineno-4-125" name="__codelineno-4-125" href="#__codelineno-4-125"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fakeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="p">){};</span>
+</span><span id="__span-4-126"><a id="__codelineno-4-126" name="__codelineno-4-126" href="#__codelineno-4-126"></a>
+</span><span id="__span-4-127"><a id="__codelineno-4-127" name="__codelineno-4-127" href="#__codelineno-4-127"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-4-128"><a id="__codelineno-4-128" name="__codelineno-4-128" href="#__codelineno-4-128"></a>
+</span><span id="__span-4-129"><a id="__codelineno-4-129" name="__codelineno-4-129" href="#__codelineno-4-129"></a><span class="w">    </span><span class="n">solution</span><span class="p">(</span><span class="n">vin</span><span class="p">,</span><span class="w"> </span><span class="n">fout</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="c1">// to match expected output</span>
+</span><span id="__span-4-130"><a id="__codelineno-4-130" name="__codelineno-4-130" href="#__codelineno-4-130"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="o">--</span><span class="n">reps</span><span class="p">)</span>
+</span><span id="__span-4-131"><a id="__codelineno-4-131" name="__codelineno-4-131" href="#__codelineno-4-131"></a><span class="w">        </span><span class="n">solution</span><span class="p">(</span><span class="n">vin</span><span class="p">,</span><span class="w"> </span><span class="n">fakeout</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="c1">// extra rounds output nothing</span>
+</span><span id="__span-4-132"><a id="__codelineno-4-132" name="__codelineno-4-132" href="#__codelineno-4-132"></a>
+</span><span id="__span-4-133"><a id="__codelineno-4-133" name="__codelineno-4-133" href="#__codelineno-4-133"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-4-134"><a id="__codelineno-4-134" name="__codelineno-4-134" href="#__codelineno-4-134"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">elapsed_seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span>
+</span><span id="__span-4-135"><a id="__codelineno-4-135" name="__codelineno-4-135" href="#__codelineno-4-135"></a><span class="w">        </span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">).</span><span class="n">count</span><span class="p">();</span>
+</span><span id="__span-4-136"><a id="__codelineno-4-136" name="__codelineno-4-136" href="#__codelineno-4-136"></a><span class="w">    </span><span class="n">oerr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">elapsed_seconds</span><span class="p">;</span>
+</span><span id="__span-4-137"><a id="__codelineno-4-137" name="__codelineno-4-137" href="#__codelineno-4-137"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-4-138"><a id="__codelineno-4-138" name="__codelineno-4-138" href="#__codelineno-4-138"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/19-tree-traversal-iii/tree-traversal-iii-01.cpp" target="_blank">19-tree-traversal-iii/tree-traversal-iii-01.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<h3 id="uniqueptr-t-templatedcontsexpress-traversals-91">UniquePtr T-Templated/Contsexpress Traversals - 91<a class="headerlink" href="#uniqueptr-t-templatedcontsexpress-traversals-91" title="Permanent link">&para;</a></h3>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy_n</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;chrono&gt;</span><span class="c1"> // std::chrono::xx</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout/cin</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream/ostream_iterator</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="c1"> // std::unique_ptr</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="c1"> // std::vector</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">UniquePtrTree</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">Node</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span><span class="n">T</span><span class="w"> </span><span class="n">m_data</span><span class="p">;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span><span class="k">using</span><span class="w"> </span><span class="n">NodePtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">        </span><span class="n">NodePtr</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">;</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span><span class="n">Node</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_data</span><span class="p">{</span><span class="n">data</span><span class="p">}</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span><span class="p">(</span><span class="n">d</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">NodePtr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Node</span><span class="o">::</span><span class="n">NodePtr</span><span class="p">;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="n">NodePtr</span><span class="w"> </span><span class="n">m_root</span><span class="p">;</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">NodePtr</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">            </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Node</span><span class="o">::</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">m_data</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">Order</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Pre</span><span class="p">,</span><span class="w"> </span><span class="n">Post</span><span class="p">,</span><span class="w"> </span><span class="n">In</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Order</span><span class="w"> </span><span class="n">order</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">visit</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">NodePtr</span><span class="w"> </span><span class="o">&amp;</span><span class="n">node</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">node</span><span class="p">)</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a><span class="w">            </span><span class="k">return</span><span class="p">;</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Pre</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">m_data</span><span class="p">);</span><span class="w"> </span><span class="c1">// pre</span>
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">left</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit left</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">In</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">m_data</span><span class="p">);</span><span class="w"> </span><span class="c1">// inorder</span>
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a><span class="w">        </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">order</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="o">-&gt;</span><span class="n">right</span><span class="p">);</span><span class="w"> </span><span class="c1">// visit right</span>
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">order</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Order</span><span class="o">::</span><span class="n">Post</span><span class="p">)</span><span class="w"> </span><span class="n">fvisit</span><span class="p">(</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">m_data</span><span class="p">);</span><span class="w"> </span><span class="c1">// post</span>
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>
+</span><span id="__span-5-43"><a id="__codelineno-5-43" name="__codelineno-5-43" href="#__codelineno-5-43"></a><span class="k">public</span><span class="o">:</span>
+</span><span id="__span-5-44"><a id="__codelineno-5-44" name="__codelineno-5-44" href="#__codelineno-5-44"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-5-45"><a id="__codelineno-5-45" name="__codelineno-5-45" href="#__codelineno-5-45"></a>
+</span><span id="__span-5-46"><a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-5-47"><a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">preorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">Pre</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-48"><a id="__codelineno-5-48" name="__codelineno-5-48" href="#__codelineno-5-48"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-5-49"><a id="__codelineno-5-49" name="__codelineno-5-49" href="#__codelineno-5-49"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">postorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">Post</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-50"><a id="__codelineno-5-50" name="__codelineno-5-50" href="#__codelineno-5-50"></a><span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-5-51"><a id="__codelineno-5-51" name="__codelineno-5-51" href="#__codelineno-5-51"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">inorder</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fvisit</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">visit</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">::</span><span class="n">In</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fvisit</span><span class="p">,</span><span class="w"> </span><span class="n">m_root</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-5-52"><a id="__codelineno-5-52" name="__codelineno-5-52" href="#__codelineno-5-52"></a><span class="p">};</span>
+</span><span id="__span-5-53"><a id="__codelineno-5-53" name="__codelineno-5-53" href="#__codelineno-5-53"></a>
+</span><span id="__span-5-54"><a id="__codelineno-5-54" name="__codelineno-5-54" href="#__codelineno-5-54"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">F</span><span class="o">&gt;</span>
+</span><span id="__span-5-55"><a id="__codelineno-5-55" name="__codelineno-5-55" href="#__codelineno-5-55"></a><span class="k">auto</span>
+</span><span id="__span-5-56"><a id="__codelineno-5-56" name="__codelineno-5-56" href="#__codelineno-5-56"></a><span class="n">solution</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">fout</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-57"><a id="__codelineno-5-57" name="__codelineno-5-57" href="#__codelineno-5-57"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">tree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UniquePtrTree</span><span class="p">{};</span>
+</span><span id="__span-5-58"><a id="__codelineno-5-58" name="__codelineno-5-58" href="#__codelineno-5-58"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">size</span><span class="o">--</span><span class="p">)</span>
+</span><span id="__span-5-59"><a id="__codelineno-5-59" name="__codelineno-5-59" href="#__codelineno-5-59"></a><span class="w">        </span><span class="n">tree</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">);</span>
+</span><span id="__span-5-60"><a id="__codelineno-5-60" name="__codelineno-5-60" href="#__codelineno-5-60"></a>
+</span><span id="__span-5-61"><a id="__codelineno-5-61" name="__codelineno-5-61" href="#__codelineno-5-61"></a><span class="w">    </span><span class="n">tree</span><span class="p">.</span><span class="n">postorder</span><span class="p">(</span><span class="n">fout</span><span class="p">);</span>
+</span><span id="__span-5-62"><a id="__codelineno-5-62" name="__codelineno-5-62" href="#__codelineno-5-62"></a><span class="p">}</span>
+</span><span id="__span-5-63"><a id="__codelineno-5-63" name="__codelineno-5-63" href="#__codelineno-5-63"></a>
+</span><span id="__span-5-64"><a id="__codelineno-5-64" name="__codelineno-5-64" href="#__codelineno-5-64"></a><span class="c1">// Main</span>
+</span><span id="__span-5-65"><a id="__codelineno-5-65" name="__codelineno-5-65" href="#__codelineno-5-65"></a><span class="kt">int</span>
+</span><span id="__span-5-66"><a id="__codelineno-5-66" name="__codelineno-5-66" href="#__codelineno-5-66"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-67"><a id="__codelineno-5-67" name="__codelineno-5-67" href="#__codelineno-5-67"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span><span class="w"> </span><span class="c1">// input iterator</span>
+</span><span id="__span-5-68"><a id="__codelineno-5-68" name="__codelineno-5-68" href="#__codelineno-5-68"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// out iter</span>
+</span><span id="__span-5-69"><a id="__codelineno-5-69" name="__codelineno-5-69" href="#__codelineno-5-69"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">oerr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-5-70"><a id="__codelineno-5-70" name="__codelineno-5-70" href="#__codelineno-5-70"></a>
+</span><span id="__span-5-71"><a id="__codelineno-5-71" name="__codelineno-5-71" href="#__codelineno-5-71"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">reps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span><span id="__span-5-72"><a id="__codelineno-5-72" name="__codelineno-5-72" href="#__codelineno-5-72"></a><span class="cp">#ifdef REPS</span>
+</span><span id="__span-5-73"><a id="__codelineno-5-73" name="__codelineno-5-73" href="#__codelineno-5-73"></a><span class="w">    </span><span class="n">reps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">REPS</span><span class="p">;</span>
+</span><span id="__span-5-74"><a id="__codelineno-5-74" name="__codelineno-5-74" href="#__codelineno-5-74"></a><span class="cp">#endif</span>
+</span><span id="__span-5-75"><a id="__codelineno-5-75" name="__codelineno-5-75" href="#__codelineno-5-75"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-5-76"><a id="__codelineno-5-76" name="__codelineno-5-76" href="#__codelineno-5-76"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</span><span id="__span-5-77"><a id="__codelineno-5-77" name="__codelineno-5-77" href="#__codelineno-5-77"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">vin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span><span id="__span-5-78"><a id="__codelineno-5-78" name="__codelineno-5-78" href="#__codelineno-5-78"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy_n</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">vin</span><span class="p">);</span><span class="w"> </span><span class="c1">// vin is not invalidated</span>
+</span><span id="__span-5-79"><a id="__codelineno-5-79" name="__codelineno-5-79" href="#__codelineno-5-79"></a>
+</span><span id="__span-5-80"><a id="__codelineno-5-80" name="__codelineno-5-80" href="#__codelineno-5-80"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="n">out</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">){</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-5-81"><a id="__codelineno-5-81" name="__codelineno-5-81" href="#__codelineno-5-81"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">fakeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="p">){};</span>
+</span><span id="__span-5-82"><a id="__codelineno-5-82" name="__codelineno-5-82" href="#__codelineno-5-82"></a>
+</span><span id="__span-5-83"><a id="__codelineno-5-83" name="__codelineno-5-83" href="#__codelineno-5-83"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-5-84"><a id="__codelineno-5-84" name="__codelineno-5-84" href="#__codelineno-5-84"></a><span class="w">    </span><span class="n">solution</span><span class="p">(</span><span class="n">vin</span><span class="p">,</span><span class="w"> </span><span class="n">fout</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="c1">// to match expected output</span>
+</span><span id="__span-5-85"><a id="__codelineno-5-85" name="__codelineno-5-85" href="#__codelineno-5-85"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="o">--</span><span class="n">reps</span><span class="p">)</span>
+</span><span id="__span-5-86"><a id="__codelineno-5-86" name="__codelineno-5-86" href="#__codelineno-5-86"></a><span class="w">        </span><span class="n">solution</span><span class="p">(</span><span class="n">vin</span><span class="p">,</span><span class="w"> </span><span class="n">fakeout</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="c1">// extra rounds for timing, no output</span>
+</span><span id="__span-5-87"><a id="__codelineno-5-87" name="__codelineno-5-87" href="#__codelineno-5-87"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">steady_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+</span><span id="__span-5-88"><a id="__codelineno-5-88" name="__codelineno-5-88" href="#__codelineno-5-88"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">elapsed_seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span>
+</span><span id="__span-5-89"><a id="__codelineno-5-89" name="__codelineno-5-89" href="#__codelineno-5-89"></a><span class="w">        </span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">).</span><span class="n">count</span><span class="p">();</span>
+</span><span id="__span-5-90"><a id="__codelineno-5-90" name="__codelineno-5-90" href="#__codelineno-5-90"></a><span class="w">    </span><span class="n">oerr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">elapsed_seconds</span><span class="p">;</span>
+</span><span id="__span-5-91"><a id="__codelineno-5-91" name="__codelineno-5-91" href="#__codelineno-5-91"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-5-92"><a id="__codelineno-5-92" name="__codelineno-5-92" href="#__codelineno-5-92"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/18-tree-traversal-ii/tree-traversal-ii-91.cpp" target="_blank">18-tree-traversal-ii/tree-traversal-ii-91.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Daniel Rodriguez
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

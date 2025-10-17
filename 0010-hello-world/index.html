@@ -1,0 +1,1222 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Solving Problems with Iterators in C++17">
+      
+      
+        <meta name="author" content="Daniel Rodriguez">
+      
+      
+        <link rel="canonical" href="https://mementum.github.io/cpp17-iterating-problems/0010-hello-world/">
+      
+      
+        <link rel="prev" href="../0007-preface/">
+      
+      
+        <link rel="next" href="../0020-input-and-output/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Hello World - C++17 - Iterating Problems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hello-world" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++17 - Iterating Problems" class="md-header__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++17 - Iterating Problems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Hello World
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Book
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../downloads/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Downloads
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++17 - Iterating Problems" class="md-nav__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++17 - Iterating Problems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Book
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Book
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C++17 - Iterating Problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-preface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Hello World
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-an-output-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using an Output Iterator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-input-iterators" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding Input Iterators
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-an-stl-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adding an STL Algorithm
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-custom-output-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Custom Output Iterator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#an-stl-like-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      An STL-like Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0020-input-and-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input and Output
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0030-input-and-output-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input And Output - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0040-hello-world-revolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World - Revolutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0050-types-types-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types, Types, Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0060-types-resurrection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types - Resurrected
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0070-for-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    For Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0080-arrays-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0090-tortoise-and-hare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Tortoise And The Hare
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0100-variable-sized-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variable Sized Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0110-jumping-in-the-clouds-revisited/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jumping On The Clouds - Revisited
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0120-angry-professor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0130-angry-professor-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0140-angry-prof-again/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Again
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0150-running-median/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0160-running-median-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0170-tree-traversal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0180-tree-traversal-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0190-tree-traversal-iii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal III
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9995-colophon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Colophon
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../downloads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Downloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hello-world">Hello World<a class="headerlink" href="#hello-world" title="Permanent link">&para;</a></h1>
+<p><strong>Title</strong>: Hello, World!<br />
+<strong>Link</strong>: <a href="https://www.hackerrank.com/challenges/cpp-hello-world" target="_blank">https://www.hackerrank.com/challenges/cpp-hello-world</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+<p>Getting started with any programming language always implies a “Hello World” example and HackerRank also has this challenge to get problem solvers started with <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++</em></a>. Solving the problem is obvious, but the goal was not to make obvious things. Rethinking the problem to make something useful out of it is the real challenge. Let us see how to rework this into something interesting.</p>
+<p>We first draft the obvious solution, considering that the expected output is: <em>“Hello, World!”</em>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">int</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-01.cpp" target="_blank">01-hello-world/hello-world-01.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>There it is. The solution does not even require a <code>\n</code> (or <a href="https://en.cppreference.com/w/cpp/io/manip/endl" target="_blank"><code>std::endl</code></a>) after printing the message. But notice that a comma, followed by a space, is used as a delimiter unlike in many other cases. That will be our first challenge.</p>
+<h2 id="using-an-output-iterator">Using an Output Iterator<a class="headerlink" href="#using-an-output-iterator" title="Permanent link">&para;</a></h2>
+<p>Because the goal is to solve the problems, where possible, with a Standard Library approach, the solution above is not really satisfying. Let us therefore introduce a classic from the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a>: iterators. We will be adding an output iterator to the mix, in this case: <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a>, that will take over the functionality of <a href="https://en.cppreference.com/w/cpp/io/cout" target="_blank"><code>std::cout</code></a>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::ostream_iterator</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">int</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">};</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-02.cpp" target="_blank">01-hello-world/hello-world-02.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>We have added our output iterator, initially managing it manually with the <code>*</code> (dereference) and <code>++</code> (postfix increment) operators to output our string for us. This still bears no resemblance to an <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> solution. Luckily, our <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a> can take a second parameter during construction, which is the delimiter to be used after each output operation. We can use it to get closer to the final goal.</p>
+<p>Notice that we have used <a href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank"><code>std::string</code></a> with <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a>. We could have used a good old <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>const char *</code></a> but our focus is the Standard Library.</p>
+<h2 id="adding-input-iterators">Adding Input Iterators<a class="headerlink" href="#adding-input-iterators" title="Permanent link">&para;</a></h2>
+<p>Let us now simulate that there is also input, by managing <em>“Hello”</em> and <em>“World!”</em> as separate tokens and making the <em>“, ”</em> delimiter a part of the output operation and not part of the content itself.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span><span class="c1"> // std::array</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::ostream_iterator</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">int</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hello_world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="p">{</span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World!&quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// input range</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// with delim</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hello_world</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hello_world</span><span class="p">.</span><span class="n">end</span><span class="p">();</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">last</span><span class="p">;)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">// input to output, move both to next position</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-03.cpp" target="_blank">01-hello-world/hello-world-03.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>This is much better. By using an <a href="https://en.cppreference.com/w/cpp/container/array" target="_blank"><code>std::array</code></a> to hold the two words in our message, we can use the <code>begin</code> and <code>end</code> methods to iterate over the input range and then output each element with our iterator. Even for this simple case, we obviously avoid checking against <code>end()</code> each and every time. Imagine if we did that for an array of millions of elements, instead of storing the <code>last</code> iterator in a variable.</p>
+<p>We are using the <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++17</em></a> <a href="https://en.cppreference.com/w/cpp/container/array" target="_blank"><code>std::array</code></a> facilities, with which it is possible to forego the template syntax, avoiding the need to specify the type of the array elements and the array size. The compiler will do it for us. And this is yet another reason <a href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank"><code>std::string</code></a> was a good choice as the type for <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a>. We could quickly find out if the compiler is choosing <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>const char *</code></a>, however by choosing <a href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank"><code>std::string</code></a> there is no need to worry, because it will be converted to a <a href="https://en.cppreference.com/w/cpp/string/basic_string" target="_blank"><code>std::string</code></a> when moving it to the output.</p>
+<p>In any case this solution fails to pass the test because the output has a trailing comma.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Hello, World!,
+</span></code></pre></div>
+<p>An improvement is still possible, by using a range based <a href="https://en.cppreference.com/w/cpp/language/for" target="_blank"><code>for</code></a> loop, instead of manually controlling the iteration.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span><span class="c1"> // std::array</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::ostream_iterator</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kt">int</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hello_world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="p">{</span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World!&quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// input range</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// with delim</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">hw</span><span class="o">:</span><span class="w"> </span><span class="n">hello_world</span><span class="p">)</span><span class="w"> </span><span class="c1">// range based for loop</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hw</span><span class="p">;</span><span class="w"> </span><span class="c1">// val to output and move output</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-04.cpp" target="_blank">01-hello-world/hello-world-04.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Some syntactic sugar that simplifies the look of our <a href="https://en.cppreference.com/w/cpp/language/for" target="_blank"><code>for</code></a> loop and removes the direct use of the input iterators from the equation. The change implies no change for the result: still a failure due to the aforementioned trailing comma.</p>
+<h2 id="adding-an-stl-algorithm">Adding an STL Algorithm<a class="headerlink" href="#adding-an-stl-algorithm" title="Permanent link">&para;</a></h2>
+<p>One of the goals was to use the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> as much as possible. And there is an ideal target for us: <a href="https://en.cppreference.com/w/cpp/algorithm/copy" target="_blank"><code>std::copy</code></a>, which takes an input range and copies each element to a destination range, by taking an iterator that points to the first element of the output range. This destination iterator has to be at least an output iterator. We already have those elements at hand: an input range and an output iterator.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;array&gt;</span><span class="c1"> // std::array</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cout</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::ostream_iterator</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">int</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hello_world</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="p">{</span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World!&quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// input range</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">};</span><span class="w"> </span><span class="c1">// with delim</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">hello_world</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">hello_world</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span><span class="w"> </span><span class="c1">// copy range =&gt; out</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-05.cpp" target="_blank">01-hello-world/hello-world-05.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Using <a href="https://en.cppreference.com/w/cpp/algorithm/copy" target="_blank"><code>std::copy</code></a> has allowed us to simplify the solution. We no longer need to hold the result of <code>end()</code> in a variable and there is no need to manually operate on the iterators. The algorithm does all the <code>*</code> and <code>++</code> heavy lifting for us. This may seem like an overkill for this case, but the goal is to make use of the existing facilities. Reinventing the wheel can be a viable solution if an extreme optimization is needed. In any case, the people writing the algorithms for the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a>, including several specializations, can write much better code than we do.</p>
+<p>Unfortunately, the trailing comma is still there.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Hello, World!,
+</span></code></pre></div>
+<p>Expecting anything else would have been naive because <a href="https://en.cppreference.com/w/cpp/algorithm/copy" target="_blank"><code>std::copy</code></a> is using our instance of <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a>, as we did before.</p>
+<h2 id="a-custom-output-iterator">A Custom Output Iterator<a class="headerlink" href="#a-custom-output-iterator" title="Permanent link">&para;</a></h2>
+<p>This is where extra thinking and development are needed to square the circle: a custom output iterator! Although one has to be humble and admit it will only be a wrapper around the <a href="https://en.cppreference.com/w/cpp/iterator/ostream_iterator" target="_blank"><code>std::ostream_iterator</code></a> functionality. But what a mighty wrapper because it will take over the management of the delimiter.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">os_iterator</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m_iter</span><span class="p">;</span><span class="w"> </span><span class="c1">// wrapped iterator</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="n">m_delim</span><span class="p">;</span><span class="w"> </span><span class="c1">// delimiter between elements</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">m_dodelim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// when to start separating</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="k">public</span><span class="o">:</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="c1">// needed for an iterator</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">iterator_category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="p">;</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="c1">// constructor replicating the wrapped iterator&#39;s constructor</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="n">os_iterator</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">ostream</span><span class="w"> </span><span class="o">&amp;</span><span class="n">os</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">delim</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_iter</span><span class="p">{</span><span class="n">os</span><span class="p">},</span><span class="w"> </span><span class="n">m_delim</span><span class="p">{</span><span class="n">delim</span><span class="p">}</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="c1">// no-ops because only the assignment (= operator does something)</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">-&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="w"> </span><span class="o">*</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="w"> </span><span class="o">++</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// ++prefix</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="w"> </span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c1">// postfix++</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">    </span><span class="c1">// Operation with the wrapped iterator, choosing when to output the sep</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="w"> </span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="o">&amp;</span><span class="n">outval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_dodelim</span><span class="p">)</span><span class="w"> </span><span class="c1">// output delimiter before the second/later elements</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">            </span><span class="o">*</span><span class="n">m_iter</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_delim</span><span class="p">;</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="w">        </span><span class="k">else</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">            </span><span class="n">m_dodelim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="w">        </span><span class="o">*</span><span class="n">m_iter</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">outval</span><span class="p">;</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a><span class="p">};</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-06.cpp#L6" target="_blank">01-hello-world/hello-world-06.cpp:6:35</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>In order to be useful, the wrapper has to be template based to mimic the original. It can then provide the operations that one will manually use, as we saw with <code>*out++ = val;</code>, and account for the possibility of other operations being used by the algorithm inside the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> operation. That is why both <code>++</code> increment operators, prefix, and postfix, are available. Those and the <code>*</code> dereference operator are simple NOP commands.</p>
+<p>The real work is done with the <code>=</code> assignment operator, when the iterator is given the value that has to be output. That is where the decision to output the delimiter is done. And it is done just before outputting the value, for all assignments except for the first, which is controlled with a boolean, <code>m_dodelim</code>. The <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> outputs the delimiter after the fact, we do it before, changing the logic.</p>
+<p>Anyone who also knows Python will notice that we are replicating the <code>'delimiter'.join(iterable of str)</code> functionality, that creates a string by joining the iterable with the delimiter in between elements, except after the last element. Even better, we do not need our range to be made out of strings, because of the generic functionality templates offer us. Granted, in Python the iterable of strings can be quickly achieved with <code>(str(x) for x in iterable)</code>.</p>
+<p>Defining the <code>iterator_category</code> in our custom iterator is compulsory and the alias we set it to, is the obvious choice: <a href="https://en.cppreference.com/w/cpp/iterator/iterator_tags" target="_blank"><code>std::output_iterator_tag</code></a>, because that is what our custom iterator and the wrapped one are doing: output.</p>
+<p>One final note about this custom iterator. The usual implementation of the <code>++</code> postfix operator looks like this.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="k">operator</span><span class="w"> </span><span class="o">++</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="p">(</span><span class="o">*</span><span class="k">this</span><span class="p">);</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<p>But because our <a href="https://en.cppreference.com/w/cpp/language/operators" target="_blank"><code>operator *()</code></a> and <a href="https://en.cppreference.com/w/cpp/language/operators" target="_blank"><code>operator ++()</code></a> are <em>NOP</em> implementations returning a reference to itself, creating a <code>tmp</code> copy is not needed and we can implement <code>++(int)</code> also as an <em>NOP</em>.</p>
+<p>The new main function that goes with it looks like this.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hello</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="p">{</span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World!&quot;</span><span class="p">};</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">};</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">hello</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">hello</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-06.cpp#L37" target="_blank">01-hello-world/hello-world-06.cpp:37</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>This delivers the expected solution output, with no trailing <em>“, ”</em> delimiter at the end.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Hello, World!
+</span></code></pre></div>
+<p>But more importantly, our solution is just one step away from one of the declared goals: be <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a>-like. The general form we will be looking for is the one taking an input range and accepting also the beginning of a destination (or output) range.</p>
+<h2 id="an-stl-like-solution">An STL-like Solution<a class="headerlink" href="#an-stl-like-solution" title="Permanent link">&para;</a></h2>
+<p>It may seem like something redundant to go any for it, because <a href="https://en.cppreference.com/w/cpp/algorithm/copy" target="_blank"><code>std::copy</code></a> is already part of the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a>, but let us go for our own <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a>-like solution.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">auto</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">hello_world</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="p">}</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="kt">int</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">hello</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="p">{</span><span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;World!&quot;</span><span class="p">};</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">os_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;, &quot;</span><span class="p">};</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="n">hello_world</span><span class="p">(</span><span class="n">hello</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">hello</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/01-hello-world/hello-world-07.cpp#L37" target="_blank">01-hello-world/hello-world-07.cpp:37</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Our newly defined <code>hello_world</code> has the final form we will be trying to use for each and every solution. We have obviously used <code>I</code> for <em>“Input”</em> and <code>O</code> for <em>“Output”</em> to make things as clear as possible.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>A simple 1-statement solution has been turned into a basic model for future solutions. By converting the non-input (constant value) into an iterable input range, wrapping the output iterator into our own custom iterator, we are able to control the presentation and model the final solution function after the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> algorithms.</p>
+<p>Mission accomplished! Well, one of many missions to come.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Daniel Rodriguez
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

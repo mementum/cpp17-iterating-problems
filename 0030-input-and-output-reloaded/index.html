@@ -1,0 +1,1390 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Solving Problems with Iterators in C++17">
+      
+      
+        <meta name="author" content="Daniel Rodriguez">
+      
+      
+        <link rel="canonical" href="https://mementum.github.io/cpp17-iterating-problems/0030-input-and-output-reloaded/">
+      
+      
+        <link rel="prev" href="../0020-input-and-output/">
+      
+      
+        <link rel="next" href="../0040-hello-world-revolution/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Input And Output - Reloaded - C++17 - Iterating Problems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#input-and-output-reloaded" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++17 - Iterating Problems" class="md-header__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++17 - Iterating Problems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Input And Output - Reloaded
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Book
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../downloads/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Downloads
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++17 - Iterating Problems" class="md-nav__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++17 - Iterating Problems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Book
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Book
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C++17 - Iterating Problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-preface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0010-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0020-input-and-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input and Output
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Input And Output - Reloaded
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input And Output - Reloaded
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-better-input-and-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Better Input And Output
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A Better Input And Output">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#deducting-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deducting Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#regaining-the-auto-return-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regaining The “auto” Return Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sfinae-on-steroids" class="md-nav__link">
+    <span class="md-ellipsis">
+      SFINAE On Steroids
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#leaner-and-meaner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Leaner and Meaner
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0040-hello-world-revolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World - Revolutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0050-types-types-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types, Types, Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0060-types-resurrection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types - Resurrected
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0070-for-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    For Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0080-arrays-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0090-tortoise-and-hare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Tortoise And The Hare
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0100-variable-sized-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variable Sized Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0110-jumping-in-the-clouds-revisited/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jumping On The Clouds - Revisited
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0120-angry-professor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0130-angry-professor-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0140-angry-prof-again/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Again
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0150-running-median/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0160-running-median-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0170-tree-traversal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0180-tree-traversal-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0190-tree-traversal-iii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal III
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9995-colophon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Colophon
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../downloads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Downloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="input-and-output-reloaded">Input And Output - Reloaded<a class="headerlink" href="#input-and-output-reloaded" title="Permanent link">&para;</a></h1>
+<p><strong>Title</strong>: Input and Output<br />
+<strong>Link</strong>: <a href="https://www.hackerrank.com/challenges/cpp-input-and-output" target="_blank">https://www.hackerrank.com/challenges/cpp-input-and-output</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+<p>If the Matrix franchise could reload itself, so can we, improving what we have so far done.</p>
+<h2 id="a-better-input-and-output">A Better Input And Output<a class="headerlink" href="#a-better-input-and-output" title="Permanent link">&para;</a></h2>
+<p>We ended this challenge with two small problems: the <a href="https://en.cppreference.com/w/cpp/keyword/auto" target="_blank"><code>auto</code></a>-return type and the extra <code>init</code> parameter that we wanted to be generic, yet compatible with the types the iterators manage.</p>
+<h3 id="deducting-types">Deducting Types<a class="headerlink" href="#deducting-types" title="Permanent link">&para;</a></h3>
+<p>Let us first address the second one. Recall that <a href="https://en.cppreference.com/w/cpp/iterator/iterator_traits" target="_blank"><code>std::iterator_traits&lt;T&gt;</code></a> is the generic interface giving us access to the definitions iterators have to carry. And amongst those definitions we have <code>value_type</code>, i.e.: a type. It is the perfect mix: iterators and an API to fetch the type inside the iterator. <code>init</code> can now be a lot more generic.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std:cin/cout</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator/ostream_iterator</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="c1"> // std::accumulate</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::iterator_traits/enable_if/is_base_of</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="o">&gt;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;::</span><span class="n">value_type</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">{</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="p">}</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="kt">int</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">prob_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="n">input_and_output</span><span class="p">(</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">},</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{},</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">}</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-01.cpp" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-01.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>This is exactly one of those moments when Italians scream: “Mamma Mia!”. That is really verbose but it works. If we pass something that is not directly convertible to <a href="https://en.cppreference.com/w/cpp/keyword/int" target="_blank"><code>int</code></a>, in our example, there will already be complains in the IDE and compilation will of course fail.</p>
+<p>But there is a better way by using a couple made for each other: <a href="https://en.cppreference.com/w/cpp/language/decltype" target="_blank"><code>decltype</code></a> and <a href="https://en.cppreference.com/w/cpp/utility/declval" target="_blank"><code>std::declval&lt;T&gt;</code></a>. Although they belong to different generations, <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++11</em></a> / <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++14</em></a>, they are both jewels. The former lets you deduct the type of the expression passed to it, so one can dynamically calculate, for example a return type or a parameter type. The latter can take an unknown (unevaluated) type <code>T</code> to use member functions of it during compilation: i.e.: not going through constructors.</p>
+<p>We know that iterators have a <code>*</code> operator to retrieve the current value. We can therefore use <a href="https://en.cppreference.com/w/cpp/utility/declval" target="_blank"><code>std::declval&lt;T&gt;</code></a> to access that value by pseudo-constructing <code>T</code> and applying the operator.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">    </span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="c1">// Pseudo-constructed T, use the* operator to get a value</span>
+</span></code></pre></div>
+<p>Once we have a value <a href="https://en.cppreference.com/w/cpp/language/decltype" target="_blank"><code>decltype</code></a> can give us the <em>declared type</em>, hence the name.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">    </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="c1">// Get declared type of the &quot;value&quot;</span>
+</span></code></pre></div>
+<p>It the right moment to apply this to the code in the challenge.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std:cin/cout</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator/ostream_iterator</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="c1"> // std::accumulate</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::iterator_traits/enable_if/is_base_of</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="o">&gt;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="kt">int</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">prob_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="n">input_and_output</span><span class="p">(</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">},</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{},</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">}</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-02.cpp" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-02.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>And things look a lot friendlier for the casual code reader and reviewer. Not only that, the errors reported by the IDE and the compilation process are shorter and more amicable. And although both solutions work, we will stick, wherever and whenever possible, with the <code>declxxx</code> dynamic duo, because it offers a general interface for deducting types, whereas <a href="https://en.cppreference.com/w/cpp/iterator/iterator_traits" target="_blank"><code>std::iterator_traits&lt;T&gt;</code></a> is limited to iterators.</p>
+<h3 id="regaining-the-auto-return-type">Regaining The “auto” Return Type<a class="headerlink" href="#regaining-the-auto-return-type" title="Permanent link">&para;</a></h3>
+<p>By using <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a> with <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> and an <em>enabler</em>, i.e.: return type from it, we lost the <a href="https://en.cppreference.com/w/cpp/keyword/auto" target="_blank"><code>auto</code></a> facility we were applying to our solution functions. We are forced to manually specify the right type in <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a>.</p>
+<p>But see, there is a trick because <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> returns a type and that means we could put that in the template declaration, where types are allowed. If it fails, the template will not be part of the candidate set. If it succeeds, the template will be a possible match for the template instantiation we look for. Here is how it looks (no changes to <a href="https://en.cppreference.com/w/cpp/language/main_function" target="_blank"><code>main</code></a>)</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std:cin/cout</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator/ostream_iterator</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="c1"> // std::accumulate</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::iterator_traits/enable_if/is_base_of</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">            </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">            </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="o">&gt;*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="o">&gt;</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">auto</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">}</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="kt">int</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">prob_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="n">input_and_output</span><span class="p">(</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">},</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{},</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">}</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-03.cpp" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-03.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Recall that the default <em>enabler</em> type for <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> is <a href="https://en.cppreference.com/w/cpp/language/types.html#void" target="_blank"><code>void</code></a>. And that is what we therefore effectively are left with in the code if the checks are all <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a>, is this:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="o">&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">auto</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span>
+</span></code></pre></div>
+<p>Our third template parameter is valid, of type <a href="https://en.cppreference.com/w/cpp/language/types.html#void" target="_blank"><code>void *</code></a> and has a default value of <a href="https://en.cppreference.com/w/cpp/language/nullptr" target="_blank"><code>nullptr</code></a>. We do not really care about this third parameter because its only purpose is to succeed in being there or fail, in order to remove itself from the candidate set.</p>
+<p>Notice that we are back in business because <a href="https://en.cppreference.com/w/cpp/keyword/auto" target="_blank"><code>auto</code></a> is back in business itself, as the return type. This saves us from the burdensome work of having to specify the right type there or as the second parameter to <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t&lt;bool, typename = void&gt;</code></a>.</p>
+<p>The match candidate will finally look a bit more awkward once the types are in place. Similar to the code below, where we can easily recognize what goes where, how <a href="https://en.cppreference.com/w/cpp/keyword/int" target="_blank"><code>int</code></a> was deduced for <code>init</code> and how our <a href="https://en.cppreference.com/w/cpp/language/nullptr" target="_blank"><code>nullptr</code></a> enabler is ignored.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">template</span><span class="o">&lt;&gt;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">input_and_output</span><span class="o">&lt;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="c1">// I</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="c1">// O</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">nullptr</span><span class="o">&gt;</span><span class="w"> </span><span class="c1">// std::enable_if result</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">(</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="n">first</span><span class="p">,</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="n">last</span><span class="p">,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="o">&gt;</span><span class="w"> </span><span class="n">out</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">&amp;</span><span class="n">init</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Both small problems are now solved.</p>
+<h3 id="sfinae-on-steroids">SFINAE On Steroids<a class="headerlink" href="#sfinae-on-steroids" title="Permanent link">&para;</a></h3>
+<p>Steroids is probably an exaggeration. Let us simply say that we can improve the look of the <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a> checks and make things generic for its reusability later somewhere else.</p>
+<p>We are indeed checking the nature of our iterators, but whether anyone is willing to type all that every time and actually read it later to understand what is going on, it is another story. Let us then present <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t&lt;class ...&gt;</code></a> a <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++17</em></a> metafunction looking forward to helping us. It transforms valid types passed as templates arguments into <a href="https://en.cppreference.com/w/cpp/language/types.html#void" target="_blank"><code>void</code></a>. If something is not valid, <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> will not transform it and this will be the key to remove that candidate.</p>
+<p>To profit from <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> we will use the following technique:</p>
+<ul>
+<li>
+<p>Use a <a href="https://en.cppreference.com/w/cpp/language/struct" target="_blank"><code>struct</code></a> that can resolve to <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a> if <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> succeeds in converting all types to <a href="https://en.cppreference.com/w/cpp/language/types.html#void" target="_blank"><code>void</code></a></p>
+</li>
+<li>
+<p>Have the same <a href="https://en.cppreference.com/w/cpp/language/struct" target="_blank"><code>struct</code></a> as a fallback, with default template parameters, that will resolve to <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a>. This will be a match if the checks above failed.</p>
+</li>
+</ul>
+<p>To have something that resolves to <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a> and <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a>, we may use <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::true_type</code></a> and <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a>, the perfect <em>Yin</em> and <em>Yang</em> for the work. Both are specializations of <a href="https://en.cppreference.com/w/cpp/language/templates" target="_blank"><code>template&lt;class T, T v&gt; struct integral_constant</code></a>, where <code>T = bool</code> and each specialization receives the <code>v = true</code> and <code>v = false</code> values respectively.</p>
+<p>For the sake of an example, let us imagine that we want to check if something is simply an iterator with <a href="https://en.cppreference.com/w/cpp/iterator/iterator_traits" target="_blank"><code>std::iterator_traits</code></a>, disregarding if it is an input, output, forward, or any other type of iterator. Using all the ingredients gathered above, this is how we would do it.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_it</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_it</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="w"> </span><span class="p">{};</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-04.cpp#L6" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-04.cpp:6:11</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>This is probably easy to understand: the first template candidate is a subclass of <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a> (its value will be <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a> when instantiated), whereas the second, a subclass of <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::true_type</code></a> that will be <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a> when instantiated. The second will be a valid candidate if the template parameter <code>T</code> has the iterator trait <code>iterator_category.</code> In that case <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> will convert that to <a href="https://en.cppreference.com/w/cpp/language/types.html#void" target="_blank"><code>void</code></a>. If not it will fail and our <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a> derived struct will be the matching candidate.</p>
+<p>We could now apply this together with <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if</code></a></p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_it</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_it</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">is_it</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">{}</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">is_it</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">{}</span><span class="o">&gt;*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="o">&gt;</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="k">auto</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-04.cpp#L6" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-04.cpp:6:18</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>It seems like if we have gone from 100 to 0 in microseconds, removing most of the bloat. Notice that we use <a href="https://en.cppreference.com/w/cpp/language/list_initialization" target="_blank"><code>{}</code></a> to instantiate <code>is_it&lt;T&gt;</code> and get the corresponding <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a> or <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a> value for the logical condition. This is equivalent to having used the <code>is_xxx_v</code> form above, a shorthand for <code>is_xxx::value</code>. Our <code>is_it</code> checker has actually a <code>::value</code> (declared as <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr static</code></a>), because it is a subclass of either <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a> or <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::true_type</code></a>.</p>
+<p>We can do even better and check multiple parameters in one go by using another <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++17</em></a> pearl, <a href="https://en.cppreference.com/w/cpp/types/conjunction" target="_blank"><code>std::conjunction&lt;class ...&gt;</code></a>. This one takes many types and performs a logical <a href="https://en.cppreference.com/w/cpp/keyword/and" target="_blank"><code>and</code></a> test, returning the value in, you guessed, <code>::value</code>. As our types all have a boolean <code>::value</code>, the can be used for the logical conjunction.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="p">...</span><span class="n">T</span><span class="o">&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">using</span><span class="w"> </span><span class="n">are_it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">conjunction</span><span class="o">&lt;</span><span class="n">is_it</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">...</span><span class="o">&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-05.cpp#L13" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-05.cpp:13:14</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>And this leads to an improvement/simplification of the previous code.</p>
+<p>Our code can be further simplified.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">are_it</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="p">{}</span><span class="o">&gt;*</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="o">&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">auto</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-05.cpp#L16" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-05.cpp:16:20</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>The goal, of course, is to check specifically if the iterators are subclasses of <em>InputIterator</em> and <em>OutputIterator</em>. Let us formulate these traits with <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> and then pack everything with <a href="https://en.cppreference.com/w/cpp/keyword/using" target="_blank"><code>using</code></a> to make things even cleaner.</p>
+<p>First the check for an <em>InputIterator</em>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_input</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="o">&gt;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_input</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of</span><span class="o">&lt;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;&gt;&gt;</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="w"> </span><span class="p">{};</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-06.cpp#L16" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-06.cpp:16:23</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Notice that we have used <a href="https://en.cppreference.com/w/cpp/types/is_base_of" target="_blank"><code>std::is_base_of</code></a> and not the <code>_v</code> helper to get the value. <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a> is expecting types and not boolean values.</p>
+<p>We can do the same for the output.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_output</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">false_type</span><span class="w"> </span><span class="p">{};</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">is_output</span><span class="o">&lt;</span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of</span><span class="o">&lt;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="p">,</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">        </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;&gt;&gt;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">true_type</span><span class="w"> </span><span class="p">{};</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-06.cpp#L25" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-06.cpp:25:32</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>And then check both as shown above with <a href="https://en.cppreference.com/w/cpp/types/conjunction" target="_blank"><code>std::conjunction</code></a>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">using</span><span class="w"> </span><span class="n">io_iterators</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">conjunction</span><span class="o">&lt;</span><span class="n">is_input</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">is_output</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-06.cpp#L34" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-06.cpp:34:35</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>For bonus points and in order to get the gold medal for packaging and reusability, we can even alias the usage of <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">io_iterators</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="p">{}</span><span class="o">&gt;*</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-06.cpp#L37" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-06.cpp:37:38</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>This means that our definition of <code>input_output</code> looks like this now.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="n">enable_if_io</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="o">&gt;</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">auto</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-06.cpp#L40" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-06.cpp:40:44</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Although this looks really nice, we can still make it nicer. Using <a href="https://en.cppreference.com/w/cpp/language/decltype" target="_blank"><code>decltype(*std::declval&lt;I&gt;())</code></a> is for sure a niece piece of work but we could rethink how we use <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> (or the alias we have created) as a template parameter.</p>
+<p>For starters we could alias it, as we have done with the other checks above.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">using</span><span class="w"> </span><span class="n">it_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">());</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="n">enable_if_io</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="o">&gt;</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">auto</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-07.cpp#L40" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-07.cpp:40:47</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Even nicer. But we have not reworked <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a>. And something nicer would still check the traits but making something useful out of the third template parameter. Now that we can so nicely deduce the type inside iterator with <a href="https://en.cppreference.com/w/cpp/language/decltype" target="_blank"><code>decltype</code></a> / <a href="https://en.cppreference.com/w/cpp/utility/declval" target="_blank"><code>std::declval</code></a> the spark is there. Let us use that type as the return type in <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> and then use that as a useful third template parameter instead of having just a dummy <a href="https://en.cppreference.com/w/cpp/language/nullptr" target="_blank"><code>nullptr</code></a> placeholder.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">io_iterators_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">io_iterators</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">using</span><span class="w"> </span><span class="n">it_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">());</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_io</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">io_iterators_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">I_Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_io</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="k">auto</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">I_Type</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-08.cpp#L37" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-08.cpp:37:50</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>We even added a bonus to replicate what we see in the standard our own <code>_v</code> helper with <code>io_iterators_v</code>. Instead of being a <a href="https://en.cppreference.com/w/cpp/language/struct" target="_blank"><code>struct</code></a> or a <a href="https://en.cppreference.com/w/cpp/keyword/using" target="_blank"><code>using</code></a> alias, this one is a <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr bool</code></a>, i.e.: a bool calculated during compile time. That means that we do not have to initialize <code>io_iterators</code> or access the <a href="https://en.cppreference.com/w/cpp/keyword/static" target="_blank"><code>static constexpr value</code></a> in it with <code>::value</code>, because our helper is doing it for us.</p>
+<h3 id="leaner-and-meaner">Leaner and Meaner<a class="headerlink" href="#leaner-and-meaner" title="Permanent link">&para;</a></h3>
+<p>Everything works, but not really fully. The typename <code>I_Type</code> has a default value in the template declaration but we are not specifying the template parameters: the compiler is doing that for us. That means that the real type passed as <code>I_Type</code> for the <code>init</code> parameter can be something else.</p>
+<p>This will be caught by the compiler if the type is not convertible to the type inside the <em>InputIterator</em>, but the goal was to invalidate the candidate if the type is wrong.</p>
+<p>We can additionally remove some of the bloat we have generated by using <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr bool</code></a> as we are wrapping <code>_v</code> values in <a href="https://en.cppreference.com/w/cpp/language/struct" target="_blank"><code>structs</code></a> that are subclasses of <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::true_type</code></a> plus a fallback subclass of <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a>. If the standard <code>_v</code> helpers already give us <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>true</code></a> and <a href="https://en.cppreference.com/w/cpp/language/bool_literal" target="_blank"><code>false</code></a>, let us then use them directly.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std:cin/cout</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator/ostream_iterator</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;numeric&gt;</span><span class="c1"> // std::accumulate</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::iterator_traits/enable_if/is_base_of</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Tag</span><span class="o">&gt;</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="n">Tag</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="o">&gt;</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_input_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_output_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="o">&lt;</span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">io_iterators_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_input_v</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">is_output_v</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="k">using</span><span class="w"> </span><span class="n">it_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">());</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a>
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="k">using</span><span class="w"> </span><span class="n">I_Type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span><span class="n">io_iterators_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-09.cpp#L1" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-09.cpp:1:23</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>There it is. Although <a href="https://en.cppreference.com/w/cpp/types/void_t" target="_blank"><code>std::void_t</code></a>, <a href="https://en.cppreference.com/w/cpp/types/conjunction" target="_blank"><code>std::conjunction</code></a> and using the duo <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::false_type</code></a> / <a href="https://en.cppreference.com/w/cpp/types/integral_constant" target="_blank"><code>std::true_type</code></a> looked good and it actually worked, we now need a lot less and remember the famous axiom: <em>“less is more”</em>.</p>
+<p>Good old <a href="https://en.cppreference.com/w/cpp/keyword/bool" target="_blank"><code>bool</code></a> values that are calculated during compilation, hence <a href="https://en.cppreference.com/w/cpp/language/const" target="_blank"><code>constexpr</code></a>, is everything we need. Notice that the type deduction for <code>init</code> with <code>it_type</code> remains unchanged and we have changed the name of <code>enable_if_io</code> to the typename we gave, and will still give, to the parameter <code>init</code>, i.e.: we have named the enabler as <code>I_Type</code>. See how this is applied in our new definition of <code>input_and_output</code>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">auto</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">input_and_output</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">,</span><span class="w"> </span><span class="n">I_Type</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="w"> </span><span class="n">init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">    </span><span class="o">*</span><span class="n">out</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">);</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">}</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="kt">int</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">prob_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">    </span><span class="n">input_and_output</span><span class="p">(</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">},</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{},</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">prob_type</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">}</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/03-input-and-output-reloaded/input-and-output-reloaded-09.cpp#L25" target="_blank">03-input-and-output-reloaded/input-and-output-reloaded-09.cpp:25</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>It would seem as if we were playing a game of <em>“Where is the ball?”</em>. We first had our enabler <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> in between the template declaration and the function definition. Later we moved it to be the default value of a template parameter (wrapping it in our own <code>enable_if_io</code>) And with the name <code>I_type</code> it is now the type for the <code>init</code> parameter in the function definition.</p>
+<p>The <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> check behind the curtains remains the same and the candidate will be eliminated from the set if either <code>I</code> and/or <code>O</code> fail the check to see the nature as an <em>InputIterator</em> and an <em>OutputIterator</em> respectively. What we are doing here is taking advantage of the fact that <a href="https://en.cppreference.com/w/cpp/types/enable_if" target="_blank"><code>std::enable_if_t</code></a> returns a type and that type is the one we want to have for <code>init</code>.</p>
+<p>Recall that type was a hindrance at the beginning, because it would prevent us from using <a href="https://en.cppreference.com/w/cpp/keyword/auto" target="_blank"><code>auto</code></a> as the return type. It is now the perfect enforcer for the parameter type. Any wrong type passed to <code>init</code> will be caught early, in the definition of our function. In the previous version, any wrong parameter was flagged later, at the <a href="https://en.cppreference.com/w/cpp/algorithm/accumulate" target="_blank"><code>std::accumulate</code></a> level.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>We started with our first ugly and bloated version of <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a> and although we used nice constructs and incredible facilities from the language and the library, this only led to replacing bloat with bloat. We then progressed to make a leaner and meaner version that shall serve us as a model for the future.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Daniel Rodriguez
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>

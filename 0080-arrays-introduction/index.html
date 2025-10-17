@@ -1,0 +1,1629 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Solving Problems with Iterators in C++17">
+      
+      
+        <meta name="author" content="Daniel Rodriguez">
+      
+      
+        <link rel="canonical" href="https://mementum.github.io/cpp17-iterating-problems/0080-arrays-introduction/">
+      
+      
+        <link rel="prev" href="../0070-for-loop/">
+      
+      
+        <link rel="next" href="../0090-tortoise-and-hare/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Arrays Introduction - C++17 - Iterating Problems</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#arrays-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="C++17 - Iterating Problems" class="md-header__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            C++17 - Iterating Problems
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Arrays Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Book
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../downloads/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Downloads
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="C++17 - Iterating Problems" class="md-nav__button md-logo" aria-label="C++17 - Iterating Problems" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    C++17 - Iterating Problems
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mementum/cpp17-iterating-problems" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Book
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Book
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    C++17 - Iterating Problems
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-preface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0010-hello-world/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0020-input-and-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input and Output
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0030-input-and-output-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input And Output - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0040-hello-world-revolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hello World - Revolutions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0050-types-types-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types, Types, Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0060-types-resurrection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Types - Resurrected
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0070-for-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    For Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Arrays Introduction
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arrays Introduction
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variable-length-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      Variable Length Arrays
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#real-standard-variable-length-arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real Standard Variable Length Arrays
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smart-pointers-iterators-and-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Smart Pointers, Iterators and Algorithms
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generalizing-smart-pointer-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generalizing Smart Pointer Usage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#going-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Going Vector
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#let-the-containers-come-to-us" class="md-nav__link">
+    <span class="md-ellipsis">
+      Let the Containers Come To Us
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0090-tortoise-and-hare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Tortoise And The Hare
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0100-variable-sized-arrays/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Variable Sized Arrays
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0110-jumping-in-the-clouds-revisited/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Jumping On The Clouds - Revisited
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0120-angry-professor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0130-angry-professor-reloaded/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Reloaded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0140-angry-prof-again/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    The Angry Professor - Again
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0150-running-median/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0160-running-median-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Median II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0170-tree-traversal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0180-tree-traversal-ii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal II
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0190-tree-traversal-iii/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tree Traversal III
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9995-colophon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Colophon
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../downloads/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Downloads
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="arrays-introduction">Arrays Introduction<a class="headerlink" href="#arrays-introduction" title="Permanent link">&para;</a></h1>
+<p><strong>Title</strong>: Arrays Introduction<br />
+<strong>Link</strong>: <a href="https://www.hackerrank.com/challenges/arrays-introduction/" target="_blank">https://www.hackerrank.com/challenges/arrays-introduction/</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+<h2 id="variable-length-arrays">Variable Length Arrays<a class="headerlink" href="#variable-length-arrays" title="Permanent link">&para;</a></h2>
+<p>Read some integers, store them in an array, and output them in reverse order. It does not sound difficult. Let us see what we can do.</p>
+<p>Remember we said that one of the reasons to use the problem sets available at <em>HackerRank</em> was the fact that it seemed partially abandoned. The editor was therefore not locked, and we could redo the entire solution, including the input and output—parts that sometimes seem written by very motivated but inexperienced coders.</p>
+<p>In this case, the coder tells us the following:</p>
+<blockquote>
+<p>Unlike C, C++ allows dynamic allocation of arrays at runtime without special calls like malloc(). If <code>n = 10</code>, <a href="https://en.cppreference.com/w/cpp/keyword/int" target="_blank"><code>int arr[n]</code></a> will create an array with space for <code>10</code> integers.</p>
+</blockquote>
+<p>Your humble author may not be the best coder in the world, but he surely knows something: <em>Variable Length Arrays</em> (aka <em>VLA</em>) are not part of the <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++</em></a> standard.</p>
+<p>Furthermore, and unlike stated, the <em>VLA</em> functionality is part of the <em>C</em> standard. It has been part of it for many years. The question is whether the statement (at least for <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++</em></a>) can be proven to be true. Let us give it a try.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">int</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="c1">// gather array size and prepare it</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">N</span><span class="p">];</span><span class="w"> </span><span class="c1">// NON-STANDARD C++ - Variable Length Array Extension</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;)</span><span class="w">  </span><span class="c1">// input loop</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="c1">// reverse output loop</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="o">--</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-01.cpp" target="_blank">08-arrays-intro/arrays-intro-01.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Blistering Barnacles! It does work. Notice how we have marked the <em>VLA</em> line with the following comment: <em>“NON-STANDARD C++ - Variable Length Array Extension”</em>. Because it is a compiler extension. Originally, only <em>GCC</em> supported it, but it is also supported by <em>clang</em> today. It is now clear how the author came to the conclusion that <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++</em></a> supports <em>Variable Length Arrays</em>: he/she gave it a try and it simply worked. This may (and likely will) break with other compilers, of course.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This solution <code>01</code> can be compiled as <code>make 01 pedantic</code>. The <code>pedantic</code> target deactivates compiler extensions and that means that the build process will fail.</p>
+</div>
+<h2 id="real-standard-variable-length-arrays">Real Standard Variable Length Arrays<a class="headerlink" href="#real-standard-variable-length-arrays" title="Permanent link">&para;</a></h2>
+<p>Let us see how we do the same but using proper <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++</em></a>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kt">int</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="c1">// gather array size and prepare it</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">N</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="p">[</span><span class="n">N</span><span class="p">];</span><span class="w"> </span><span class="c1">// standard c++ - dynamic allocation</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">N</span><span class="p">;)</span><span class="w"> </span><span class="c1">// input loop</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">++</span><span class="p">];</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="c1">// reverse output loop</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">[</span><span class="o">--</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">delete</span><span class="w"> </span><span class="p">[]</span><span class="w"> </span><span class="n">arr</span><span class="p">;</span><span class="w"> </span><span class="c1">// undo the dynamic allocation</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-02.cpp" target="_blank">08-arrays-intro/arrays-intro-02.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Rather than trusting that our compiler will understand, support, and properly manage <em>VLAs</em>, we resort to using the <code>new</code> and <code>delete</code> operators. Actually, we use the array variants: <code>new[]</code> and <code>delete[]</code>. These are real veterans of the <em>History of C++</em> and were added to the language in 1985.</p>
+<p>We are using <code>new</code>, <code>delete</code>, and <a href="https://en.cppreference.com/w/cpp/io/cin" target="_blank"><code>std::cin</code></a> and <a href="https://en.cppreference.com/w/cpp/io/cout" target="_blank"><code>std::cout</code></a>. Replace those with <code>malloc</code>, <code>free</code>, <code>scanf</code>, and <code>printf</code> and we would have <em>C</em> code. Not the solution we are really looking for, but it is a step in the right direction.</p>
+<h2 id="smart-pointers-iterators-and-algorithms">Smart Pointers, Iterators and Algorithms<a class="headerlink" href="#smart-pointers-iterators-and-algorithms" title="Permanent link">&para;</a></h2>
+<p>One of the pleasures of <em>Modern C++</em>, i.e., anything <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++11</em></a> and newer, is that language designers understood that new facilities were needed to ease the burden on coders. Someone asked the rhetorical question about manual allocation/deallocation of memory for pointers/arrays and why that could not be managed with intelligence. And <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr" target="_blank"><code>std::unique_ptr&lt;T&gt;</code></a> was born (there is a <code>Deleter</code> template parameter that I am omitting here). As it happened with the <code>_v</code> variants of compile-time checks that help people, someone thought that no matter how good our <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr" target="_blank"><code>std::unique_ptr</code></a> was, a helper would be even better. <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++14</em></a> brought <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique" target="_blank"><code>std::make_unique</code></a>.</p>
+<p>Let us use unique pointers together with iterators and algorithms.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy, std::copy_n</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="c1"> // std::make_unique</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kt">int</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">};</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="c1">// gather array size and prepare it</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">);</span><span class="w"> </span><span class="c1">// smart pointer</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="c1">// solve</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy_n</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="n">get</span><span class="p">());</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy_n</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="p">),</span><span class="w"> </span><span class="n">N</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-03.cpp" target="_blank">08-arrays-intro/arrays-intro-03.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>A unique pointer manages the allocation and deallocation of memory for us. We request an array of <code>N</code> (input parameter) integers and we get it. But the <a href="https://en.cppreference.com/w/cpp/standard_library" target="_blank"><em>STL</em></a> algorithms do not know how to work with smart pointers. Although it “contains” a pointer, it does not have the classic <code>begin</code> and <code>end</code> methods to give us iterators. And for good reasons: it is holding a pointer to a memory location. The interpretation of that is really down to the programmer. Nothing prevents us from trying to access the <code>N + 1</code> memory location, and we will probably crash the program if we do so.</p>
+<p>But as we show in that example, we can still use the <code>n</code>-limited version of the copying algorithm, <a href="https://en.cppreference.com/w/cpp/algorithm/copy_n" target="_blank"><code>std::copy_n</code></a>, and use the actual pointer that we retrieve with <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr" target="_blank"><code>std::unique_ptr&lt;T&gt;::get()</code></a>.</p>
+<p>Even better: we can use that pointer to get a <em>reversed</em> iterator with <a href="https://en.cppreference.com/w/cpp/iterator/make_reverse_iterator" target="_blank"><code>std::make_reverse_iterator</code></a> to traverse the array backwards as requested by the problem description. When iterators launched, they were touted as glorified pointers—and seeing that construction, we probably want to agree.</p>
+<p>Let us state what the problem is: <code>N</code> is present everywhere. And we want to have a solution as generic as possible.</p>
+<h2 id="generalizing-smart-pointer-usage">Generalizing Smart Pointer Usage<a class="headerlink" href="#generalizing-smart-pointer-usage" title="Permanent link">&para;</a></h2>
+<p>Although we still are going to use <code>N</code>, we are going to move to using <a href="https://en.cppreference.com/w/cpp/algorithm/copy" target="_blank"><code>std::copy</code></a>. First, by reading integers until we hit the end of the input stream. Nothing fancy here.</p>
+<p>For the output, we are going to use a couple of helpers to define the beginning and the end of the array, to be able to make iterators out of it with <a href="https://en.cppreference.com/w/cpp/iterator/make_reverse_iterator" target="_blank"><code>std::make_reverse_iterator</code></a>. The abstraction will help us, although we will still need <code>N</code>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy, std::copy_n</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream_iterator</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="c1"> // std::make_unique</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">T</span><span class="w"> </span><span class="o">*</span><span class="n">abegin</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">T</span><span class="p">[]</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">get</span><span class="p">();</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">}</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="kt">int</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in_last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{};</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">};</span><span class="w">  </span><span class="c1">// delim is &quot; &quot;</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="c1">// gather array size and prepare it</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">arr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">(</span><span class="n">N</span><span class="p">);</span><span class="w"> </span><span class="c1">// smart pointer</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="c1">// solve</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">in_last</span><span class="p">,</span><span class="w"> </span><span class="n">abegin</span><span class="p">(</span><span class="n">arr</span><span class="p">));</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">next</span><span class="p">(</span><span class="n">abegin</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span><span class="w"> </span><span class="n">N</span><span class="p">)),</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">abegin</span><span class="p">(</span><span class="n">arr</span><span class="p">)),</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="w">        </span><span class="n">out</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-04.cpp" target="_blank">08-arrays-intro/arrays-intro-04.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>We are getting closer to a general solution. <code>abegin</code> (for <em>“array begin”</em>) gives us the proper abstraction to understand that we can get a position within the array with <a href="https://en.cppreference.com/w/cpp/iterator/next" target="_blank"><code>std::next</code></a>—the last one, obviously, by moving the pseudo-begin by <code>N</code> positions. If you are wondering why <a href="https://en.cppreference.com/w/cpp/iterator/begin" target="_blank"><code>std::begin</code></a> is not being used here, the answer is simple: it does not work. The official reason is that the end of the array (pointer-based) cannot be known and therefore <a href="https://en.cppreference.com/w/cpp/iterator/end" target="_blank"><code>std::end</code></a> cannot be calculated to have a <code>begin</code> to <code>end</code> traversal.</p>
+<h2 id="going-vector">Going Vector<a class="headerlink" href="#going-vector" title="Permanent link">&para;</a></h2>
+<p>The obvious approach to overcome all the aforementioned limitations is to go <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a>. This allows us to mark <code>N</code> with the attribute <code>[[maybe_unused]]</code>, to let the compiler know that even if we have to fetch a value from <a href="https://en.cppreference.com/w/cpp/io/cin" target="_blank"><code>std::cin</code></a> and store it in <code>N</code>, we will be ignoring that variable.</p>
+<p>First because we are reading until the end of the input to store things in our container. And later because our solution uses the iterators provided by the container to traverse the array backwards and solve the problem. We go backwards by using reverse iterators, with <code>rbegin</code> and <code>rend</code>.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream, std::ostream_iterator, std::inserter</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="c1"> // std::vector</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">using</span><span class="w"> </span><span class="n">it_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value_type</span><span class="p">;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="k">auto</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">reverse_function</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span><span class="p">{};</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">rend</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="kt">int</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="p">[[</span><span class="n">maybe_unused</span><span class="p">]]</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">in</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">// get number of ints, part of the input</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="n">reverse_function</span><span class="p">(</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">        </span><span class="n">in</span><span class="p">,</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{},</span>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">}</span><span class="w"> </span><span class="c1">// delim is &quot; &quot;</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-05.cpp" target="_blank">08-arrays-intro/arrays-intro-05.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Notice how we use a new friend, <a href="https://en.cppreference.com/w/cpp/iterator/back_inserter" target="_blank"><code>std::back_inserter(v)</code></a>, to insert elements at the “back” (i.e., using <code>push_back</code>) of the <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a>. This is our next target: generalizing the use of containers for the solution.</p>
+<p>Something important is that we use the <code>::value_type</code>, using our <code>it_type</code> helper, of our input iterator to instantiate the proper version of <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a> and make sure that it can hold the input values.</p>
+<h2 id="let-the-containers-come-to-us">Let the Containers Come To Us<a class="headerlink" href="#let-the-containers-come-to-us" title="Permanent link">&para;</a></h2>
+<p>But only if needed. In the latest solution we assume a couple of things:</p>
+<ul>
+<li>
+<p>The input iterator will only go forward. That means we have to store the incoming integers to be later able to output them in reverse order.</p>
+</li>
+<li>
+<p>That the ideal container to hold the integers (or whatever we may be storing) is an <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a>.</p>
+</li>
+<li>
+<p>We can control the type that will be held in the container.</p>
+</li>
+</ul>
+<p>The other assumptions are the ones we solved using <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a> in the previous chapters, to check if the input (direct or transformed) can go to the output, if the template parameters are iterators and, and, and.</p>
+<p>Let us remove all those restrictions. For that, we are going to need the following things:</p>
+<ul>
+<li>
+<p>Lots of <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a> checks.</p>
+</li>
+<li>
+<p>Compile-time branch selection by checking the properties of the iterators and choosing the appropriate way to work with a container to hold the input values, if needed.</p>
+</li>
+</ul>
+<p>Because we are going to model our solution to even be able to work without storing the values.</p>
+<p>Let us skip the well-known iterator checks we have from previous chapters and focus on a check we will repeat several times: <code>has_method_name</code>. We are going to see what API a given container has to select how to work with it. There are several <code>method_names</code> to check: <code>begin</code>, <code>end</code>, <code>rbegin</code>, <code>rend</code>, <code>push_back</code>, <code>push_front</code>, and <code>insert</code>. We will do it like this:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// has_begin</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_begin_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">begin</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L38" target="_blank">08-arrays-intro/arrays-intro-06.cpp:38:44</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>For methods that take parameters, we have to add some <a href="https://en.cppreference.com/w/cpp/utility/declval" target="_blank"><code>std::declval</code></a> complexity. See the case for <code>insert</code>:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// has_insert</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_insert_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_insert_v</span><span class="o">&lt;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">insert</span><span class="p">(</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">const_iterator</span><span class="o">&gt;</span><span class="p">(),</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">()))</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L94" target="_blank">08-arrays-intro/arrays-intro-06.cpp:94:105</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>For the sake of checking things under a different light, we will be checking for subclassing in the case of <a href="https://en.cppreference.com/w/cpp/container/stack" target="_blank"><code>std::stack&lt;T&gt;</code></a>. This container adaptor is actually the perfect fit for the problem description: we push things into it, and the retrieval always happens in <code>LIFO</code> order. Notice that it is a <em>container adaptor</em> and not a container. It relies on other containers to provide the functionality. It does feature a different interface, and we would have needed to check three method names: <code>push</code>, <code>top</code>, and <code>pop</code>. But this also works for us:</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// is_stack</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_stack_v</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L107" target="_blank">08-arrays-intro/arrays-intro-06.cpp:107:110</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>The <a href="https://en.cppreference.com/w/cpp/keyword/bool" target="_blank"><code>bool</code></a> value is directly provided by an old friend from previous chapters: <a href="https://en.cppreference.com/w/cpp/types/is_base_of" target="_blank"><code>std::is_base_of_v</code></a>.</p>
+<p>With all this in mind, let us see what is the logic to select different code branches.</p>
+<ul>
+<li>
+<p>If the input iterators are <em>Bidirectional Iterators</em> (or the superior <em>Random Access Iterators</em>), nothing will be stored.</p>
+<p>Our solution function is only concerned with iterators and not where these iterators come from and how they have come to point to the realm of a container holding the values. Only the properties of the iterators are important.</p>
+<p>If they are bidirectional, we can reverse them with our <a href="https://en.cppreference.com/w/cpp/iterator/make_reverse_iterator" target="_blank"><code>std::make_reverse_iterator</code></a> friend and skip storing any values ourselves. Let us see how easy it seems.</p>
+</li>
+</ul>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="w">        </span><span class="c1">// can directly traverse the input backwards, no storage needed</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">        </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Bidirectional Iterator for the Input&quot;</span><span class="p">;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">last</span><span class="p">),</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">first</span><span class="p">),</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L146" target="_blank">08-arrays-intro/arrays-intro-06.cpp:146:150</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>With standard <em>Input Iterators</em>, we will need a container to temporarily hold the input values. Hence the basic definition (still no <a href="https://en.cppreference.com/w/cpp/language/sfinae" target="_blank"><em>SFINAE</em></a>) of our solution function.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">auto</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">reverse_function</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span></code></pre></div>
+<p>The default container is the magic <a href="https://en.cppreference.com/w/cpp/container/stack" target="_blank"><code>std::stack&lt;T&gt;</code></a> that perfectly fits the problem. But other options are possible, like using <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a>, <a href="https://en.cppreference.com/w/cpp/container/list" target="_blank"><code>std::list</code></a> and others. Let us see the logic.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="w">        </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Non-Bidirectional Iterator for the Input&quot;</span><span class="p">;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C</span><span class="p">{};</span><span class="w"> </span><span class="c1">// container needed to store input and output in reverse</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">is_stack_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using Stack as container&quot;</span><span class="p">;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="n">c</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">            </span><span class="k">while</span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">                </span><span class="o">*</span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">                </span><span class="n">c</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_push_front_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using push_front from container&quot;</span><span class="p">;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">front_inserter</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_push_back_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using push_back from container&quot;</span><span class="p">;</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">rend</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_insert_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using insert from container&quot;</span><span class="p">;</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">inserter</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">begin</span><span class="p">()));</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">rend</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">        </span><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L153" target="_blank">08-arrays-intro/arrays-intro-06.cpp:153:178</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>Notice how the <a href="https://en.cppreference.com/w/cpp/" target="_blank"><em>C++17</em></a> beast <a href="https://en.cppreference.com/w/cpp/language/if" target="_blank"><code>if constexpr</code></a> lets us formulate in an imperative and very natural form how we perform the selection of the different scenarios.</p>
+<p>If the container is not our <em>LIFO</em> container, we check what insertion method is supported. Some containers support all three: <code>push_back</code>, <code>push_front</code>, and <code>insert</code>, whereas others support only the latter. Choosing to check <code>push_front</code> first means that we can output in reverse order by traversing the container from the beginning to the end, without reversing iterators. The other options will force us to use <code>rbegin</code> and <code>rend</code>, because the elements will be pushed at the back of the container.</p>
+<p>Notice that we have added some informational messages instantiating an output iterator using <a href="https://en.cppreference.com/w/cpp/io/cerr" target="_blank"><code>std::cerr</code></a>. This is because we can choose how to build this solution by defining <code>CASE0</code> through <code>CASE3</code> or letting the defaults be built.</p>
+<p>Doing <code>make 06 case2</code>, for example, will use the standard input iterators and an <a href="https://en.cppreference.com/w/cpp/container/list" target="_blank"><code>std::list</code></a>. This will in turn select a <code>push_front</code> approach and that will be shown with the message being pushed over the standard error stream. Like this:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$ make 06 case2
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>g++ -std=c++17 -DCASE2 -o build/arrays-intro-06 arrays-intro-06.cpp
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>[+]: Non-Bidirectional Iterator for the Input
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>[+]: Using push_front from container
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>./build/arrays-intro-06 &lt; arrays-intro.input &gt; /tmp/tmp.RgprHlfogT.output
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>Solution 06: SUCCESS
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>make: &#39;case2&#39; is up to date.
+</span></code></pre></div>
+<p>Choosing <code>case0</code> will first store the values in an <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank"><code>std::vector</code></a> so the <em>Bidirectional Iterators</em> case plays along. No container will be instantiated inside the solution function.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$ make 06 case0
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Creating build dir
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>g++ -std=c++17 -DCASE0 -o build/arrays-intro-06 arrays-intro-06.cpp
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>[+]: Bidirectional Iterator for the Input
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>./build/arrays-intro-06 &lt; arrays-intro.input &gt; /tmp/tmp.bfpOg7T5BO.output
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>Solution 06: SUCCESS
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>make: &#39;case0&#39; is up to date.
+</span></code></pre></div>
+<p>Have a look at the <a href="https://en.cppreference.com/w/cpp/language/main_function" target="_blank"><code>main</code></a> function below to see how the <code>CASEX</code> definitions choose different scenarios.</p>
+<p>To support those code paths, we have to make sure that the containers support those things, and this is where the <code>has_method_name_v</code> and <code>is_stack_v</code> are used. Together with an extra check for type compliance between the container and the output operator.</p>
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1">// is_container_v</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_container_v</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">is_stack_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="p">(</span><span class="n">has_push_front_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_end_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="p">(</span><span class="n">has_push_back_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rend_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="p">(</span><span class="n">has_insert_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rend_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">);</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1">// c2o (container to output iterator)</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">c2o_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">c2o_v</span><span class="o">&lt;</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">    </span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="c1">// enable_if</span>
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_ioc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span>
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a><span class="w">    </span><span class="n">io_iterators_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">i2o_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span>
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">    </span><span class="k">and</span><span class="w"> </span><span class="n">is_container_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">c2o_v</span><span class="o">&lt;</span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="c1">// solution</span>
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a><span class="w">    </span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="w">    </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_ioc</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a><span class="k">auto</span>
+</span><span id="__span-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="n">reverse_function</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp#L112" target="_blank">08-arrays-intro/arrays-intro-06.cpp:112:142</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+<p>There is one new check that has been put in action above but for which no implementation has been shown: <code>is_bidir_v&lt;T&gt;</code> to test if an iterator supports moving in both directions. It uses the same machinery as the checks that test iterators to see if they are input or output iterators. See it below in the complete listing of this final solution.</p>
+<p>If you cannot see the <code>insert</code> path being chosen you are right. There is no use case, in the code, to use it. But the solution is generic enough, so that it can be used with an <a href="https://en.cppreference.com/w/cpp/container/map" target="_blank"><code>std::map</code></a>. The input values could be <a href="https://en.cppreference.com/w/cpp/utility/pair" target="_blank"><code>std::pair</code></a> instances. A map has neither <code>push_front</code> nor <code>push_back</code> but does support <code>insert</code>, <code>rbegin</code> and <code>rend</code>.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>We have gone from non-standard compiler extensions to create arrays and be bound by the size of the input, <code>N</code>, to using smart pointers and manage pseudo-iterators. Finally, we have come to show a solution that can even reverse the input without using intermediate storage and that can work with many different temporary containers.</p>
+<hr />
+<div class="language-cpp highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;algorithm&gt;</span><span class="c1"> // std::copy</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;deque&gt;</span><span class="c1"> // std::deque</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="c1"> // std::cin, std::cout</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iterator&gt;</span><span class="c1"> // std::istream, std::ostream_iterator, std::inserter</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;list&gt;</span><span class="c1"> // std::vector</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stack&gt;</span><span class="c1"> // std::stack</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="c1"> // std::vector</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;type_traits&gt;</span><span class="c1"> // std::void_t, std::enable_if ...</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1">// SFINAE to check for I being an Input iterator and delivering a variant</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">Tag</span><span class="o">&gt;</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">Tag</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">iterator_category</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="o">&gt;</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_input_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">input_iterator_tag</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_output_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="o">&lt;</span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">output_iterator_tag</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="o">&gt;</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_bidir_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_it_tag_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bidirectional_iterator_tag</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">io_iterators_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">is_input_v</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">is_output_v</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="k">using</span><span class="w"> </span><span class="n">it_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">iterator_traits</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;::</span><span class="n">value_type</span><span class="p">;</span>
+</span><span id="__span-14-29"><a id="__codelineno-14-29" name="__codelineno-14-29" href="#__codelineno-14-29"></a>
+</span><span id="__span-14-30"><a id="__codelineno-14-30" name="__codelineno-14-30" href="#__codelineno-14-30"></a><span class="c1">// check if type returned by *I fits into O&#39;s operator=</span>
+</span><span id="__span-14-31"><a id="__codelineno-14-31" name="__codelineno-14-31" href="#__codelineno-14-31"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-32"><a id="__codelineno-14-32" name="__codelineno-14-32" href="#__codelineno-14-32"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">i2o_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-33"><a id="__codelineno-14-33" name="__codelineno-14-33" href="#__codelineno-14-33"></a>
+</span><span id="__span-14-34"><a id="__codelineno-14-34" name="__codelineno-14-34" href="#__codelineno-14-34"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="o">&gt;</span>
+</span><span id="__span-14-35"><a id="__codelineno-14-35" name="__codelineno-14-35" href="#__codelineno-14-35"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">i2o_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-36"><a id="__codelineno-14-36" name="__codelineno-14-36" href="#__codelineno-14-36"></a><span class="w">    </span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-37"><a id="__codelineno-14-37" name="__codelineno-14-37" href="#__codelineno-14-37"></a>
+</span><span id="__span-14-38"><a id="__codelineno-14-38" name="__codelineno-14-38" href="#__codelineno-14-38"></a><span class="c1">// has_begin</span>
+</span><span id="__span-14-39"><a id="__codelineno-14-39" name="__codelineno-14-39" href="#__codelineno-14-39"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-40"><a id="__codelineno-14-40" name="__codelineno-14-40" href="#__codelineno-14-40"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_begin_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-41"><a id="__codelineno-14-41" name="__codelineno-14-41" href="#__codelineno-14-41"></a>
+</span><span id="__span-14-42"><a id="__codelineno-14-42" name="__codelineno-14-42" href="#__codelineno-14-42"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-43"><a id="__codelineno-14-43" name="__codelineno-14-43" href="#__codelineno-14-43"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-44"><a id="__codelineno-14-44" name="__codelineno-14-44" href="#__codelineno-14-44"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">begin</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-45"><a id="__codelineno-14-45" name="__codelineno-14-45" href="#__codelineno-14-45"></a>
+</span><span id="__span-14-46"><a id="__codelineno-14-46" name="__codelineno-14-46" href="#__codelineno-14-46"></a><span class="c1">// has_rbegin</span>
+</span><span id="__span-14-47"><a id="__codelineno-14-47" name="__codelineno-14-47" href="#__codelineno-14-47"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-48"><a id="__codelineno-14-48" name="__codelineno-14-48" href="#__codelineno-14-48"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-49"><a id="__codelineno-14-49" name="__codelineno-14-49" href="#__codelineno-14-49"></a>
+</span><span id="__span-14-50"><a id="__codelineno-14-50" name="__codelineno-14-50" href="#__codelineno-14-50"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-51"><a id="__codelineno-14-51" name="__codelineno-14-51" href="#__codelineno-14-51"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-52"><a id="__codelineno-14-52" name="__codelineno-14-52" href="#__codelineno-14-52"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">rbegin</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-53"><a id="__codelineno-14-53" name="__codelineno-14-53" href="#__codelineno-14-53"></a>
+</span><span id="__span-14-54"><a id="__codelineno-14-54" name="__codelineno-14-54" href="#__codelineno-14-54"></a><span class="c1">// has_end</span>
+</span><span id="__span-14-55"><a id="__codelineno-14-55" name="__codelineno-14-55" href="#__codelineno-14-55"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-56"><a id="__codelineno-14-56" name="__codelineno-14-56" href="#__codelineno-14-56"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_end_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-57"><a id="__codelineno-14-57" name="__codelineno-14-57" href="#__codelineno-14-57"></a>
+</span><span id="__span-14-58"><a id="__codelineno-14-58" name="__codelineno-14-58" href="#__codelineno-14-58"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-59"><a id="__codelineno-14-59" name="__codelineno-14-59" href="#__codelineno-14-59"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_end_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-60"><a id="__codelineno-14-60" name="__codelineno-14-60" href="#__codelineno-14-60"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">end</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-61"><a id="__codelineno-14-61" name="__codelineno-14-61" href="#__codelineno-14-61"></a>
+</span><span id="__span-14-62"><a id="__codelineno-14-62" name="__codelineno-14-62" href="#__codelineno-14-62"></a><span class="c1">// has_rend</span>
+</span><span id="__span-14-63"><a id="__codelineno-14-63" name="__codelineno-14-63" href="#__codelineno-14-63"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-64"><a id="__codelineno-14-64" name="__codelineno-14-64" href="#__codelineno-14-64"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_rend_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-65"><a id="__codelineno-14-65" name="__codelineno-14-65" href="#__codelineno-14-65"></a>
+</span><span id="__span-14-66"><a id="__codelineno-14-66" name="__codelineno-14-66" href="#__codelineno-14-66"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-67"><a id="__codelineno-14-67" name="__codelineno-14-67" href="#__codelineno-14-67"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_rend_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-68"><a id="__codelineno-14-68" name="__codelineno-14-68" href="#__codelineno-14-68"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">rend</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-69"><a id="__codelineno-14-69" name="__codelineno-14-69" href="#__codelineno-14-69"></a>
+</span><span id="__span-14-70"><a id="__codelineno-14-70" name="__codelineno-14-70" href="#__codelineno-14-70"></a><span class="c1">// has_push_front</span>
+</span><span id="__span-14-71"><a id="__codelineno-14-71" name="__codelineno-14-71" href="#__codelineno-14-71"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-72"><a id="__codelineno-14-72" name="__codelineno-14-72" href="#__codelineno-14-72"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_push_front_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-73"><a id="__codelineno-14-73" name="__codelineno-14-73" href="#__codelineno-14-73"></a>
+</span><span id="__span-14-74"><a id="__codelineno-14-74" name="__codelineno-14-74" href="#__codelineno-14-74"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-75"><a id="__codelineno-14-75" name="__codelineno-14-75" href="#__codelineno-14-75"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_push_front_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-76"><a id="__codelineno-14-76" name="__codelineno-14-76" href="#__codelineno-14-76"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-14-77"><a id="__codelineno-14-77" name="__codelineno-14-77" href="#__codelineno-14-77"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-14-78"><a id="__codelineno-14-78" name="__codelineno-14-78" href="#__codelineno-14-78"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-14-79"><a id="__codelineno-14-79" name="__codelineno-14-79" href="#__codelineno-14-79"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">push_front</span><span class="p">(</span>
+</span><span id="__span-14-80"><a id="__codelineno-14-80" name="__codelineno-14-80" href="#__codelineno-14-80"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">()))</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-81"><a id="__codelineno-14-81" name="__codelineno-14-81" href="#__codelineno-14-81"></a>
+</span><span id="__span-14-82"><a id="__codelineno-14-82" name="__codelineno-14-82" href="#__codelineno-14-82"></a><span class="c1">// has_push_back</span>
+</span><span id="__span-14-83"><a id="__codelineno-14-83" name="__codelineno-14-83" href="#__codelineno-14-83"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-84"><a id="__codelineno-14-84" name="__codelineno-14-84" href="#__codelineno-14-84"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_push_back_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-85"><a id="__codelineno-14-85" name="__codelineno-14-85" href="#__codelineno-14-85"></a>
+</span><span id="__span-14-86"><a id="__codelineno-14-86" name="__codelineno-14-86" href="#__codelineno-14-86"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-87"><a id="__codelineno-14-87" name="__codelineno-14-87" href="#__codelineno-14-87"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_push_back_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-88"><a id="__codelineno-14-88" name="__codelineno-14-88" href="#__codelineno-14-88"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-14-89"><a id="__codelineno-14-89" name="__codelineno-14-89" href="#__codelineno-14-89"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-14-90"><a id="__codelineno-14-90" name="__codelineno-14-90" href="#__codelineno-14-90"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-14-91"><a id="__codelineno-14-91" name="__codelineno-14-91" href="#__codelineno-14-91"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">push_back</span><span class="p">(</span>
+</span><span id="__span-14-92"><a id="__codelineno-14-92" name="__codelineno-14-92" href="#__codelineno-14-92"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">()))</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-93"><a id="__codelineno-14-93" name="__codelineno-14-93" href="#__codelineno-14-93"></a>
+</span><span id="__span-14-94"><a id="__codelineno-14-94" name="__codelineno-14-94" href="#__codelineno-14-94"></a><span class="c1">// has_insert</span>
+</span><span id="__span-14-95"><a id="__codelineno-14-95" name="__codelineno-14-95" href="#__codelineno-14-95"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-96"><a id="__codelineno-14-96" name="__codelineno-14-96" href="#__codelineno-14-96"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_insert_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-97"><a id="__codelineno-14-97" name="__codelineno-14-97" href="#__codelineno-14-97"></a>
+</span><span id="__span-14-98"><a id="__codelineno-14-98" name="__codelineno-14-98" href="#__codelineno-14-98"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-99"><a id="__codelineno-14-99" name="__codelineno-14-99" href="#__codelineno-14-99"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">has_insert_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-100"><a id="__codelineno-14-100" name="__codelineno-14-100" href="#__codelineno-14-100"></a><span class="w">    </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-14-101"><a id="__codelineno-14-101" name="__codelineno-14-101" href="#__codelineno-14-101"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-14-102"><a id="__codelineno-14-102" name="__codelineno-14-102" href="#__codelineno-14-102"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-14-103"><a id="__codelineno-14-103" name="__codelineno-14-103" href="#__codelineno-14-103"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">().</span><span class="n">insert</span><span class="p">(</span>
+</span><span id="__span-14-104"><a id="__codelineno-14-104" name="__codelineno-14-104" href="#__codelineno-14-104"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">const_iterator</span><span class="o">&gt;</span><span class="p">(),</span>
+</span><span id="__span-14-105"><a id="__codelineno-14-105" name="__codelineno-14-105" href="#__codelineno-14-105"></a><span class="w">                </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">()))</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-106"><a id="__codelineno-14-106" name="__codelineno-14-106" href="#__codelineno-14-106"></a>
+</span><span id="__span-14-107"><a id="__codelineno-14-107" name="__codelineno-14-107" href="#__codelineno-14-107"></a><span class="c1">// is_stack</span>
+</span><span id="__span-14-108"><a id="__codelineno-14-108" name="__codelineno-14-108" href="#__codelineno-14-108"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-109"><a id="__codelineno-14-109" name="__codelineno-14-109" href="#__codelineno-14-109"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_stack_v</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-14-110"><a id="__codelineno-14-110" name="__codelineno-14-110" href="#__codelineno-14-110"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of_v</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-111"><a id="__codelineno-14-111" name="__codelineno-14-111" href="#__codelineno-14-111"></a>
+</span><span id="__span-14-112"><a id="__codelineno-14-112" name="__codelineno-14-112" href="#__codelineno-14-112"></a><span class="c1">// is_container_v</span>
+</span><span id="__span-14-113"><a id="__codelineno-14-113" name="__codelineno-14-113" href="#__codelineno-14-113"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-114"><a id="__codelineno-14-114" name="__codelineno-14-114" href="#__codelineno-14-114"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">is_container_v</span><span class="w"> </span><span class="o">=</span>
+</span><span id="__span-14-115"><a id="__codelineno-14-115" name="__codelineno-14-115" href="#__codelineno-14-115"></a><span class="w">    </span><span class="n">is_stack_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-14-116"><a id="__codelineno-14-116" name="__codelineno-14-116" href="#__codelineno-14-116"></a><span class="w">    </span><span class="p">(</span><span class="n">has_push_front_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_end_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-14-117"><a id="__codelineno-14-117" name="__codelineno-14-117" href="#__codelineno-14-117"></a><span class="w">    </span><span class="p">(</span><span class="n">has_push_back_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rend_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">or</span>
+</span><span id="__span-14-118"><a id="__codelineno-14-118" name="__codelineno-14-118" href="#__codelineno-14-118"></a><span class="w">    </span><span class="p">(</span><span class="n">has_insert_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_begin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rbegin_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">has_rend_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">);</span>
+</span><span id="__span-14-119"><a id="__codelineno-14-119" name="__codelineno-14-119" href="#__codelineno-14-119"></a>
+</span><span id="__span-14-120"><a id="__codelineno-14-120" name="__codelineno-14-120" href="#__codelineno-14-120"></a><span class="c1">// c2o (container to output iterator)</span>
+</span><span id="__span-14-121"><a id="__codelineno-14-121" name="__codelineno-14-121" href="#__codelineno-14-121"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-122"><a id="__codelineno-14-122" name="__codelineno-14-122" href="#__codelineno-14-122"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">c2o_v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+</span><span id="__span-14-123"><a id="__codelineno-14-123" name="__codelineno-14-123" href="#__codelineno-14-123"></a>
+</span><span id="__span-14-124"><a id="__codelineno-14-124" name="__codelineno-14-124" href="#__codelineno-14-124"></a><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">&gt;</span>
+</span><span id="__span-14-125"><a id="__codelineno-14-125" name="__codelineno-14-125" href="#__codelineno-14-125"></a><span class="k">constexpr</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">c2o_v</span><span class="o">&lt;</span>
+</span><span id="__span-14-126"><a id="__codelineno-14-126" name="__codelineno-14-126" href="#__codelineno-14-126"></a><span class="w">    </span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span>
+</span><span id="__span-14-127"><a id="__codelineno-14-127" name="__codelineno-14-127" href="#__codelineno-14-127"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">void_t</span><span class="o">&lt;</span>
+</span><span id="__span-14-128"><a id="__codelineno-14-128" name="__codelineno-14-128" href="#__codelineno-14-128"></a><span class="w">        </span><span class="k">decltype</span><span class="p">(</span>
+</span><span id="__span-14-129"><a id="__codelineno-14-129" name="__codelineno-14-129" href="#__codelineno-14-129"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="n">O</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">declval</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="o">::</span><span class="n">value_type</span><span class="o">&gt;</span><span class="p">())</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+</span><span id="__span-14-130"><a id="__codelineno-14-130" name="__codelineno-14-130" href="#__codelineno-14-130"></a>
+</span><span id="__span-14-131"><a id="__codelineno-14-131" name="__codelineno-14-131" href="#__codelineno-14-131"></a><span class="c1">// enable_if</span>
+</span><span id="__span-14-132"><a id="__codelineno-14-132" name="__codelineno-14-132" href="#__codelineno-14-132"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">void</span><span class="o">&gt;</span>
+</span><span id="__span-14-133"><a id="__codelineno-14-133" name="__codelineno-14-133" href="#__codelineno-14-133"></a><span class="k">using</span><span class="w"> </span><span class="n">enable_if_ioc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">enable_if_t</span><span class="o">&lt;</span>
+</span><span id="__span-14-134"><a id="__codelineno-14-134" name="__codelineno-14-134" href="#__codelineno-14-134"></a><span class="w">    </span><span class="n">io_iterators_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">i2o_v</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="o">&gt;</span>
+</span><span id="__span-14-135"><a id="__codelineno-14-135" name="__codelineno-14-135" href="#__codelineno-14-135"></a><span class="w">    </span><span class="k">and</span><span class="w"> </span><span class="n">is_container_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="n">c2o_v</span><span class="o">&lt;</span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-14-136"><a id="__codelineno-14-136" name="__codelineno-14-136" href="#__codelineno-14-136"></a>
+</span><span id="__span-14-137"><a id="__codelineno-14-137" name="__codelineno-14-137" href="#__codelineno-14-137"></a><span class="c1">// solution</span>
+</span><span id="__span-14-138"><a id="__codelineno-14-138" name="__codelineno-14-138" href="#__codelineno-14-138"></a><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span>
+</span><span id="__span-14-139"><a id="__codelineno-14-139" name="__codelineno-14-139" href="#__codelineno-14-139"></a><span class="w">    </span><span class="k">typename</span><span class="w"> </span><span class="nc">I</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">O</span><span class="p">,</span><span class="w"> </span><span class="k">typename</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">stack</span><span class="o">&lt;</span><span class="n">it_type</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+</span><span id="__span-14-140"><a id="__codelineno-14-140" name="__codelineno-14-140" href="#__codelineno-14-140"></a><span class="w">    </span><span class="k">typename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enable_if_ioc</span><span class="o">&lt;</span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="o">&gt;&gt;</span>
+</span><span id="__span-14-141"><a id="__codelineno-14-141" name="__codelineno-14-141" href="#__codelineno-14-141"></a><span class="k">auto</span>
+</span><span id="__span-14-142"><a id="__codelineno-14-142" name="__codelineno-14-142" href="#__codelineno-14-142"></a><span class="n">reverse_function</span><span class="p">(</span><span class="n">I</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-143"><a id="__codelineno-14-143" name="__codelineno-14-143" href="#__codelineno-14-143"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">oerror</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</span><span id="__span-14-144"><a id="__codelineno-14-144" name="__codelineno-14-144" href="#__codelineno-14-144"></a>
+</span><span id="__span-14-145"><a id="__codelineno-14-145" name="__codelineno-14-145" href="#__codelineno-14-145"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">is_bidir_v</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-146"><a id="__codelineno-14-146" name="__codelineno-14-146" href="#__codelineno-14-146"></a><span class="w">        </span><span class="c1">// can directly traverse the input backwards, no storage needed</span>
+</span><span id="__span-14-147"><a id="__codelineno-14-147" name="__codelineno-14-147" href="#__codelineno-14-147"></a><span class="w">        </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Bidirectional Iterator for the Input&quot;</span><span class="p">;</span>
+</span><span id="__span-14-148"><a id="__codelineno-14-148" name="__codelineno-14-148" href="#__codelineno-14-148"></a><span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span>
+</span><span id="__span-14-149"><a id="__codelineno-14-149" name="__codelineno-14-149" href="#__codelineno-14-149"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">last</span><span class="p">),</span>
+</span><span id="__span-14-150"><a id="__codelineno-14-150" name="__codelineno-14-150" href="#__codelineno-14-150"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">make_reverse_iterator</span><span class="p">(</span><span class="n">first</span><span class="p">),</span>
+</span><span id="__span-14-151"><a id="__codelineno-14-151" name="__codelineno-14-151" href="#__codelineno-14-151"></a><span class="w">            </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-152"><a id="__codelineno-14-152" name="__codelineno-14-152" href="#__codelineno-14-152"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-153"><a id="__codelineno-14-153" name="__codelineno-14-153" href="#__codelineno-14-153"></a><span class="w">        </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Non-Bidirectional Iterator for the Input&quot;</span><span class="p">;</span>
+</span><span id="__span-14-154"><a id="__codelineno-14-154" name="__codelineno-14-154" href="#__codelineno-14-154"></a><span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C</span><span class="p">{};</span><span class="w"> </span><span class="c1">// container needed to store input and output in reverse</span>
+</span><span id="__span-14-155"><a id="__codelineno-14-155" name="__codelineno-14-155" href="#__codelineno-14-155"></a>
+</span><span id="__span-14-156"><a id="__codelineno-14-156" name="__codelineno-14-156" href="#__codelineno-14-156"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">is_stack_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-157"><a id="__codelineno-14-157" name="__codelineno-14-157" href="#__codelineno-14-157"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using Stack as container&quot;</span><span class="p">;</span>
+</span><span id="__span-14-158"><a id="__codelineno-14-158" name="__codelineno-14-158" href="#__codelineno-14-158"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">for_each</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="n">c</span><span class="p">](</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+</span><span id="__span-14-159"><a id="__codelineno-14-159" name="__codelineno-14-159" href="#__codelineno-14-159"></a><span class="w">            </span><span class="k">while</span><span class="p">(</span><span class="k">not</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-160"><a id="__codelineno-14-160" name="__codelineno-14-160" href="#__codelineno-14-160"></a><span class="w">                </span><span class="o">*</span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">top</span><span class="p">();</span>
+</span><span id="__span-14-161"><a id="__codelineno-14-161" name="__codelineno-14-161" href="#__codelineno-14-161"></a><span class="w">                </span><span class="n">c</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+</span><span id="__span-14-162"><a id="__codelineno-14-162" name="__codelineno-14-162" href="#__codelineno-14-162"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-14-163"><a id="__codelineno-14-163" name="__codelineno-14-163" href="#__codelineno-14-163"></a>
+</span><span id="__span-14-164"><a id="__codelineno-14-164" name="__codelineno-14-164" href="#__codelineno-14-164"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_push_front_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-165"><a id="__codelineno-14-165" name="__codelineno-14-165" href="#__codelineno-14-165"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using push_front from container&quot;</span><span class="p">;</span>
+</span><span id="__span-14-166"><a id="__codelineno-14-166" name="__codelineno-14-166" href="#__codelineno-14-166"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">front_inserter</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+</span><span id="__span-14-167"><a id="__codelineno-14-167" name="__codelineno-14-167" href="#__codelineno-14-167"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-168"><a id="__codelineno-14-168" name="__codelineno-14-168" href="#__codelineno-14-168"></a>
+</span><span id="__span-14-169"><a id="__codelineno-14-169" name="__codelineno-14-169" href="#__codelineno-14-169"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_push_back_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-170"><a id="__codelineno-14-170" name="__codelineno-14-170" href="#__codelineno-14-170"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using push_back from container&quot;</span><span class="p">;</span>
+</span><span id="__span-14-171"><a id="__codelineno-14-171" name="__codelineno-14-171" href="#__codelineno-14-171"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">c</span><span class="p">));</span>
+</span><span id="__span-14-172"><a id="__codelineno-14-172" name="__codelineno-14-172" href="#__codelineno-14-172"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">rend</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-173"><a id="__codelineno-14-173" name="__codelineno-14-173" href="#__codelineno-14-173"></a>
+</span><span id="__span-14-174"><a id="__codelineno-14-174" name="__codelineno-14-174" href="#__codelineno-14-174"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="p">(</span><span class="n">has_insert_v</span><span class="o">&lt;</span><span class="n">C</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-175"><a id="__codelineno-14-175" name="__codelineno-14-175" href="#__codelineno-14-175"></a><span class="w">            </span><span class="o">*</span><span class="n">oerror</span><span class="o">++</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[+]: Using insert from container&quot;</span><span class="p">;</span>
+</span><span id="__span-14-176"><a id="__codelineno-14-176" name="__codelineno-14-176" href="#__codelineno-14-176"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">inserter</span><span class="p">(</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">begin</span><span class="p">()));</span>
+</span><span id="__span-14-177"><a id="__codelineno-14-177" name="__codelineno-14-177" href="#__codelineno-14-177"></a><span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="n">rbegin</span><span class="p">(),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">rend</span><span class="p">(),</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-178"><a id="__codelineno-14-178" name="__codelineno-14-178" href="#__codelineno-14-178"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-14-179"><a id="__codelineno-14-179" name="__codelineno-14-179" href="#__codelineno-14-179"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-14-180"><a id="__codelineno-14-180" name="__codelineno-14-180" href="#__codelineno-14-180"></a><span class="p">}</span>
+</span><span id="__span-14-181"><a id="__codelineno-14-181" name="__codelineno-14-181" href="#__codelineno-14-181"></a>
+</span><span id="__span-14-182"><a id="__codelineno-14-182" name="__codelineno-14-182" href="#__codelineno-14-182"></a><span class="c1">// main</span>
+</span><span id="__span-14-183"><a id="__codelineno-14-183" name="__codelineno-14-183" href="#__codelineno-14-183"></a><span class="kt">int</span>
+</span><span id="__span-14-184"><a id="__codelineno-14-184" name="__codelineno-14-184" href="#__codelineno-14-184"></a><span class="n">main</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-14-185"><a id="__codelineno-14-185" name="__codelineno-14-185" href="#__codelineno-14-185"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">ptype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">int</span><span class="p">;</span><span class="w">  </span><span class="c1">// define problem type</span>
+</span><span id="__span-14-186"><a id="__codelineno-14-186" name="__codelineno-14-186" href="#__codelineno-14-186"></a>
+</span><span id="__span-14-187"><a id="__codelineno-14-187" name="__codelineno-14-187" href="#__codelineno-14-187"></a><span class="w">    </span><span class="c1">// prepare standard input</span>
+</span><span id="__span-14-188"><a id="__codelineno-14-188" name="__codelineno-14-188" href="#__codelineno-14-188"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cin</span><span class="p">};</span>
+</span><span id="__span-14-189"><a id="__codelineno-14-189" name="__codelineno-14-189" href="#__codelineno-14-189"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">sin_last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">istream_iterator</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">{};</span>
+</span><span id="__span-14-190"><a id="__codelineno-14-190" name="__codelineno-14-190" href="#__codelineno-14-190"></a>
+</span><span id="__span-14-191"><a id="__codelineno-14-191" name="__codelineno-14-191" href="#__codelineno-14-191"></a><span class="w">    </span><span class="p">[[</span><span class="n">maybe_unused</span><span class="p">]]</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">sin</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="c1">// Get initial (and ignore it) input</span>
+</span><span id="__span-14-192"><a id="__codelineno-14-192" name="__codelineno-14-192" href="#__codelineno-14-192"></a>
+</span><span id="__span-14-193"><a id="__codelineno-14-193" name="__codelineno-14-193" href="#__codelineno-14-193"></a><span class="cp">#ifdef CASE0 </span><span class="c1">// use a bidirectional iterator, no container in the solution</span>
+</span><span id="__span-14-194"><a id="__codelineno-14-194" name="__codelineno-14-194" href="#__codelineno-14-194"></a><span class="w">    </span><span class="c1">// Get things in a vector. // problem iterators are the vector iterators</span>
+</span><span id="__span-14-195"><a id="__codelineno-14-195" name="__codelineno-14-195" href="#__codelineno-14-195"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">{};</span>
+</span><span id="__span-14-196"><a id="__codelineno-14-196" name="__codelineno-14-196" href="#__codelineno-14-196"></a><span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">copy</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">sin_last</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">back_inserter</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+</span><span id="__span-14-197"><a id="__codelineno-14-197" name="__codelineno-14-197" href="#__codelineno-14-197"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+</span><span id="__span-14-198"><a id="__codelineno-14-198" name="__codelineno-14-198" href="#__codelineno-14-198"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">in_last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">();</span>
+</span><span id="__span-14-199"><a id="__codelineno-14-199" name="__codelineno-14-199" href="#__codelineno-14-199"></a><span class="cp">#else </span><span class="c1">// default case, direct input from standard input</span>
+</span><span id="__span-14-200"><a id="__codelineno-14-200" name="__codelineno-14-200" href="#__codelineno-14-200"></a><span class="w">    </span><span class="c1">// problem iterators are the standard input iterators</span>
+</span><span id="__span-14-201"><a id="__codelineno-14-201" name="__codelineno-14-201" href="#__codelineno-14-201"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="p">;</span>
+</span><span id="__span-14-202"><a id="__codelineno-14-202" name="__codelineno-14-202" href="#__codelineno-14-202"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="o">&amp;</span><span class="n">in_last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin_last</span><span class="p">;</span>
+</span><span id="__span-14-203"><a id="__codelineno-14-203" name="__codelineno-14-203" href="#__codelineno-14-203"></a><span class="cp">#endif</span>
+</span><span id="__span-14-204"><a id="__codelineno-14-204" name="__codelineno-14-204" href="#__codelineno-14-204"></a>
+</span><span id="__span-14-205"><a id="__codelineno-14-205" name="__codelineno-14-205" href="#__codelineno-14-205"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">IType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">decay_t</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span><span class="w">  </span><span class="c1">// iterator type for the templates</span>
+</span><span id="__span-14-206"><a id="__codelineno-14-206" name="__codelineno-14-206" href="#__codelineno-14-206"></a>
+</span><span id="__span-14-207"><a id="__codelineno-14-207" name="__codelineno-14-207" href="#__codelineno-14-207"></a><span class="w">    </span><span class="c1">// prepare output and the output iterator type for the templates</span>
+</span><span id="__span-14-208"><a id="__codelineno-14-208" name="__codelineno-14-208" href="#__codelineno-14-208"></a><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">ostream_iterator</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">{</span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">};</span>
+</span><span id="__span-14-209"><a id="__codelineno-14-209" name="__codelineno-14-209" href="#__codelineno-14-209"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">OType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">decltype</span><span class="p">(</span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-210"><a id="__codelineno-14-210" name="__codelineno-14-210" href="#__codelineno-14-210"></a>
+</span><span id="__span-14-211"><a id="__codelineno-14-211" name="__codelineno-14-211" href="#__codelineno-14-211"></a><span class="cp">#ifdef CASE1 </span><span class="c1">// push_back case</span>
+</span><span id="__span-14-212"><a id="__codelineno-14-212" name="__codelineno-14-212" href="#__codelineno-14-212"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">CType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-213"><a id="__codelineno-14-213" name="__codelineno-14-213" href="#__codelineno-14-213"></a><span class="w">    </span><span class="n">reverse_function</span><span class="o">&lt;</span><span class="n">IType</span><span class="p">,</span><span class="w"> </span><span class="n">OType</span><span class="p">,</span><span class="w"> </span><span class="n">CType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">in_last</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-214"><a id="__codelineno-14-214" name="__codelineno-14-214" href="#__codelineno-14-214"></a><span class="cp">#elif defined CASE2 </span><span class="c1">// push_front case</span>
+</span><span id="__span-14-215"><a id="__codelineno-14-215" name="__codelineno-14-215" href="#__codelineno-14-215"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">CType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-216"><a id="__codelineno-14-216" name="__codelineno-14-216" href="#__codelineno-14-216"></a><span class="w">    </span><span class="n">reverse_function</span><span class="o">&lt;</span><span class="n">IType</span><span class="p">,</span><span class="w"> </span><span class="n">OType</span><span class="p">,</span><span class="w"> </span><span class="n">CType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">in_last</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-217"><a id="__codelineno-14-217" name="__codelineno-14-217" href="#__codelineno-14-217"></a><span class="cp">#elif defined CASE3 </span><span class="c1">// another push_front case</span>
+</span><span id="__span-14-218"><a id="__codelineno-14-218" name="__codelineno-14-218" href="#__codelineno-14-218"></a><span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="n">CType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">deque</span><span class="o">&lt;</span><span class="n">ptype</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-14-219"><a id="__codelineno-14-219" name="__codelineno-14-219" href="#__codelineno-14-219"></a><span class="w">    </span><span class="n">reverse_function</span><span class="o">&lt;</span><span class="n">IType</span><span class="p">,</span><span class="w"> </span><span class="n">OType</span><span class="p">,</span><span class="w"> </span><span class="n">CType</span><span class="o">&gt;</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">in_last</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-220"><a id="__codelineno-14-220" name="__codelineno-14-220" href="#__codelineno-14-220"></a><span class="cp">#else  </span><span class="c1">// default case ... use a stack</span>
+</span><span id="__span-14-221"><a id="__codelineno-14-221" name="__codelineno-14-221" href="#__codelineno-14-221"></a><span class="w">    </span><span class="n">reverse_function</span><span class="p">(</span><span class="n">in</span><span class="p">,</span><span class="w"> </span><span class="n">in_last</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+</span><span id="__span-14-222"><a id="__codelineno-14-222" name="__codelineno-14-222" href="#__codelineno-14-222"></a><span class="cp">#endif</span>
+</span><span id="__span-14-223"><a id="__codelineno-14-223" name="__codelineno-14-223" href="#__codelineno-14-223"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-14-224"><a id="__codelineno-14-224" name="__codelineno-14-224" href="#__codelineno-14-224"></a><span class="p">}</span>
+</span></code></pre></div>
+<div style="text-align: center;">
+<p>GitHub: <a href="https://github.com/mementum/cpp17-iterating-problems/blob/main/code/08-arrays-intro/arrays-intro-06.cpp" target="_blank">08-arrays-intro/arrays-intro-06.cpp</a> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2025 Daniel Rodriguez
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tabs", "navigation.tabs.sticky", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.sections", "navigation.top", "toc.follow", "toc.integrate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
