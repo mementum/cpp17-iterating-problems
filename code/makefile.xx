@@ -39,6 +39,21 @@ PROBFLAGS :=
 # Default target
 default: help
 
+# "repX" options
+REPTARGET := $(filter rep%,$(MAKECMDGOALS))
+ifneq ($(REPTARGET),)
+_RTARGET = $(subst rep,,$(REPTARGET))
+
+CXXFLAGS += -DREPS=$(_RTARGET)
+PROBFLAGS += -DREPS=$(_RTARGET)
+
+# Input/Output (Expected) for problem - Updated
+PROBINPUT := $(PROBINPUT)$(RTARGET)
+PROBOUTPUT := $(PROBOUTPUT)$(RTARGET)
+
+rep%: ;
+endif
+
 # "testX" options
 TESTTARGET := $(filter test%,$(MAKECMDGOALS))
 ifneq ($(TESTTARGET),)
@@ -50,10 +65,18 @@ PROBOUTPUT := $(PROBOUTPUT)$(TTARGET)
 test%: ;
 endif
 
+# "o2" option
+ifeq (o2,$(filter o2,$(MAKECMDGOALS)))
+CXXFLAGS += -O2
+PROBFLAGS += -O2
+
+o2: ;
+endif
+
 # "pedantic" option
 ifeq (pedantic,$(filter pedantic,$(MAKECMDGOALS)))
 CXXFLAGS += -pedantic-errors
-PROBFLAGS = pedantic
+PROBFLAGS += pedantic
 
 pedantic: ;
 endif
@@ -178,10 +201,16 @@ help:
 	@echo "  caseX      - Define a variable CASEX for the compilation"
 	@echo "      -DCASEX will be added to the compiler flags"
 	@echo
+	@echo "  o2      - optimize with -O2 "
+	@echo
 	@echo "  testX      - Run testcase with inputX/outputX  "
 	@echo "      For cases where more than one test is available"
 	@echo
+	@echo "  repX      - Repeat the test X times"
+	@echo "      For tests where timings are being made"
+	@echo
 	@echo "  showoutput - Force showing the output even on success"
+	@echo
 	@echo "  showdiff   - Force showing the expected vs output diff even on success"
 	@echo "  show       - Force showing the output and diff even on success"
 	@echo
