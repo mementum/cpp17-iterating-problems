@@ -1210,6 +1210,7 @@ help:
 	@echo "     (also mk-xxx as shorthand for all actions)"
 	@echo "  mk-pdf (extra option, example: make mkdocs mk-pdf)"
 	@echo "    (Use local links for PDF download instead of repo-release links)"
+	@echo "  mk-spage (Add the Single Page tab)"
 	@echo
 	@echo "  gh-release (Make a Release on the GitHub Repo)"
 	@echo
