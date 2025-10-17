@@ -1,4 +1,4 @@
-# # Tree Traversal II
+# Tree Traversal III
 
 **Title**: Tree: Inorder Traversal\
 **Link**: <https://www.hackerrank.com/challenges/tree-inorder-traversal>
